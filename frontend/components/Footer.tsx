@@ -81,7 +81,7 @@ export function Footer() {
           <div>
             <Link
               href={`/${locale}`}
-              className="inline-flex items-center gap-3 font-serif text-2xl font-medium text-black transition-opacity duration-200 hover:opacity-80"
+              className="inline-flex items-center gap-3 font-serif-legacy text-2xl font-medium text-black transition-opacity duration-200 hover:opacity-80"
             >
               <Image
                 src="/logo.png"

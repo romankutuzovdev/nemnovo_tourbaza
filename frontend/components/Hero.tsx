@@ -21,7 +21,7 @@ export function Hero() {
         <p className="font-sans text-base md:text-lg tracking-[0.2em] uppercase text-black/80 mb-6 animate-fade-up" style={{ animationDelay: '0.1s', opacity: 0, animationFillMode: 'forwards' }}>
           {t('hero.badge')}
         </p>
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-black leading-[1.15] tracking-tight animate-fade-up" style={{ animationDelay: '0.25s', opacity: 0, animationFillMode: 'forwards' }}>
+        <h1 className="font-serif-legacy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-black leading-[1.15] tracking-tight animate-fade-up" style={{ animationDelay: '0.25s', opacity: 0, animationFillMode: 'forwards' }}>
           {t('hero.title1')}
           <br />
           <span className="text-black/90">{t('hero.title2')}</span>

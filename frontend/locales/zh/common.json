@@ -137,6 +137,7 @@
   },
   "howToGet": {
     "title": "如何到达",
+    "empty": "「如何到达」部分尚未填写。请在管理后台添加城市。",
     "addressLabel": "地址",
     "yandex": "YANDEX 地图",
     "google": "GOOGLE 地图",

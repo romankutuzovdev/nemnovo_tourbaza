@@ -137,6 +137,7 @@
   },
   "howToGet": {
     "title": "HOW TO GET THERE",
+    "empty": "The «How to get there» section is not filled yet. Add cities in the admin.",
     "addressLabel": "ADDRESS",
     "yandex": "YANDEX MAPS",
     "google": "GOOGLE MAPS",

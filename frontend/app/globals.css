@@ -3,9 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --primary: #74A2D8;
-  --secondary: #98B5DD;
+  --primary: #5869A8;
+  --secondary: #8A97C4;
   --white: #FFFFFF;
+}
+
+/* Переопределение primary — rgb(88 105 168) = #5869A8 (обходит кэш Tailwind) */
+.bg-primary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(88 105 168 / var(--tw-bg-opacity, 1));
+}
+.hover\:bg-primary\/90:hover {
+  background-color: rgb(88 105 168 / 0.9);
 }
 
 html {

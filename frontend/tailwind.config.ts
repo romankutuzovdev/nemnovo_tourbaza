@@ -9,13 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Только три цвета: левый верхний, правый верхний, белый
-        primary: '#74A2D8',
-        secondary: '#98B5DD',
+        primary: '#5869A8',
+        secondary: '#8A97C4',
         white: '#FFFFFF',
       },
       fontFamily: {
         serif: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        'serif-legacy': ['Georgia', 'Times New Roman', 'Times', 'serif'],
         sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
       },
       animation: {

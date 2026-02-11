@@ -144,6 +144,7 @@
   },
   "howToGet": {
     "title": "DOJAZD",
+    "empty": "Sekcja «Dojazd» nie jest jeszcze wypełniona. Dodaj miasta w panelu admina.",
     "addressLabel": "ADRES",
     "yandex": "YANDEX MAPY",
     "google": "GOOGLE MAPS",
