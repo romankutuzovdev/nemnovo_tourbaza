@@ -10,6 +10,7 @@
     "promos": "Promocje",
     "howToGet": "Jak dojechać",
     "cabinet": "Konto",
+    "tourfirm": "BIURO PODRÓŻY",
     "login": "Zaloguj się",
     "logout": "Wyloguj",
     "register": "Rejestracja"
@@ -70,6 +71,10 @@
     "prevReview": "Poprzednia opinia",
     "nextReview": "Następna opinia",
     "title": "Co mówią goście",
+    "loading": "Ładowanie opinii…",
+    "noReviews": "Brak opinii.",
+    "expand": "Rozwiń",
+    "collapse": "Zwiń",
     "distanceValue": "30 km",
     "distanceLabel": "od Grodna",
     "stat1Value": "98%",
@@ -142,7 +147,9 @@
     "addressLabel": "ADRES",
     "yandex": "YANDEX MAPY",
     "google": "GOOGLE MAPS",
-    "copy": "Kopiuj adres"
+    "copy": "Kopiuj adres",
+    "mapTitle": "Mapa bazy turystycznej",
+    "mapHint": "Kliknij obiekt, aby powiększyć zdjęcie"
   },
   "privacy": {
     "title": "Polityka prywatności",

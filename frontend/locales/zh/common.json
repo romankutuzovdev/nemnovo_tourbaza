@@ -10,6 +10,7 @@
     "promos": "优惠",
     "howToGet": "如何到达",
     "cabinet": "个人中心",
+    "tourfirm": "旅行社",
     "login": "登录",
     "logout": "退出",
     "register": "注册"
@@ -70,6 +71,10 @@
     "prevReview": "上一条评价",
     "nextReview": "下一条评价",
     "title": "客人怎么说",
+    "loading": "加载评价中…",
+    "noReviews": "暂无评价。",
+    "expand": "展开",
+    "collapse": "收起",
     "distanceValue": "30 公里",
     "distanceLabel": "距格罗德诺市",
     "stat1Value": "98%",
@@ -135,7 +140,9 @@
     "addressLabel": "地址",
     "yandex": "YANDEX 地图",
     "google": "GOOGLE 地图",
-    "copy": "复制地址"
+    "copy": "复制地址",
+    "mapTitle": "基地地图",
+    "mapHint": "点击对象以放大图像"
   },
   "privacy": {
     "title": "隐私政策",

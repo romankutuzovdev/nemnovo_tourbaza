@@ -1,6 +1,6 @@
 # Бэкенд Немново (Django)
 
-API для услуг и новостей. Язык контента передаётся параметром `?locale=ru|be|en|pl|zh`.
+API для услуг. Язык контента передаётся параметром `?locale=ru|be|en|pl|zh`.
 
 ## Установка и запуск
 
@@ -31,19 +31,16 @@ API: <http://127.0.0.1:8000/api/>
 | GET | `/api/services/<slug>/?locale=ru` | Одна услуга |
 | GET | `/api/promos/?locale=ru` | Список акций |
 | GET | `/api/portfolio/?locale=ru` | Список блоков портфолио (фотоотчёты, is_pinned — закреплённые выше) |
-| GET | `/api/news/?locale=ru` | Список опубликованных новостей |
-| GET | `/api/news/<slug>/?locale=ru` | Одна новость |
-
 Формат услуги: `slug`, `image` (URL пути к загруженному файлу), `image_url` (внешняя ссылка), `order`, `title`, `short_desc`, для детали ещё `long_desc`.  
 Если перевода для запрошенной локали нет, возвращается русский.
 
 ## Админка
 
-<http://127.0.0.1:8000/admin/> — услуги, акции (Promo), портфолио (PortfolioItem: фотоотчёты, закрепление — is_pinned), новости по локалям (ru, be, en, pl, zh).
+<http://127.0.0.1:8000/admin/> — услуги, акции (Promo), портфолио (PortfolioItem: фотоотчёты, закрепление — is_pinned).
 
 ## Фронтенд (Next.js)
 
-Фронт берёт с бэкенда только контент (услуги, новости). Строки интерфейса хранятся на фронте в `frontend/locales/{locale}/common.json` (next-intl).
+Фронт берёт с бэкенда только контент (услуги). Строки интерфейса хранятся на фронте в `frontend/locales/{locale}/common.json` (next-intl).
 
 - В `frontend` задайте `NEXT_PUBLIC_API_URL=http://127.0.0.1:8000` (или URL вашего API).
 - Layout запрашивает `/api/services/`, `/api/promos/`, `/api/portfolio/` по локали и передаёт данные в контекст.

@@ -16,54 +16,62 @@ export function Header() {
   const [langOpen, setLangOpen] = useState(false)
 
   const nav = [
-    { href: `/${locale}/services`, label: t('nav.services') },
     { href: `/${locale}/about`, label: t('nav.about') },
+    { href: `/${locale}/services`, label: t('nav.services') },
     { href: `/${locale}/portfolio`, label: t('nav.portfolio') },
-    { href: `/${locale}/reviews`, label: t('nav.reviews') },
-    { href: `/${locale}/contact`, label: t('nav.contact') },
     { href: `/${locale}/promos`, label: t('nav.promos') },
     { href: `/${locale}/how-to-get`, label: t('nav.howToGet') },
-    ...(isAuthenticated ? [{ href: `/${locale}/cabinet`, label: t('nav.cabinet') }] : [{ href: `/${locale}/login`, label: t('nav.login') }]),
+    { href: `/${locale}/reviews`, label: t('nav.reviews') },
+    { href: `/${locale}/contact`, label: t('nav.contact') },
   ]
+  const authLink = isAuthenticated
+    ? { href: `/${locale}/cabinet`, label: t('nav.cabinet') }
+    : { href: `/${locale}/login`, label: t('nav.login') }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-secondary/10">
-      <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
         <Link
           href={`/${locale}`}
-          className="flex items-center gap-3 font-serif text-2xl md:text-3xl font-medium text-black tracking-tight"
+          className="flex items-center gap-2 sm:gap-3 font-serif text-xl sm:text-2xl lg:text-3xl font-semibold text-black tracking-tight shrink-0"
         >
           <Image
             src="/logo.png"
             alt={t('footer.copyright')}
             width={64}
             height={64}
-            className="w-14 h-14 md:w-16 md:h-16 object-contain shrink-0"
+            className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 object-contain shrink-0"
           />
           {t('footer.copyright')}
         </Link>
         <div className="hidden md:flex items-center gap-4">
-          <nav className="flex items-center gap-6 flex-nowrap">
+          <nav className="flex items-center gap-4 flex-wrap">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="font-sans text-sm tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap shrink-0"
+                className="font-sans text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap"
               >
                 {item.label}
               </Link>
             ))}
+            <Link
+              href={authLink.href}
+              className="font-sans text-sm font-semibold px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0"
+            >
+              {authLink.label}
+            </Link>
           </nav>
           <div className="relative">
-            <button
-              type="button"
-              onClick={() => setLangOpen(!langOpen)}
-              className="font-sans text-sm tracking-wide text-black/80 hover:text-black px-2 py-1 border border-secondary/30 rounded"
-              aria-expanded={langOpen}
-              aria-haspopup="true"
-            >
-              {localeNames[locale]}
-            </button>
+              <button
+                type="button"
+                onClick={() => setLangOpen(!langOpen)}
+                className="font-sans text-sm font-semibold tracking-wide text-black/80 hover:text-black px-2 py-1.5 border border-secondary/30 rounded"
+                aria-expanded={langOpen}
+                aria-haspopup="true"
+              >
+                {localeNames[locale]}
+              </button>
             {langOpen && (
               <>
                 <div
@@ -91,6 +99,14 @@ export function Header() {
               </>
             )}
           </div>
+          <a
+            href="https://nemnovotour.by/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-sans text-sm font-bold tracking-wide text-primary hover:text-primary/80 transition-colors whitespace-nowrap"
+          >
+            {t('nav.tourfirm')}
+          </a>
         </div>
         <div className="flex items-center gap-2 md:hidden">
           <div className="relative">
@@ -138,12 +154,19 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="font-sans text-black/80 hover:text-black"
+              className="font-sans font-semibold text-black/80 hover:text-black"
               onClick={() => setOpen(false)}
             >
               {item.label}
             </Link>
           ))}
+          <Link
+            href={authLink.href}
+            className="font-sans font-semibold px-4 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 text-center"
+            onClick={() => setOpen(false)}
+          >
+            {authLink.label}
+          </Link>
           <div className="pt-2 border-t border-secondary/10 flex flex-wrap gap-2">
             {locales.map((loc) => (
               <Link
@@ -156,6 +179,15 @@ export function Header() {
               </Link>
             ))}
           </div>
+          <a
+            href="https://nemnovotour.by/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-sans font-bold text-primary hover:text-primary/80"
+            onClick={() => setOpen(false)}
+          >
+            {t('nav.tourfirm')}
+          </a>
         </div>
       )}
     </header>

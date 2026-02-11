@@ -86,18 +86,6 @@ export function PortfolioSection() {
             )
           })}
         </div>
-        {portfolio.length > 0 && (
-          <AnimateOnScroll variant="fade-up" delay={150}>
-            <div className="mt-8">
-              <Link
-                href={`/${locale}/contact`}
-                className="inline-flex items-center gap-2 px-6 py-3 border border-secondary/30 text-black font-sans text-sm hover:border-secondary/50 transition-all duration-300 hover:shadow-sm active:scale-[0.98]"
-              >
-                {t('portfolioSection.button')}
-              </Link>
-            </div>
-          </AnimateOnScroll>
-        )}
       </div>
     </section>
   )

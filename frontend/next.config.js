@@ -2,6 +2,7 @@ const createNextIntlPlugin = require('next-intl/plugin')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverExternalPackages: ['@formatjs/intl-messageformat', '@formatjs/icu-messageformat-parser'],
   // output: 'export' несовместим с middleware (редиректы / → /ru и т.д.)
   images: {
     unoptimized: true,

@@ -12,17 +12,16 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Service, News, Promo, PortfolioItem, Partner, HowToGetRoute, CompanyInfo
+from .models import Service, Promo, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo
 from .serializers import (
     ServiceListSerializer,
     ServiceDetailSerializer,
-    NewsListSerializer,
-    NewsDetailSerializer,
     PromoListSerializer,
     PromoDetailSerializer,
     PortfolioItemListSerializer,
     PortfolioItemDetailSerializer,
     _portfolio_image_urls,
+    ReviewSerializer,
     PartnerSerializer,
     how_to_get_cities_from_routes,
     CompanyInfoSerializer,
@@ -95,25 +94,6 @@ def service_detail(request, slug):
 
 
 @api_view(['GET'])
-def news_list(request):
-    locale = get_locale(request)
-    qs = News.objects.filter(is_published=True).order_by('-published_at', '-id')
-    serializer = NewsListSerializer(qs, many=True, context={'locale': locale})
-    return Response(serializer.data)
-
-
-@api_view(['GET'])
-def news_detail(request, slug):
-    locale = get_locale(request)
-    try:
-        news = News.objects.get(slug=slug, is_published=True)
-    except News.DoesNotExist:
-        return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
-    serializer = NewsDetailSerializer(news, context={'locale': locale})
-    return Response(serializer.data)
-
-
-@api_view(['GET'])
 def promo_list(request):
     locale = get_locale(request)
     qs = Promo.objects.filter(is_active=True)
@@ -137,6 +117,14 @@ def partner_list(request):
     """Список партнёров для блока «С кем мы сотрудничаем»."""
     qs = Partner.objects.all()
     serializer = PartnerSerializer(qs, many=True, context={'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def review_list(request):
+    """Список опубликованных отзывов для главной (автор, текст, оценка 1–5)."""
+    qs = Review.objects.filter(is_published=True)
+    serializer = ReviewSerializer(qs, many=True)
     return Response(serializer.data)
 
 

@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from .models import (
     Service, ServiceTranslation,
-    News, NewsTranslation,
     Promo, PromoTranslation,
     PortfolioItem, PortfolioItemImage, PortfolioItemTranslation,
+    Review,
     Partner,
     HowToGetRoute, HowToGetRouteTranslation,
     CompanyInfo,
@@ -71,65 +71,6 @@ class ServiceDetailSerializer(serializers.ModelSerializer):
     def get_long_desc(self, obj):
         t = self._get_translation(obj)
         return t.long_desc if t else ''
-
-
-class NewsTranslationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = NewsTranslation
-        fields = ['locale', 'title', 'excerpt', 'content']
-
-
-class NewsListSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-    excerpt = serializers.SerializerMethodField()
-
-    class Meta:
-        model = News
-        fields = ['slug', 'image', 'image_url', 'published_at', 'order', 'title', 'excerpt']
-
-    def _get_locale(self):
-        return self.context.get('locale', 'ru')
-
-    def _get_translation(self, obj):
-        t = obj.translations.filter(locale=self._get_locale()).first()
-        return t or obj.translations.filter(locale='ru').first()
-
-    def get_title(self, obj):
-        t = self._get_translation(obj)
-        return t.title if t else obj.slug
-
-    def get_excerpt(self, obj):
-        t = self._get_translation(obj)
-        return t.excerpt if t else ''
-
-
-class NewsDetailSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-    excerpt = serializers.SerializerMethodField()
-    content = serializers.SerializerMethodField()
-
-    class Meta:
-        model = News
-        fields = ['slug', 'image', 'image_url', 'published_at', 'order', 'title', 'excerpt', 'content']
-
-    def _get_locale(self):
-        return self.context.get('locale', 'ru')
-
-    def _get_translation(self, obj):
-        t = obj.translations.filter(locale=self._get_locale()).first()
-        return t or obj.translations.filter(locale='ru').first()
-
-    def get_title(self, obj):
-        t = self._get_translation(obj)
-        return t.title if t else obj.slug
-
-    def get_excerpt(self, obj):
-        t = self._get_translation(obj)
-        return t.excerpt if t else ''
-
-    def get_content(self, obj):
-        t = self._get_translation(obj)
-        return t.content if t else ''
 
 
 def _locale_translation(queryset, locale):
@@ -229,6 +170,12 @@ class PortfolioItemDetailSerializer(serializers.ModelSerializer):
 
     def get_images(self, obj):
         return _portfolio_image_urls(obj, self.context.get('request'))
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['id', 'author', 'text', 'rating', 'order']
 
 
 class PartnerSerializer(serializers.ModelSerializer):

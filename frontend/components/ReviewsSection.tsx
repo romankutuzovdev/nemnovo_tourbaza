@@ -1,62 +1,75 @@
 'use client'
 
-import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { AnimateOnScroll } from './AnimateOnScroll'
+import { fetchReviews, type ReviewItem } from '@/lib/api'
 
-const SLIDE_DURATION = 5000
-const REVIEWS_COUNT = 7
+const MAX_STARS = 5
+
+const TRUNCATE_CHARS = 120
+
+function ReviewText({ text, expanded, onToggle }: { text: string; expanded: boolean; onToggle: () => void }) {
+  const t = useTranslations('reviewsSection')
+  const needsExpand = text.length > TRUNCATE_CHARS
+  return (
+    <div className="min-w-0 overflow-hidden flex-1 flex flex-col">
+      <p
+        className={`font-sans text-black/80 leading-relaxed break-words whitespace-normal max-w-full text-justify hyphens-auto ${!expanded && needsExpand ? 'line-clamp-4' : ''}`}
+      >
+        &ldquo;{text}&rdquo;
+      </p>
+      {needsExpand && (
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onToggle() }}
+          className="mt-2 font-sans text-sm text-primary hover:text-primary/80 self-start"
+        >
+          {expanded ? t('collapse') : t('expand')}
+        </button>
+      )}
+    </div>
+  )
+}
+
+function StarRating({ rating }: { rating: number }) {
+  const value = Math.max(1, Math.min(MAX_STARS, Math.round(rating)))
+  return (
+    <span className="inline-flex items-center gap-0.5" aria-label={`${value} из ${MAX_STARS}`}>
+      {Array.from({ length: MAX_STARS }, (_, i) => (
+        <span
+          key={i}
+          className={i < value ? 'text-amber-500' : 'text-black/20'}
+          aria-hidden
+        >
+          ★
+        </span>
+      ))}
+      <span className="ml-1.5 font-sans text-sm text-black/70 tabular-nums">
+        {value} из {MAX_STARS}
+      </span>
+    </span>
+  )
+}
 
 export function ReviewsSection() {
   const t = useTranslations('reviewsSection')
-  const reviews = useMemo(() => Array.from({ length: REVIEWS_COUNT }, (_, i) => ({
-    text: t(`reviews.${i}.text`),
-    author: t(`reviews.${i}.author`),
-  })), [t])
-  const [index, setIndex] = useState(0)
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const [reviews, setReviews] = useState<ReviewItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [expanded, setExpanded] = useState<Record<number, boolean>>({})
 
-  const scrollToSlide = useCallback((i: number) => {
-    const el = scrollRef.current
-    if (!el) return
-    const card = el.querySelector('[data-review-card]') as HTMLElement
-    if (!card) return
-    const gap = 32
-    const cardWidth = card.offsetWidth + gap
-    el.scrollTo({ left: i * cardWidth, behavior: 'smooth' })
-    setIndex(i)
-  }, [])
-
-  const go = useCallback((delta: number) => {
-    const next = Math.max(0, Math.min(reviews.length - 1, index + delta))
-    scrollToSlide(next)
-  }, [index, scrollToSlide])
-
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-    const onScroll = () => {
-      const card = el.querySelector('[data-review-card]') as HTMLElement
-      if (!card) return
-      const gap = 32
-      const cardWidth = card.offsetWidth + gap
-      const i = Math.round(el.scrollLeft / cardWidth)
-      setIndex(Math.min(i, reviews.length - 1))
-    }
-    el.addEventListener('scroll', onScroll, { passive: true })
-    return () => el.removeEventListener('scroll', onScroll)
+  const toggleExpand = useCallback((id: number) => {
+    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }))
   }, [])
 
   useEffect(() => {
-    const t = setInterval(() => {
-      setIndex((i) => {
-        const next = i >= reviews.length - 1 ? 0 : i + 1
-        setTimeout(() => scrollToSlide(next), 0)
-        return next
-      })
-    }, SLIDE_DURATION)
-    return () => clearInterval(t)
-  }, [scrollToSlide])
+    let cancelled = false
+    fetchReviews()
+      .then((data) => { if (!cancelled) setReviews(data) })
+      .catch(() => { if (!cancelled) setReviews([]) })
+      .finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
+  }, [])
 
   return (
     <section id="reviews" className="pt-12 md:pt-16 pb-24 md:pb-32 bg-secondary/40 border-y border-secondary/10">
@@ -91,55 +104,29 @@ export function ReviewsSection() {
         </AnimateOnScroll>
       </div>
       <div className="max-w-6xl mx-auto px-6 mt-16">
-        <div className="relative">
-          <div
-            ref={scrollRef}
-            className="overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth scrollbar-none flex gap-8 pb-2 -mx-1"
-            style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
-          >
+        {loading ? (
+          <p className="font-sans text-black/60">{t('loading')}</p>
+        ) : reviews.length === 0 ? (
+          <p className="font-sans text-black/60">{t('noReviews')}</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {reviews.map((r, i) => (
-              <div
-                key={i}
-                data-review-card
-                className="min-w-[calc(100%-2rem)] md:min-w-[calc(50%-1rem)] shrink-0 snap-start"
-              >
-                <blockquote className="h-full p-8 bg-white/80 border border-secondary/10 rounded-sm transition-all duration-300 hover:border-secondary/20 hover:shadow-md">
-                  <p className="font-sans text-black/80 leading-relaxed">&ldquo;{r.text}&rdquo;</p>
-                  <cite className="mt-4 block font-sans text-sm text-black not-italic">{r.author}</cite>
+              <AnimateOnScroll key={r.id} variant="fade-up" delay={i * 50}>
+                <blockquote className="h-full min-h-[200px] p-6 bg-white/80 border border-secondary/10 rounded-sm transition-all duration-300 hover:border-secondary/20 hover:shadow-md flex flex-col">
+                  <div className="mb-3 shrink-0">
+                    <StarRating rating={r.rating} />
+                  </div>
+                  <ReviewText
+                    text={r.text}
+                    expanded={!!expanded[r.id]}
+                    onToggle={() => toggleExpand(r.id)}
+                  />
+                  <cite className="mt-4 block font-sans text-sm text-black not-italic shrink-0">{r.author}</cite>
                 </blockquote>
-              </div>
+              </AnimateOnScroll>
             ))}
           </div>
-          <button
-            type="button"
-            onClick={() => go(-1)}
-            disabled={index === 0}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 w-10 h-10 rounded-full bg-white/90 border border-secondary/20 shadow-md flex items-center justify-center text-black/70 hover:bg-white disabled:opacity-40 disabled:pointer-events-none transition-opacity z-10"
-            aria-label={t('prevReview')}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          <button
-            type="button"
-            onClick={() => go(1)}
-            disabled={index >= reviews.length - 1}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 w-10 h-10 rounded-full bg-white/90 border border-secondary/20 shadow-md flex items-center justify-center text-black/70 hover:bg-white disabled:opacity-40 disabled:pointer-events-none transition-opacity z-10"
-            aria-label={t('nextReview')}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-          </button>
-          <div className="flex justify-center gap-2 mt-6">
-            {reviews.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => scrollToSlide(i)}
-                className={`h-2 rounded-full transition-all ${i === index ? 'w-6 bg-black/80' : 'w-2 bg-black/30 hover:bg-black/50'}`}
-                aria-label={`${t('badge')} ${i + 1}`}
-              />
-            ))}
-          </div>
-        </div>
+        )}
       </div>
     </section>
   )

@@ -151,6 +151,21 @@ export async function fetchPartners(): Promise<PartnerItem[]> {
   return res.json()
 }
 
+/** Отзыв из /api/reviews/ (для главной, с оценкой 1–5) */
+export type ReviewItem = {
+  id: number
+  author: string
+  text: string
+  rating: number
+  order: number
+}
+
+export async function fetchReviews(): Promise<ReviewItem[]> {
+  const res = await fetch(`${getApiUrl()}/api/reviews/`, fetchOpts)
+  if (!res.ok) throw new Error(`Reviews fetch failed: ${res.status}`)
+  return res.json()
+}
+
 /** Реквизиты компании для футера (GET /api/company-info/) */
 export type CompanyInfo = {
   company_name: string

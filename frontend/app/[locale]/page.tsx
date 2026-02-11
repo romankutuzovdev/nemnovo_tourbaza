@@ -5,6 +5,7 @@ import { ReviewsSection } from '@/components/ReviewsSection'
 import { PromosSection } from '@/components/PromosSection'
 import { PartnersSection } from '@/components/PartnersSection'
 import { HowToGetThereSection } from '@/components/HowToGetThereSection'
+import { MapSection } from '@/components/MapSection'
 
 export default function HomePage() {
   return (
@@ -15,6 +16,7 @@ export default function HomePage() {
       <PromosSection />
       <ServicesSection />
       <PartnersSection />
+      <MapSection />
       <HowToGetThereSection />
     </>
   )

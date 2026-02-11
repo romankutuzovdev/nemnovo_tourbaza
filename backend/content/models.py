@@ -18,6 +18,8 @@ class Service(models.Model):
 
     class Meta:
         ordering = ['order', 'id']
+        verbose_name = 'Услуга'
+        verbose_name_plural = 'Услуги'
 
     def __str__(self):
         return self.slug
@@ -40,37 +42,6 @@ class ServiceTranslation(models.Model):
         return f'{self.service.slug} ({self.locale})'
 
 
-class News(models.Model):
-    """Новость: дата и флаг публикации общие, тексты — по локалям."""
-    slug = models.SlugField(max_length=120, unique=True)
-    image = models.ImageField(upload_to='news/', blank=True, null=True)
-    image_url = models.URLField(blank=True)
-    published_at = models.DateTimeField(null=True, blank=True)
-    is_published = models.BooleanField(default=False)
-    order = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ['-published_at', '-id']
-
-    def __str__(self):
-        return self.slug
-
-
-class NewsTranslation(models.Model):
-    news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='translations')
-    locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
-    title = models.CharField(max_length=300)
-    excerpt = models.TextField(blank=True)
-    content = models.TextField(blank=True)
-
-    class Meta:
-        unique_together = [('news', 'locale')]
-        ordering = ['news', 'locale']
-
-    def __str__(self):
-        return f'{self.news.slug} ({self.locale})'
-
-
 class Promo(models.Model):
     """Акция: изображение и порядок общие, тексты — по локалям."""
     slug = models.SlugField(max_length=120, unique=True)
@@ -81,6 +52,8 @@ class Promo(models.Model):
 
     class Meta:
         ordering = ['order', 'id']
+        verbose_name = 'Акция'
+        verbose_name_plural = 'Акции'
 
     def __str__(self):
         return self.slug
@@ -113,6 +86,8 @@ class PortfolioItem(models.Model):
 
     class Meta:
         ordering = ['-is_pinned', 'order', '-event_date', 'id']
+        verbose_name = 'Элемент портфолио'
+        verbose_name_plural = 'Элементы портфолио'
 
     def __str__(self):
         return self.slug
@@ -144,6 +119,27 @@ class PortfolioItemTranslation(models.Model):
 
     def __str__(self):
         return f'{self.portfolio_item.slug} ({self.locale})'
+
+
+class Review(models.Model):
+    """Отзыв гостя: автор, текст, оценка 1–5 звёзд (как на Яндекс.Картах), порядок вывода."""
+    author = models.CharField('Автор', max_length=200)
+    text = models.TextField('Текст отзыва')
+    rating = models.PositiveSmallIntegerField(
+        'Оценка (звёзды)',
+        default=5,
+        choices=[(i, f'{i} из 5') for i in range(1, 6)],
+    )
+    order = models.PositiveIntegerField('Порядок', default=0)
+    is_published = models.BooleanField('Опубликован', default=True)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+
+    def __str__(self):
+        return f'{self.author} — {self.rating}/5'
 
 
 class Partner(models.Model):

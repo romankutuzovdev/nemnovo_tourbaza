@@ -4,13 +4,15 @@ from rest_framework import serializers
 User = get_user_model()
 
 
-class UserRegisterSerializer(serializers.ModelSerializer):
+class UserRegisterSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
     password = serializers.CharField(write_only=True, min_length=8, style={'input_type': 'password'})
     password_confirm = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'password', 'password_confirm')
+    def validate_email(self, value):
+        if User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError('Этот email уже зарегистрирован.')
+        return value
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password_confirm']:
@@ -19,7 +21,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop('password_confirm')
-        user = User.objects.create_user(**validated_data)
+        email = validated_data.pop('email')
+        password = validated_data.pop('password')
+        user = User.objects.create_user(username=email, email=email, password=password)
         return user
 
 

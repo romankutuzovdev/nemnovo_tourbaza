@@ -10,6 +10,7 @@
     "promos": "Promos",
     "howToGet": "How to get there",
     "cabinet": "Account",
+    "tourfirm": "TOUR OPERATOR",
     "login": "Log in",
     "logout": "Log out",
     "register": "Sign up"
@@ -70,6 +71,10 @@
     "prevReview": "Previous review",
     "nextReview": "Next review",
     "title": "What guests say",
+    "loading": "Loading reviews…",
+    "noReviews": "No reviews yet.",
+    "expand": "Expand",
+    "collapse": "Collapse",
     "distanceValue": "30 km",
     "distanceLabel": "from Grodno",
     "stat1Value": "98%",
@@ -135,7 +140,9 @@
     "addressLabel": "ADDRESS",
     "yandex": "YANDEX MAPS",
     "google": "GOOGLE MAPS",
-    "copy": "Copy address"
+    "copy": "Copy address",
+    "mapTitle": "Tour base map",
+    "mapHint": "Tap an object to enlarge the image"
   },
   "privacy": {
     "title": "Privacy policy",

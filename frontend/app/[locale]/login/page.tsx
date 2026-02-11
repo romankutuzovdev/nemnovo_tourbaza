@@ -14,7 +14,7 @@ export default function LoginPage() {
   const t = useTranslations('auth')
   const tNav = useTranslations('nav')
   const { loginSuccess, isAuthenticated } = useAuth()
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -28,7 +28,7 @@ export default function LoginPage() {
     e.preventDefault()
     setError(null)
     setLoading(true)
-    const result = await login({ username, password })
+    const result = await login({ username: email, password })
     setLoading(false)
     if (result.ok) {
       loginSuccess(result.data)
@@ -47,15 +47,15 @@ export default function LoginPage() {
         <h1 className="font-serif text-2xl md:text-3xl font-medium text-black tracking-tight">{t('loginTitle')}</h1>
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           <div>
-            <label htmlFor="username" className="block font-sans text-sm text-black/80 mb-1">{t('username')}</label>
+            <label htmlFor="email" className="block font-sans text-sm text-black/80 mb-1">{t('email')}</label>
             <input
-              id="username"
-              type="text"
+              id="email"
+              type="email"
               required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black focus:outline-none focus:border-secondary/50"
-              placeholder={t('usernamePlaceholder')}
+              placeholder="email@example.com"
             />
           </div>
           <div>

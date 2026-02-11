@@ -14,7 +14,7 @@ export default function RegisterPage() {
   const t = useTranslations('auth')
   const tNav = useTranslations('nav')
   const { loginSuccess, isAuthenticated } = useAuth()
-  const [form, setForm] = useState({ username: '', email: '', first_name: '', last_name: '', password: '', password_confirm: '' })
+  const [form, setForm] = useState({ email: '', password: '', password_confirm: '' })
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -46,22 +46,8 @@ export default function RegisterPage() {
         <h1 className="font-serif text-2xl md:text-3xl font-medium text-black tracking-tight">{t('registerTitle')}</h1>
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           <div>
-            <label htmlFor="username" className="block font-sans text-sm text-black/80 mb-1">{t('username')}</label>
-            <input id="username" type="text" required value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black focus:outline-none focus:border-secondary/50" placeholder={t('usernamePlaceholder')} />
-          </div>
-          <div>
             <label htmlFor="email" className="block font-sans text-sm text-black/80 mb-1">{t('email')}</label>
             <input id="email" type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black focus:outline-none focus:border-secondary/50" placeholder="email@example.com" />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="first_name" className="block font-sans text-sm text-black/80 mb-1">{t('firstName')}</label>
-              <input id="first_name" type="text" value={form.first_name} onChange={(e) => setForm({ ...form, first_name: e.target.value })} className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black focus:outline-none focus:border-secondary/50" />
-            </div>
-            <div>
-              <label htmlFor="last_name" className="block font-sans text-sm text-black/80 mb-1">{t('lastName')}</label>
-              <input id="last_name" type="text" value={form.last_name} onChange={(e) => setForm({ ...form, last_name: e.target.value })} className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black focus:outline-none focus:border-secondary/50" />
-            </div>
           </div>
           <div>
             <label htmlFor="password" className="block font-sans text-sm text-black/80 mb-1">{t('password')}</label>
