@@ -29,11 +29,11 @@ export default function RegisterPage() {
     setLoading(true)
     const result = await register(form)
     setLoading(false)
-    if (result.ok) {
+    if ('ok' in result && result.ok) {
       loginSuccess(result.data)
       router.replace(`/${locale}/cabinet`)
     } else {
-      setError(result.error ?? 'Ошибка')
+      setError(('error' in result ? result.error : null) ?? 'Ошибка')
     }
   }
 

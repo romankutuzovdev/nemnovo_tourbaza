@@ -1,10 +1,11 @@
-np# Netlify — Next.js (статический экспорт)
+# Netlify — Next.js (SSR, runtime data)
 
 [build]
+  base = "frontend"
   command = "npm run build"
-  publish = "out"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [build.environment]
   NODE_VERSION = "20"
-
-# Редиректы с путей без локали заданы в public/_redirects (копируются в out).

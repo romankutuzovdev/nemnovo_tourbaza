@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useTranslations } from 'next-intl'
 import { InteractiveMap } from '@/components/InteractiveMap'
 
@@ -15,7 +16,9 @@ export function MapSection() {
         <p className="font-sans text-sm text-black/70 mb-6 max-w-2xl">
           {t('howToGet.mapHint') || 'Нажмите на объект, чтобы увеличить изображение'}
         </p>
-        <InteractiveMap />
+        <Suspense fallback={<div className="aspect-[4/3] bg-secondary/30 animate-pulse rounded" />}>
+          <InteractiveMap />
+        </Suspense>
       </div>
     </section>
   )

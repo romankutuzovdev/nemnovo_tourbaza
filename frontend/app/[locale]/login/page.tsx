@@ -30,11 +30,11 @@ export default function LoginPage() {
     setLoading(true)
     const result = await login({ username: email, password })
     setLoading(false)
-    if (result.ok) {
+    if ('ok' in result && result.ok) {
       loginSuccess(result.data)
       router.replace(`/${locale}/cabinet`)
     } else {
-      setError(result.error)
+      setError(('error' in result ? result.error : null) ?? 'Ошибка')
     }
   }
 

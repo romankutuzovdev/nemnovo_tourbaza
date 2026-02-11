@@ -36,9 +36,9 @@ export default function CabinetPage() {
     setProfileLoading(true)
     const result = await updateProfile(profile)
     setProfileLoading(false)
-    if (result.ok) {
+    if ('ok' in result && result.ok) {
       setProfileMsg(t('successProfile'))
-    } else setProfileMsg(result.error ?? 'Ошибка')
+    } else setProfileMsg(('error' in result ? result.error : null) ?? 'Ошибка')
   }
 
   async function handlePwdSubmit(e: React.FormEvent) {
@@ -47,10 +47,10 @@ export default function CabinetPage() {
     setPwdLoading(true)
     const result = await changePassword(pwd)
     setPwdLoading(false)
-    if (result.ok) {
+    if ('ok' in result && result.ok) {
       setPwdMsg(t('successChange'))
       setPwd({ old_password: '', new_password: '', new_password_confirm: '' })
-    } else setPwdMsg(result.error ?? 'Ошибка')
+    } else setPwdMsg(('error' in result ? result.error : null) ?? 'Ошибка')
   }
 
   return (

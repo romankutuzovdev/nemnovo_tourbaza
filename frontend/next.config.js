@@ -3,7 +3,6 @@ const createNextIntlPlugin = require('next-intl/plugin')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   serverExternalPackages: ['@formatjs/intl-messageformat', '@formatjs/icu-messageformat-parser'],
-  // output: 'export' несовместим с middleware (редиректы / → /ru и т.д.)
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -11,6 +10,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'picsum.photos', pathname: '/**' },
       { protocol: 'http', hostname: '127.0.0.1', pathname: '/**' },
       { protocol: 'http', hostname: 'localhost', pathname: '/**' },
+      { protocol: 'http', hostname: '87.229.34.70', pathname: '/**' },
     ],
   },
   webpack: (config, { dev }) => {

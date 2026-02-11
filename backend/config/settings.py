@@ -10,7 +10,13 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-change-in-productio
 
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,87.229.34.70').split(',')
+
+# CSRF: доверенные origins (схема обязательна: http:// или https://)
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    'CSRF_TRUSTED_ORIGINS',
+    'http://87.229.34.70:8005,http://localhost:8005,http://127.0.0.1:8005'
+).split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -77,11 +83,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS: разрешить запросы с Next.js (dev и prod подставьте свои домены)
-CORS_ALLOWED_ORIGINS = os.environ.get(
-    'CORS_ORIGINS',
-    'http://localhost:3000,http://127.0.0.1:3000'
-).split(',')
+# CORS: разрешить запросы с любых доменов
+CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],

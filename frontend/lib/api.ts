@@ -53,8 +53,8 @@ export type PortfolioItem = {
 /** Деталь мероприятия из /api/portfolio/<slug>/?locale= — с массивом всех фото */
 export type PortfolioItemDetail = Omit<PortfolioItem, 'image_urls'> & { images: string[] }
 
-/** Кэш на 60 сек: меньше запросов к бэкенду. После правок в админке — обновите страницу через минуту или перезапустите dev. */
-const fetchOpts = { next: { revalidate: 60 } }
+/** Без кеша — данные из БД всегда актуальные. */
+const fetchOpts = { cache: 'no-store' as RequestCache }
 
 export async function fetchServices(locale: Locale): Promise<ServiceItem[]> {
   const loc = LOCALES.includes(locale) ? locale : 'ru'

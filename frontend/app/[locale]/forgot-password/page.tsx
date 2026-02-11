@@ -21,8 +21,8 @@ export default function ForgotPasswordPage() {
     setLoading(true)
     const result = await requestPasswordReset(email)
     setLoading(false)
-    if (result.ok) setSent(true)
-    else setError(result.error ?? 'Ошибка')
+    if ('ok' in result && result.ok) setSent(true)
+    else setError(('error' in result ? result.error : null) ?? 'Ошибка')
   }
 
   return (

@@ -1,13 +1,13 @@
 'use client'
 
+import { Suspense, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
 import { confirmPasswordReset } from '@/lib/auth'
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const locale = useLocale()
   const searchParams = useSearchParams()
   const t = useTranslations('auth')
@@ -30,8 +30,8 @@ export default function ResetPasswordPage() {
     setLoading(true)
     const result = await confirmPasswordReset({ uid, token, new_password: password, new_password_confirm: passwordConfirm })
     setLoading(false)
-    if (result.ok) setSuccess(true)
-    else setError(result.error ?? 'Ошибка')
+    if ('ok' in result && result.ok) setSuccess(true)
+    else setError(('error' in result ? result.error : null) ?? 'Ошибка')
   }
 
   if (!uid || !token) {
@@ -74,5 +74,13 @@ export default function ResetPasswordPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div className="pt-24 pb-24 min-h-screen bg-white"><div className="max-w-md mx-auto px-6">Загрузка…</div></div>}>
+      <ResetPasswordForm />
+    </Suspense>
   )
 }

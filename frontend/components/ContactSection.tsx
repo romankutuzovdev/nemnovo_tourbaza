@@ -18,10 +18,10 @@ export function ContactSection() {
     const message = (form.querySelector('[name="message"]') as HTMLTextAreaElement)?.value?.trim() ?? ''
     const result = await sendContactForm('main', { name, email, message })
     setLoading(false)
-    if (result.ok) {
+    if ('ok' in result && result.ok) {
       setSent(true)
     } else {
-      setError(result.error ?? t('contact.sendError'))
+      setError(('error' in result ? result.error : null) ?? t('contact.sendError'))
     }
   }
 

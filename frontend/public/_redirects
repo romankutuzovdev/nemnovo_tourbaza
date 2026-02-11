@@ -1,4 +1,4 @@
-# Редиректы без локали → /ru (для статического экспорта middleware не работает)
+# Редиректы без локали → /ru (для статического экспорта)
 /    /ru   302
 /about    /ru/about   302
 /contact    /ru/contact   302
@@ -9,3 +9,8 @@
 /privacy    /ru/privacy   302
 /services    /ru/services   302
 /services/*    /ru/services/:splat   302
+/register    /ru/register   302
+/login    /ru/login   302
+/forgot-password    /ru/forgot-password   302
+/reset-password    /ru/reset-password   302
+/cabinet    /ru/cabinet   302
