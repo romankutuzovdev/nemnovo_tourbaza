@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'content',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +85,19 @@ CORS_ALLOWED_ORIGINS = os.environ.get(
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 }
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
+
+# Ссылка на фронтенд для писем (сброс пароля)
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
 
 # Письма: тестово все на один ящик. Для реальной отправки задайте EMAIL_HOST и т.д. в .env
 CONTACT_TEST_EMAIL = os.environ.get('CONTACT_TEST_EMAIL', 'roman.kutuzov.dev@gmail.com')

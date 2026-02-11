@@ -23,8 +23,8 @@ export function PromosSection() {
   if (promos.length === 0) return null
 
   return (
-    <section id="promos" className="py-24 md:py-32 bg-white">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="promos" className="py-16 sm:py-24 md:py-32 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
           <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">
             {t('promosSection.badge')}
@@ -33,7 +33,7 @@ export function PromosSection() {
             {t('promosSection.title')}
           </h2>
         </AnimateOnScroll>
-        <div className="mt-12 grid sm:grid-cols-2 gap-6">
+        <div className="mt-8 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           {promos.map((p, i) => {
             const src = promoImageSrc(p)
             return (
@@ -55,7 +55,7 @@ export function PromosSection() {
                         />
                       </div>
                     )}
-                    <div className="p-6 flex-1 flex flex-col justify-center min-w-0">
+                    <div className="p-4 sm:p-6 flex-1 flex flex-col justify-center min-w-0">
                       <h3 className="font-serif text-xl font-medium text-black group-hover:text-primary transition-colors">
                         {p.title}
                       </h3>

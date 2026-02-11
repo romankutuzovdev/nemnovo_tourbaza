@@ -5,11 +5,13 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
+import { useAuth } from '@/contexts/AuthContext'
 import { locales, localeNames } from '@/lib/i18n'
 
 export function Header() {
   const locale = useLocale()
   const t = useTranslations()
+  const { isAuthenticated } = useAuth()
   const [open, setOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
 
@@ -21,6 +23,7 @@ export function Header() {
     { href: `/${locale}/contact`, label: t('nav.contact') },
     { href: `/${locale}/promos`, label: t('nav.promos') },
     { href: `/${locale}/how-to-get`, label: t('nav.howToGet') },
+    ...(isAuthenticated ? [{ href: `/${locale}/cabinet`, label: t('nav.cabinet') }] : [{ href: `/${locale}/login`, label: t('nav.login') }]),
   ]
 
   return (
@@ -39,13 +42,13 @@ export function Header() {
           />
           {t('footer.copyright')}
         </Link>
-        <div className="hidden md:flex items-center gap-6">
-          <nav className="flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-4">
+          <nav className="flex items-center gap-6 flex-nowrap">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="font-sans text-sm tracking-wide text-black/80 hover:text-black transition-colors"
+                className="font-sans text-sm tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap shrink-0"
               >
                 {item.label}
               </Link>

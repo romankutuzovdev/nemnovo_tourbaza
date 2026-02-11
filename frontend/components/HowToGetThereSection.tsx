@@ -58,7 +58,7 @@ export function HowToGetThereSection() {
 
   if (data && !cities.length) {
     return (
-      <section id="how-to-get" className="py-24 md:py-32 bg-secondary/40 border-t border-secondary/10">
+      <section id="how-to-get" className="py-16 sm:py-24 md:py-32 bg-secondary/40 border-t border-secondary/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="font-sans text-3xl md:text-4xl font-bold text-black tracking-tight">
             {t('howToGet.title')}
@@ -70,18 +70,18 @@ export function HowToGetThereSection() {
   }
 
   return (
-    <section id="how-to-get" className="py-24 md:py-32 bg-secondary/40 border-t border-secondary/10">
+    <section id="how-to-get" className="py-16 sm:py-24 md:py-32 bg-secondary/40 border-t border-secondary/10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-12">
-          <h2 className="font-sans text-3xl md:text-4xl font-bold text-black tracking-tight shrink-0">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+          <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold text-black tracking-tight shrink-0">
             {t('howToGet.title')}
           </h2>
           {!data ? (
             <p className="font-sans text-sm text-black/60">Загрузка…</p>
           ) : (
-            <div className="shrink-0 text-right lg:text-right max-w-xl lg:max-w-md">
+            <div className="shrink-0 text-left sm:text-left lg:text-right max-w-full lg:max-w-md">
               <p className="font-sans text-xs tracking-[0.15em] uppercase text-black/80 mb-1">{t('howToGet.addressLabel')}</p>
-              <div className="flex items-start justify-end gap-2">
+              <div className="flex items-start justify-start lg:justify-end gap-2">
                 <span className="font-sans text-sm font-semibold text-black leading-snug">{address}</span>
                 <button
                   type="button"
@@ -124,13 +124,13 @@ export function HowToGetThereSection() {
               </a>
             </div>
 
-            <div className="mt-8 flex flex-wrap border border-secondary/20 rounded-md overflow-hidden bg-white">
+            <div className="mt-6 sm:mt-8 flex overflow-x-auto sm:overflow-visible border border-secondary/20 rounded-md overflow-hidden bg-white">
               {cities.map((city) => (
                 <button
                   key={city.slug}
                   type="button"
                   onClick={() => setOriginSlug(city.slug)}
-                  className={`flex-1 min-w-0 px-4 py-2.5 font-sans text-sm tracking-wide transition-colors border-r border-secondary/20 last:border-r-0 ${
+                  className={`shrink-0 min-w-[100px] sm:shrink sm:min-w-0 sm:flex-1 px-3 sm:px-4 py-2.5 font-sans text-xs sm:text-sm tracking-wide transition-colors border-r border-secondary/20 last:border-r-0 ${
                     originSlug === city.slug
                       ? 'bg-primary text-white'
                       : 'bg-transparent text-black hover:bg-secondary/50'
@@ -154,13 +154,13 @@ export function HowToGetThereSection() {
                     <button
                       type="button"
                       onClick={() => setOpenBlockId(isOpen ? null : block.transport_type)}
-                      className="w-full flex items-center gap-4 py-5 text-left font-sans text-black hover:opacity-90 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+                      className="w-full flex items-center gap-2 sm:gap-4 py-4 sm:py-5 text-left font-sans text-black hover:opacity-90 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
                       aria-expanded={isOpen}
                       aria-controls={`route-${selectedCity.slug}-${block.transport_type}`}
                       id={`route-heading-${selectedCity.slug}-${block.transport_type}`}
                     >
-                      <span className="font-bold text-black shrink-0 w-6">{num}</span>
-                      <span className="font-bold tracking-wide shrink-0">{heading}</span>
+                      <span className="font-bold text-black shrink-0 w-5 sm:w-6 text-sm sm:text-base">{num}</span>
+                      <span className="font-bold tracking-wide text-sm sm:text-base min-w-0 break-words">{heading}</span>
                       <span className="flex-1 min-w-0" />
                       <span
                         className="shrink-0 w-5 h-5 flex items-center justify-center text-black/70 font-mono text-lg leading-none"
@@ -176,7 +176,7 @@ export function HowToGetThereSection() {
                       className={`grid transition-[grid-template-rows] duration-300 ease-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
                     >
                       <div className="flex gap-4 pb-5 pl-10 min-h-0 overflow-hidden">
-                        <p className="flex-1 font-sans text-black/80 leading-relaxed text-sm md:text-base whitespace-pre-line">
+                        <p className="flex-1 font-sans text-black/80 leading-relaxed text-sm md:text-base whitespace-pre-line break-words">
                           {block.content || '—'}
                         </p>
                       </div>

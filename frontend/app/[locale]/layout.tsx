@@ -7,6 +7,7 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { CookieBanner } from '@/components/CookieBanner'
 import { LocaleProvider } from '@/contexts/LocaleContext'
+import { AuthProvider } from '@/contexts/AuthContext'
 import { isValidLocale, type Locale } from '@/lib/i18n'
 import { LocaleSetter } from '@/components/LocaleSetter'
 import { fetchServices, fetchPromos, fetchPortfolio } from '@/lib/api'
@@ -57,11 +58,13 @@ export default async function LocaleLayout({ children, params }: Props) {
         initialPromos={initialPromos}
         initialPortfolio={initialPortfolio}
       >
+        <AuthProvider>
         <LocaleSetter locale={locale} />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
         <CookieBanner />
+        </AuthProvider>
       </LocaleProvider>
     </NextIntlClientProvider>
   )

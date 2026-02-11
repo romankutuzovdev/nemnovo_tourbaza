@@ -56,8 +56,8 @@ export default async function PromoPage({ params }: Props) {
               />
             </div>
           )}
-          <div className="p-6 md:p-10">
-            <h1 className="font-serif text-2xl md:text-3xl font-medium text-black tracking-tight">
+          <div className="p-4 sm:p-6 md:p-10">
+            <h1 className="font-serif text-xl sm:text-2xl md:text-3xl font-medium text-black tracking-tight">
               {promo.title}
             </h1>
             {(promo.short_desc || promo.long_desc) && (

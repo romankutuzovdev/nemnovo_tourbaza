@@ -11,7 +11,7 @@ export default function PromosPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="pt-24 pb-8 max-w-6xl mx-auto px-6">
+      <div className="pt-24 pb-8 max-w-6xl mx-auto px-4 sm:px-6">
         <Link
           href={`/${locale}`}
           className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black"
