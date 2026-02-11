@@ -1,0 +1,131 @@
+{
+  "nav": {
+    "home": "首页",
+    "menuOpen": "菜单",
+    "services": "服务",
+    "about": "关于我们",
+    "portfolio": "作品集",
+    "reviews": "评价",
+    "contact": "联系方式",
+    "promos": "优惠",
+    "howToGet": "如何到达"
+  },
+  "hero": {
+    "badge": "白俄罗斯旅游基地",
+    "title1": "亲近。陌生。",
+    "title2": "白俄罗斯。",
+    "subtitle": "与我们共创美好回忆！",
+    "cta1": "服务",
+    "cta2": "提交申请"
+  },
+  "about": {
+    "badge": "关于我们",
+    "title": "Nemnovo — 您的休闲旅游基地",
+    "p1": "我们在白俄罗斯为您营造宁静的休息环境：自然、宁静与所需设施。",
+    "p2": "面向格罗德诺、明斯克及白俄罗斯各地的客人 — 家庭、朋友聚会及喜爱简约与自然的人们。"
+  },
+  "servicesSection": {
+    "badge": "服务",
+    "title": "我们提供的服务",
+    "allServices": "全部服务",
+    "more": "了解更多 →"
+  },
+  "reviewsSection": {
+    "badge": "评价",
+    "prevReview": "上一条评价",
+    "nextReview": "下一条评价",
+    "title": "客人怎么说",
+    "distanceValue": "30 公里",
+    "distanceLabel": "距格罗德诺市",
+    "stat1Value": "98%",
+    "stat1Label": "好评率",
+    "stat2Value": "15+",
+    "stat2Label": "年经验",
+    "reviews": [
+      { "text": "安静、自然、很有人情味。推荐。", "author": "安娜，格罗德诺" },
+      { "text": "一家人来度假，孩子们很开心，还会再来。", "author": "德米特里，明斯克" },
+      { "text": "干净舒适，主人很周到。钓鱼很棒。", "author": "谢尔盖，维捷布斯克" },
+      { "text": "第三年来这里了，总是很温馨、安静。", "author": "奥尔加和伊戈尔，格罗德诺" },
+      { "text": "孩子们玩疯了，我们休息好了。桑拿超棒！", "author": "阿列克谢，明斯克" },
+      { "text": "自然、宁静、水边篝火——周末正需要这样。", "author": "玛丽亚，布列斯特" },
+      { "text": "和照片一样，甚至更好。感谢热情接待！", "author": "娜塔莉娅，戈梅利" }
+    ]
+  },
+  "partnersSection": {
+    "badge": "合作伙伴",
+    "title": "我们的合作伙伴",
+    "loading": "加载中…",
+    "prevPartner": "上一位",
+    "nextPartner": "下一位"
+  },
+  "contact": {
+    "badge": "联系方式",
+    "title": "联系我们",
+    "intro": "申请发送至 office@nemnovotour.by。投诉与建议发至单独邮箱。",
+    "inboxNote": "申请发送至 office@nemnovotour.by，我们将在当日回复。",
+    "complaintIntro": "投诉与建议发送至 marketingnemnovo@list.ru。",
+    "formMain": "预订 / 咨询",
+    "formComplaint": "投诉与建议",
+    "nameLabel": "姓名",
+    "namePlaceholder": "如何称呼您",
+    "emailLabel": "Email",
+    "emailPlaceholder": "email@example.com",
+    "messageLabel": "留言",
+    "messagePlaceholder": "日期、人数、需求说明",
+    "complaintMessageLabel": "内容",
+    "complaintMessagePlaceholder": "请描述您的投诉或建议",
+    "sending": "发送中…",
+    "sendError": "发送失败",
+    "send": "发送",
+    "thanks": "感谢，我们已收到您的消息。"
+  },
+  "footer": {
+    "slogan": "亲近。陌生。白俄罗斯。与我们共创美好回忆！",
+    "address": "白俄罗斯，格罗德诺州，格罗德诺区，索波茨金乡，Nemnovo村15号。GPS: 53°51′47″N, 23°45′44″E",
+    "howToGet": "如何到达",
+    "privacy": "隐私政策",
+    "copyright": "Nemnovo",
+    "legalAddressLabel": "注册地址：",
+    "officeAddressLabel": "办公地址：",
+    "unpLabel": "УНП",
+    "okpoLabel": "ОКПО"
+  },
+  "cookie": {
+    "text": "我们使用 cookies 用于网站与统计。继续即表示您同意",
+    "link": "隐私政策",
+    "accept": "接受"
+  },
+  "howToGet": {
+    "title": "如何到达",
+    "addressLabel": "地址",
+    "yandex": "YANDEX 地图",
+    "google": "GOOGLE 地图",
+    "copy": "复制地址"
+  },
+  "privacy": {
+    "title": "隐私政策",
+    "back": "返回首页",
+    "p1": "本政策规定 Nemnovo 网站个人数据的处理方式。",
+    "p2": "网站可能使用 cookies 与分析数据。",
+    "p3": "表单数据仅用于回复您的消息。",
+    "p4": "数据相关咨询：office@nemnovotour.by。"
+  },
+  "promosSection": {
+    "badge": "优惠",
+    "title": "优惠活动"
+  },
+  "portfolioSection": {
+    "badge": "作品集",
+    "title": "活动照片集",
+    "description": "活动和出行的照片。可以通过按钮下载相册。",
+    "button": "下载活动照片",
+    "pinnedBadge": "置顶",
+    "photos": "张照片",
+    "backToPortfolio": "作品集"
+  },
+  "common": {
+    "allServices": "全部服务",
+    "otherServices": "全部服务",
+    "toServicesPage": "前往「我们提供的服务」"
+  }
+}

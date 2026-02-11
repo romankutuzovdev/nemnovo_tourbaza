@@ -1,0 +1,10 @@
+np# Netlify — Next.js (статический экспорт)
+
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Редиректы с путей без локали заданы в public/_redirects (копируются в out).

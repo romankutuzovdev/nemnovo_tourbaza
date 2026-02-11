@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "home": "Strona główna",
+    "menuOpen": "Menu",
+    "services": "Usługi",
+    "about": "O nas",
+    "portfolio": "Portfolio",
+    "reviews": "Opinie",
+    "contact": "Kontakt",
+    "promos": "Promocje",
+    "howToGet": "Jak dojechać"
+  },
+  "hero": {
+    "badge": "Baza turystyczna na Białorusi",
+    "title1": "Bliska. Nieznana.",
+    "title2": "Białoruś.",
+    "subtitle": "Twórz z nami niezapomniane wspomnienia!",
+    "cta1": "Usługi",
+    "cta2": "Zostaw zapytanie"
+  },
+  "about": {
+    "badge": "O nas",
+    "title": "Nemnovo — baza turystyczna na Twój wypoczynek",
+    "p1": "Tworzymy warunki do spokojnego wypoczynku na Białorusi: natura, cisza i wszystko, czego potrzeba na terenie.",
+    "p2": "Zapraszamy gości z Grodna, Mińska i całej Białorusi — rodziny, grupy przyjaciół i tych, którzy cenią prostotę i bliskość natury."
+  },
+  "servicesSection": {
+    "badge": "Usługi",
+    "title": "Co oferujemy",
+    "allServices": "Wszystkie usługi",
+    "more": "Więcej →"
+  },
+  "reviewsSection": {
+    "badge": "Opinie",
+    "prevReview": "Poprzednia opinia",
+    "nextReview": "Następna opinia",
+    "title": "Co mówią goście",
+    "distanceValue": "30 km",
+    "distanceLabel": "od Grodna",
+    "stat1Value": "98%",
+    "stat1Label": "pozytywnych opinii",
+    "stat2Value": "15+",
+    "stat2Label": "lat doświadczenia",
+    "reviews": [
+      { "text": "Spokojne miejsce, natura, ludzka atmosfera. Polecam.", "author": "Anna, Grodno" },
+      { "text": "Wypoczynek z rodziną — dzieci zachwycone, wrócimy.", "author": "Dmitrij, Mińsk" },
+      { "text": "Czysto, przytulnie, gospodarze pomocni. Ryby łowią się świetnie.", "author": "Siergiej, Witebsk" },
+      { "text": "Trzeci rok z rzędu — zawsze ciepło i spokojnie.", "author": "Olga i Igor, Grodno" },
+      { "text": "Dzieci się wyszalały, my odpoczęliśmy. Sauna super!", "author": "Aleksiej, Mińsk" },
+      { "text": "Natura, cisza, ognisko nad wodą — to czego potrzeba na weekend.", "author": "Maria, Brześć" },
+      { "text": "Wszystko jak na zdjęciach, nawet lepiej. Dziękujemy za gościnność!", "author": "Natalia, Homel" }
+    ]
+  },
+  "partnersSection": {
+    "badge": "Partnerzy",
+    "title": "Z kim współpracujemy",
+    "loading": "Ładowanie partnerów…",
+    "prevPartner": "Poprzedni partner",
+    "nextPartner": "Następny partner"
+  },
+  "newsletterSection": {
+    "title": "Newsletter",
+    "subtitle": "Bądź na bieżąco z ofertami i nowościami. Można włączyć powiadomienia SMS.",
+    "emailPlaceholder": "Twój email",
+    "submit": "Zapisz się",
+    "thanks": "Dziękujemy, zapisano."
+  },
+  "contact": {
+    "badge": "Kontakt",
+    "title": "Skontaktuj się",
+    "intro": "Zapytania: office@nemnovotour.by. Skargi i sugestie na osobny adres.",
+    "inboxNote": "Zapytania trafiają na office@nemnovotour.by. Odpowiemy w ciągu dnia.",
+    "complaintIntro": "Skargi i sugestie trafiają na marketingnemnovo@list.ru.",
+    "formMain": "Rezerwacja / zapytanie",
+    "formComplaint": "Skargi i sugestie",
+    "nameLabel": "Imię",
+    "namePlaceholder": "Jak się do Pani/Pana zwracać",
+    "emailLabel": "Email",
+    "emailPlaceholder": "email@example.com",
+    "messageLabel": "Wiadomość",
+    "messagePlaceholder": "Daty, liczba gości, życzenia",
+    "complaintMessageLabel": "Treść",
+    "complaintMessagePlaceholder": "Opisz skargę lub sugestię",
+    "sending": "Wysyłanie…",
+    "sendError": "Nie udało się wysłać",
+    "send": "Wyślij",
+    "thanks": "Dziękujemy, otrzymaliśmy wiadomość."
+  },
+  "footer": {
+    "slogan": "Bliska. Nieznana. Białoruś. Twórz z nami wspomnienia!",
+    "address": "Białoruś, obw. grodzieński, rej. grodzieński, Sopockin s/s, wieś Nemnovo, 15. GPS: 53°51′47″N, 23°45′44″E",
+    "howToGet": "Dojazd",
+    "privacy": "Polityka prywatności",
+    "copyright": "Nemnovo",
+    "legalAddressLabel": "Adres rejestrowy:",
+    "officeAddressLabel": "Adres biura:",
+    "unpLabel": "UNP",
+    "okpoLabel": "OKPO"
+  },
+  "cookie": {
+    "text": "Używamy plików cookies. Kontynuując, zgadzasz się na",
+    "link": "politykę prywatności",
+    "accept": "Akceptuj"
+  },
+  "howToGet": {
+    "title": "DOJAZD",
+    "addressLabel": "ADRES",
+    "yandex": "YANDEX MAPY",
+    "google": "GOOGLE MAPS",
+    "copy": "Kopiuj adres"
+  },
+  "privacy": {
+    "title": "Polityka prywatności",
+    "back": "Strona główna",
+    "p1": "Niniejsza polityka określa przetwarzanie danych osobowych na stronie Nemnovo.",
+    "p2": "Strona może używać cookies i analityki.",
+    "p3": "Dane z formularzy służą wyłącznie do odpowiedzi.",
+    "p4": "W sprawach danych: office@nemnovotour.by."
+  },
+  "promosSection": {
+    "badge": "Promocje",
+    "title": "Korzystne oferty"
+  },
+  "portfolioSection": {
+    "badge": "Portfolio",
+    "title": "Relacje zdjęciowe z wydarzeń",
+    "description": "Zdjęcia z imprez i wyjazdów. Można pobrać album przyciskiem.",
+    "button": "Pobierz zdjęcia z wydarzenia",
+    "pinnedBadge": "Przypięte",
+    "photos": "zdjęć",
+    "backToPortfolio": "Portfolio"
+  },
+  "common": {
+    "allServices": "Wszystkie usługi",
+    "otherServices": "Wszystkie usługi",
+    "toServicesPage": "Strona «Co oferujemy»"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "nav": {
+    "home": "Home",
+    "menuOpen": "Menu",
+    "services": "Services",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "reviews": "Reviews",
+    "contact": "Contact",
+    "promos": "Promos",
+    "howToGet": "How to get there"
+  },
+  "hero": {
+    "badge": "Tour base in Belarus",
+    "title1": "Close. Unfamiliar.",
+    "title2": "Belarus.",
+    "subtitle": "Create vivid memories with us!",
+    "cta1": "Services",
+    "cta2": "Send request"
+  },
+  "about": {
+    "badge": "About",
+    "title": "Nemnovo — tour base for your rest",
+    "p1": "We create conditions for a quiet rest in Belarus: nature, silence and everything you need on the territory.",
+    "p2": "We focus on guests from Grodno, Minsk and all of Belarus — families, groups of friends and those who value simplicity and closeness to nature."
+  },
+  "servicesSection": {
+    "badge": "Services",
+    "title": "What we offer",
+    "allServices": "All services",
+    "more": "Learn more →"
+  },
+  "reviewsSection": {
+    "badge": "Reviews",
+    "prevReview": "Previous review",
+    "nextReview": "Next review",
+    "title": "What guests say",
+    "distanceValue": "30 km",
+    "distanceLabel": "from Grodno",
+    "stat1Value": "98%",
+    "stat1Label": "positive reviews",
+    "stat2Value": "15+",
+    "stat2Label": "years of experience",
+    "reviews": [
+      { "text": "Quiet place, nature, everything is welcoming. Recommend.", "author": "Anna, Grodno" },
+      { "text": "Family trip — kids loved it, we'll come back.", "author": "Dmitry, Minsk" },
+      { "text": "Clean, cosy, attentive hosts. Great fishing.", "author": "Sergey, Vitebsk" },
+      { "text": "Third year here — always warm and peaceful.", "author": "Olga & Igor, Grodno" },
+      { "text": "Kids had a blast, we relaxed. Sauna is great!", "author": "Alexey, Minsk" },
+      { "text": "Nature, silence, campfire by the water — perfect weekend.", "author": "Maria, Brest" },
+      { "text": "Just like the photos, even better. Thanks for the hospitality!", "author": "Natalia, Gomel" }
+    ]
+  },
+  "partnersSection": {
+    "badge": "Partners",
+    "title": "Who we work with",
+    "loading": "Loading partners…",
+    "prevPartner": "Previous partner",
+    "nextPartner": "Next partner"
+  },
+  "contact": {
+    "badge": "Contact",
+    "title": "Get in touch",
+    "intro": "Requests go to office@nemnovotour.by. Complaints and suggestions to a separate email.",
+    "inboxNote": "Requests go to office@nemnovotour.by. We will reply within a day.",
+    "complaintIntro": "Complaints and suggestions go to marketingnemnovo@list.ru.",
+    "formMain": "Booking / enquiry",
+    "formComplaint": "Complaints and suggestions",
+    "nameLabel": "Name",
+    "namePlaceholder": "How to address you",
+    "emailLabel": "Email",
+    "emailPlaceholder": "email@example.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Dates, number of guests, preferences",
+    "complaintMessageLabel": "Text",
+    "complaintMessagePlaceholder": "Describe your complaint or suggestion",
+    "sending": "Sending…",
+    "sendError": "Failed to send",
+    "send": "Send",
+    "thanks": "Thank you, we have received your message."
+  },
+  "footer": {
+    "slogan": "Close. Unfamiliar. Belarus. Create vivid memories with us!",
+    "address": "Belarus, Grodno region, Grodno district, Sopotskin s/s, Nemnovo village, 15. GPS: 53°51′47″N, 23°45′44″E",
+    "howToGet": "How to get there",
+    "privacy": "Privacy policy",
+    "copyright": "Nemnovo",
+    "legalAddressLabel": "Legal address:",
+    "officeAddressLabel": "Office address:",
+    "unpLabel": "UNP",
+    "okpoLabel": "OKPO"
+  },
+  "cookie": {
+    "text": "We use cookies for the site and analytics. By continuing, you agree to our",
+    "link": "privacy policy",
+    "accept": "Accept"
+  },
+  "howToGet": {
+    "title": "HOW TO GET THERE",
+    "addressLabel": "ADDRESS",
+    "yandex": "YANDEX MAPS",
+    "google": "GOOGLE MAPS",
+    "copy": "Copy address"
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "back": "Back to home",
+    "p1": "This policy defines the processing of personal data on the Nemnovo website.",
+    "p2": "The site may use cookies and analytics data (Google Analytics, Yandex Metrica).",
+    "p3": "Data from contact forms is used only to respond to your message.",
+    "p4": "For data processing enquiries: office@nemnovotour.by."
+  },
+  "promosSection": {
+    "badge": "Promos",
+    "title": "Special offers"
+  },
+  "portfolioSection": {
+    "badge": "Portfolio",
+    "title": "Event photo reports",
+    "description": "Photos from events and trips. You can download an album using the button.",
+    "button": "Download event photos",
+    "pinnedBadge": "Pinned",
+    "photos": "photos",
+    "backToPortfolio": "Portfolio"
+  },
+  "common": {
+    "allServices": "All services",
+    "otherServices": "All services",
+    "toServicesPage": "To «What we offer» page"
+  }
+}
