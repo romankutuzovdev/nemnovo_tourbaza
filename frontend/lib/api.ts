@@ -53,52 +53,67 @@ export type PortfolioItem = {
 /** Деталь мероприятия из /api/portfolio/<slug>/?locale= — с массивом всех фото */
 export type PortfolioItemDetail = Omit<PortfolioItem, 'image_urls'> & { images: string[] }
 
-/** Без кеша — данные из БД всегда актуальные. */
-const fetchOpts = { cache: 'no-store' as RequestCache }
+const API_TIMEOUT = 15000 // 15 сек
+
+async function apiFetch(url: string): Promise<Response | null> {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), API_TIMEOUT)
+  try {
+    const res = await fetch(url, { cache: 'no-store' as RequestCache, signal: controller.signal })
+    return res
+  } catch {
+    return null // таймаут, сеть, и т.д.
+  } finally {
+    clearTimeout(timeout)
+  }
+}
 
 export async function fetchServices(locale: Locale): Promise<ServiceItem[]> {
   const loc = LOCALES.includes(locale) ? locale : 'ru'
-  const res = await fetch(`${getApiUrl()}/api/services/?locale=${loc}`, fetchOpts)
-  if (!res.ok) throw new Error(`Services fetch failed: ${res.status}`)
-  return res.json()
+  const res = await apiFetch(`${getApiUrl()}/api/services/?locale=${loc}`)
+  if (!res?.ok) return []
+  return res.json().catch(() => [])
 }
 
 export async function fetchServiceBySlug(slug: string, locale: Locale): Promise<ServiceDetail | null> {
   const loc = LOCALES.includes(locale) ? locale : 'ru'
-  const res = await fetch(`${getApiUrl()}/api/services/${encodeURIComponent(slug)}/?locale=${loc}`, fetchOpts)
+  const res = await apiFetch(`${getApiUrl()}/api/services/${encodeURIComponent(slug)}/?locale=${loc}`)
+  if (!res) return null
   if (res.status === 404) return null
-  if (!res.ok) throw new Error(`Service fetch failed: ${res.status}`)
-  return res.json()
+  if (!res.ok) return null
+  return res.json().catch(() => null)
 }
 
 export async function fetchPromos(locale: Locale): Promise<PromoItem[]> {
   const loc = LOCALES.includes(locale) ? locale : 'ru'
-  const res = await fetch(`${getApiUrl()}/api/promos/?locale=${loc}`, fetchOpts)
-  if (!res.ok) throw new Error(`Promos fetch failed: ${res.status}`)
-  return res.json()
+  const res = await apiFetch(`${getApiUrl()}/api/promos/?locale=${loc}`)
+  if (!res?.ok) return []
+  return res.json().catch(() => [])
 }
 
 export async function fetchPromoBySlug(slug: string, locale: Locale): Promise<PromoDetail | null> {
   const loc = LOCALES.includes(locale) ? locale : 'ru'
-  const res = await fetch(`${getApiUrl()}/api/promos/${encodeURIComponent(slug)}/?locale=${loc}`, fetchOpts)
+  const res = await apiFetch(`${getApiUrl()}/api/promos/${encodeURIComponent(slug)}/?locale=${loc}`)
+  if (!res) return null
   if (res.status === 404) return null
-  if (!res.ok) throw new Error(`Promo fetch failed: ${res.status}`)
-  return res.json()
+  if (!res.ok) return null
+  return res.json().catch(() => null)
 }
 
 export async function fetchPortfolio(locale: Locale): Promise<PortfolioItem[]> {
   const loc = LOCALES.includes(locale) ? locale : 'ru'
-  const res = await fetch(`${getApiUrl()}/api/portfolio/?locale=${loc}`, fetchOpts)
-  if (!res.ok) throw new Error(`Portfolio fetch failed: ${res.status}`)
-  return res.json()
+  const res = await apiFetch(`${getApiUrl()}/api/portfolio/?locale=${loc}`)
+  if (!res?.ok) return []
+  return res.json().catch(() => [])
 }
 
 export async function fetchPortfolioItem(slug: string, locale: Locale): Promise<PortfolioItemDetail | null> {
   const loc = LOCALES.includes(locale) ? locale : 'ru'
-  const res = await fetch(`${getApiUrl()}/api/portfolio/${encodeURIComponent(slug)}/?locale=${loc}`, fetchOpts)
+  const res = await apiFetch(`${getApiUrl()}/api/portfolio/${encodeURIComponent(slug)}/?locale=${loc}`)
+  if (!res) return null
   if (res.status === 404) return null
-  if (!res.ok) throw new Error(`Portfolio item fetch failed: ${res.status}`)
-  return res.json()
+  if (!res.ok) return null
+  return res.json().catch(() => null)
 }
 
 /** Ссылка для скачивания всех фото мероприятия (ZIP) */
@@ -129,11 +144,13 @@ export type HowToGetResponse = {
   gps_lon: number | null
 }
 
+const DEFAULT_HOW_TO_GET: HowToGetResponse = { cities: [], address: '', gps_lat: null, gps_lon: null }
+
 export async function fetchHowToGet(locale: Locale): Promise<HowToGetResponse> {
   const loc = LOCALES.includes(locale) ? locale : 'ru'
-  const res = await fetch(`${getApiUrl()}/api/how-to-get/?locale=${loc}`, fetchOpts)
-  if (!res.ok) throw new Error(`How-to-get fetch failed: ${res.status}`)
-  return res.json()
+  const res = await apiFetch(`${getApiUrl()}/api/how-to-get/?locale=${loc}`)
+  if (!res?.ok) return DEFAULT_HOW_TO_GET
+  return res.json().catch(() => DEFAULT_HOW_TO_GET)
 }
 
 /** Элемент из /api/partners/ */
@@ -146,9 +163,9 @@ export type PartnerItem = {
 }
 
 export async function fetchPartners(): Promise<PartnerItem[]> {
-  const res = await fetch(`${getApiUrl()}/api/partners/`, fetchOpts)
-  if (!res.ok) throw new Error(`Partners fetch failed: ${res.status}`)
-  return res.json()
+  const res = await apiFetch(`${getApiUrl()}/api/partners/`)
+  if (!res?.ok) return []
+  return res.json().catch(() => [])
 }
 
 /** Отзыв из /api/reviews/ (для главной, с оценкой 1–5) */
@@ -161,9 +178,9 @@ export type ReviewItem = {
 }
 
 export async function fetchReviews(): Promise<ReviewItem[]> {
-  const res = await fetch(`${getApiUrl()}/api/reviews/`, fetchOpts)
-  if (!res.ok) throw new Error(`Reviews fetch failed: ${res.status}`)
-  return res.json()
+  const res = await apiFetch(`${getApiUrl()}/api/reviews/`)
+  if (!res?.ok) return []
+  return res.json().catch(() => [])
 }
 
 /** Реквизиты компании для футера (GET /api/company-info/) */
@@ -178,10 +195,10 @@ export type CompanyInfo = {
   contact_email: string
 }
 
-export async function fetchCompanyInfo(): Promise<CompanyInfo> {
-  const res = await fetch(`${getApiUrl()}/api/company-info/`, fetchOpts)
-  if (!res.ok) throw new Error(`Company info fetch failed: ${res.status}`)
-  return res.json()
+export async function fetchCompanyInfo(): Promise<CompanyInfo | null> {
+  const res = await apiFetch(`${getApiUrl()}/api/company-info/`)
+  if (!res?.ok) return null
+  return res.json().catch(() => null)
 }
 
 /** Отправка формы контакта (заявка или претензия). Тестово письма уходят на один ящик. */

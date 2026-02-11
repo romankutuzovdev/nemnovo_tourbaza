@@ -68,7 +68,7 @@ export function Footer() {
 
   useEffect(() => {
     fetchCompanyInfo()
-      .then(setCompany)
+      .then((data) => setCompany(data ?? defaultCompany))
       .catch(() => setCompany(defaultCompany))
   }, [])
 
