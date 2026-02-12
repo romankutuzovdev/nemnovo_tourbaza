@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ReviewsSection } from '@/components/ReviewsSection'
+import { ReviewsListSection } from '@/components/ReviewsListSection'
 import { ComplaintFormSection } from '@/components/ComplaintFormSection'
 import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
@@ -19,8 +19,14 @@ export default function ReviewsPage() {
         >
           ← {t('nav.home')}
         </Link>
+        <p className="font-sans text-base tracking-[0.2em] uppercase text-black/80 mt-6 mb-2">
+          {t('reviewsSection.badge')}
+        </p>
+        <h1 className="font-sans text-xl md:text-2xl lg:text-3xl font-medium text-black tracking-tight max-w-2xl">
+          {t('reviewsSection.title')}
+        </h1>
       </div>
-      <ReviewsSection />
+      <ReviewsListSection />
       <ComplaintFormSection />
     </div>
   )

@@ -19,7 +19,7 @@ export default function ServicesPage() {
 
   return (
     <div className="pt-24 pb-24 md:pb-32 bg-primary min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 md:pt-12">
         <p className="font-sans text-sm tracking-[0.2em] uppercase text-white/80 mb-4">
           {t('servicesSection.badge')}
         </p>
