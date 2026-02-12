@@ -8,6 +8,7 @@
     "reviews": "Reviews",
     "contact": "Contact",
     "promos": "Promos",
+    "news": "News",
     "howToGet": "How to get there",
     "cabinet": "Account",
     "tourfirm": "TOUR OPERATOR",
@@ -66,6 +67,9 @@
     "allServices": "All services",
     "more": "Learn more →"
   },
+  "news": {
+    "placeholder": "Section coming soon."
+  },
   "reviewsSection": {
     "badge": "Reviews",
     "prevReview": "Previous review",
@@ -122,6 +126,7 @@
   "footer": {
     "slogan": "Close. Unfamiliar. Belarus. Create vivid memories with us!",
     "address": "Belarus, Grodno region, Grodno district, Sopotskin s/s, Nemnovo village, 15. GPS: 53°51′47″N, 23°45′44″E",
+    "addressShort": "Belarus, Grodno region, Grodno district, Sopotskin s/s, Nemnovo village, 15",
     "howToGet": "How to get there",
     "privacy": "Privacy policy",
     "copyright": "Nemnovo",

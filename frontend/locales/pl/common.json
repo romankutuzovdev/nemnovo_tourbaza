@@ -8,6 +8,7 @@
     "reviews": "Opinie",
     "contact": "Kontakt",
     "promos": "Promocje",
+    "news": "Aktualności",
     "howToGet": "Jak dojechać",
     "cabinet": "Konto",
     "tourfirm": "BIURO PODRÓŻY",
@@ -65,6 +66,9 @@
     "title": "Co oferujemy",
     "allServices": "Wszystkie usługi",
     "more": "Więcej →"
+  },
+  "news": {
+    "placeholder": "Sekcja w przygotowaniu."
   },
   "reviewsSection": {
     "badge": "Opinie",
@@ -129,6 +133,7 @@
   "footer": {
     "slogan": "Bliska. Nieznana. Białoruś. Twórz z nami wspomnienia!",
     "address": "Białoruś, obw. grodzieński, rej. grodzieński, Sopockin s/s, wieś Nemnovo, 15. GPS: 53°51′47″N, 23°45′44″E",
+    "addressShort": "Białoruś, obw. grodzieński, rej. grodzieński, Sopockin s/s, wieś Nemnovo, 15",
     "howToGet": "Dojazd",
     "privacy": "Polityka prywatności",
     "copyright": "Nemnovo",

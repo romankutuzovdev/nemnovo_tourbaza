@@ -17,6 +17,15 @@
   background-color: rgb(88 105 168 / 0.9);
 }
 
+/* Скрыть полосу прокрутки (напр. в хедере) */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 html {
   scroll-behavior: smooth;
   font-size: 18px;

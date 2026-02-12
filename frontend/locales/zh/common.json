@@ -8,6 +8,7 @@
     "reviews": "评价",
     "contact": "联系方式",
     "promos": "优惠",
+    "news": "新闻",
     "howToGet": "如何到达",
     "cabinet": "个人中心",
     "tourfirm": "旅行社",
@@ -66,6 +67,9 @@
     "allServices": "全部服务",
     "more": "了解更多 →"
   },
+  "news": {
+    "placeholder": "该板块即将推出。"
+  },
   "reviewsSection": {
     "badge": "评价",
     "prevReview": "上一条评价",
@@ -122,6 +126,7 @@
   "footer": {
     "slogan": "亲近。陌生。白俄罗斯。与我们共创美好回忆！",
     "address": "白俄罗斯，格罗德诺州，格罗德诺区，索波茨金乡，Nemnovo村15号。GPS: 53°51′47″N, 23°45′44″E",
+    "addressShort": "白俄罗斯，格罗德诺州，格罗德诺区，索波茨金乡，Nemnovo村15号",
     "howToGet": "如何到达",
     "privacy": "隐私政策",
     "copyright": "Nemnovo",
