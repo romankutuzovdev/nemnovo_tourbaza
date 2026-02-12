@@ -66,9 +66,9 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-secondary/10 shadow-sm">
-      <div className="w-full px-2 sm:px-4 md:px-5 lg:px-6 xl:px-8 min-h-14 h-14 sm:h-16 md:h-[4.25rem] lg:h-20 flex items-stretch">
+      <div className="w-full px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-20 min-h-14 h-14 sm:h-16 md:h-[4.25rem] lg:h-20 flex items-stretch">
         {/* Слева: адрес (xl) | лого + Немново */}
-        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 shrink-0 min-w-0 border-b border-secondary/10 md:border-b-0 md:border-r md:border-secondary/10 pr-2 sm:pr-3 md:pr-4">
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 shrink-0 min-w-0 border-b border-secondary/10 md:border-b-0 md:border-r md:border-secondary/10 pr-3 sm:pr-4 md:pr-5 lg:pr-6">
           <div className="hidden lg:flex flex-col justify-center pr-3 border-r border-secondary/20 shrink-0 w-[200px] xl:w-[220px]">
             <p className="font-sans text-[10px] tracking-wider uppercase text-black/60 whitespace-nowrap">
               {t('howToGet.addressLabel')}
@@ -93,7 +93,7 @@ export function Header() {
         </div>
         {/* Планшет/десктоп: полоса от «Услуги» до почти конца «Контакты», все кнопки внизу в один ряд */}
         <div className="flex-1 min-w-0 hidden md:flex flex-col h-full justify-center items-end">
-          <div className="grid grid-cols-[auto_auto] grid-rows-[auto_1fr] gap-x-2 md:gap-x-3 items-end shrink-0 w-fit max-w-full">
+          <div className="grid grid-cols-[auto_auto] grid-rows-[auto_1fr] gap-x-4 md:gap-x-5 lg:gap-x-6 items-end shrink-0 w-fit max-w-full">
             {/* Верхний ряд: пустая ячейка над «О нас», полоса над Услуги…Контакты (полоса не до конца) */}
             <div className="row-start-1 col-start-1" />
             <div className="row-start-1 col-start-2 bg-primary rounded-bl flex items-center justify-end gap-1 sm:gap-1.5 lg:gap-2 pr-2 sm:pr-3 lg:pr-4 py-0.5 shrink-0">
@@ -112,7 +112,7 @@ export function Header() {
               ))}
             </div>
             {/* Нижний ряд: О нас и остальные кнопки в одну линию */}
-            <div className="row-start-2 col-start-1 flex items-center pr-2 md:pr-2.5 lg:pr-3">
+            <div className="row-start-2 col-start-1 flex items-center pr-3 md:pr-4 lg:pr-5">
               <Link
                 href={nav[0].href}
                 className="font-sans text-[9px] md:text-[10px] lg:text-[11px] xl:text-xs 2xl:text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap py-0.5"
@@ -121,7 +121,7 @@ export function Header() {
               </Link>
             </div>
             <div className="row-start-2 col-start-2 flex items-center justify-end min-w-0 overflow-x-auto overflow-y-hidden pr-0.5">
-              <nav className="flex items-center gap-2 md:gap-2.5 lg:gap-3 xl:gap-4 flex-nowrap shrink-0 min-w-max">
+              <nav className="flex items-center gap-3 md:gap-4 lg:gap-5 xl:gap-6 flex-nowrap shrink-0 min-w-max">
                 {nav.slice(1).map((item) => (
                   <Link
                     key={item.href}
@@ -178,7 +178,7 @@ export function Header() {
             </div>
         </div>
         {/* Справа: Войти, язык, ТУРФИРМА */}
-        <div className="hidden md:flex items-center gap-3 sm:gap-4 lg:gap-5 shrink-0 pl-2 sm:pl-3 lg:pl-4 border-l border-secondary/10">
+        <div className="hidden md:flex items-center gap-4 sm:gap-5 lg:gap-6 shrink-0 pl-4 sm:pl-5 lg:pl-6 xl:pl-8 border-l border-secondary/10">
           <Link
             href={authLink.href}
             className="font-sans text-[10px] sm:text-xs lg:text-sm font-semibold px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0"
