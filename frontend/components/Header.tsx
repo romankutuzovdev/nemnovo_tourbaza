@@ -36,6 +36,9 @@ const SOCIAL_ICONS: Record<string, React.ReactNode> = {
   ),
 }
 
+/** Ссылка на карточку турбазы в Яндекс.Картах */
+const YANDEX_MAPS_URL = 'https://yandex.by/maps/?ll=23.762146%2C53.863078&mode=poi&poi%5Bpoint%5D=23.762041%2C53.863286&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D192681682562&pt=23.762146%2C53.863078&z=16'
+
 const SOCIAL_LINKS: { href: string; label: string; icon: keyof typeof SOCIAL_ICONS }[] = [
   { href: 'https://t.me/nemnovotour', label: 'Telegram', icon: 'telegram' },
   { href: 'https://instagram.com/nemnovotour', label: 'Instagram', icon: 'instagram' },
@@ -69,21 +72,39 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 shadow-sm">
-      {/* Полоса соцсетей — на всю ширину над хедером, без MAX */}
-      <div className="w-full bg-primary flex items-center justify-center gap-3 py-2.5">
-        {socialLinksNoMax.map(({ href, label, icon }) => (
-          <a
-            key={href}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center w-8 h-8 rounded-full text-white/90 hover:text-white hover:bg-white/20 transition-colors"
-            aria-label={label}
-            title={label}
-          >
-            {SOCIAL_ICONS[icon]}
-          </a>
-        ))}
+      {/* Полоса: слева адрес с иконкой карты, справа соцсети */}
+      <div className="w-full bg-primary flex items-center justify-between gap-4 px-4 sm:px-6 py-2.5">
+        <a
+          href={YANDEX_MAPS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 min-w-0 shrink text-white/95 hover:text-white transition-colors"
+          title={t('howToGet.yandex')}
+        >
+          <span className="shrink-0" aria-hidden>
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden>
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+            </svg>
+          </span>
+          <span className="font-sans text-[10px] sm:text-xs leading-tight truncate max-w-[180px] sm:max-w-[240px] md:max-w-none">
+            {t('footer.addressShort')}
+          </span>
+        </a>
+        <div className="flex items-center gap-3 shrink-0">
+          {socialLinksNoMax.map(({ href, label, icon }) => (
+            <a
+              key={href}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-8 h-8 rounded-full text-white/90 hover:text-white hover:bg-white/20 transition-colors"
+              aria-label={label}
+              title={label}
+            >
+              {SOCIAL_ICONS[icon]}
+            </a>
+          ))}
+        </div>
       </div>
       <div className="w-full bg-white/90 backdrop-blur-md border-b border-secondary/10 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 min-h-14 h-14 sm:h-16 md:h-[4.25rem] lg:h-20 flex items-stretch">
         {/* Слева: лого + Немново */}
@@ -104,16 +125,8 @@ export function Header() {
         </div>
         {/* Десктоп (lg+): полоса от «Услуги» до почти конца «Контакты», все кнопки внизу в один ряд */}
         <div className="flex-1 min-w-0 hidden lg:flex flex-col h-full justify-center items-end">
-          <div className="grid grid-cols-[auto_auto] grid-rows-[auto_1fr] gap-x-2 md:gap-x-3 lg:gap-x-4 items-end shrink-0 w-fit max-w-full min-w-0">
-            {/* Верхний ряд: пустая ячейка над «О нас», полоса с адресом над Услуги…Контакты */}
-            <div className="row-start-1 col-start-1" />
-            <div className="row-start-1 col-start-2 flex items-center justify-end pr-2 sm:pr-3 lg:pr-4 py-1 shrink-0 min-w-0">
-              <p className="font-sans text-[10px] sm:text-[11px] lg:text-xs text-black/80 leading-tight line-clamp-2 text-right max-w-full">
-                {t('footer.addressShort')}
-              </p>
-            </div>
-            {/* Нижний ряд: О нас и остальные кнопки в одну линию */}
-            <div className="row-start-2 col-start-1 flex items-center pr-2 md:pr-2.5 lg:pr-3">
+          <div className="grid grid-cols-[auto_auto] gap-x-2 md:gap-x-3 lg:gap-x-4 items-center shrink-0 w-fit max-w-full min-w-0">
+            <div className="flex items-center pr-2 md:pr-2.5 lg:pr-3">
               <Link
                 href={nav[0].href}
                 className="font-sans text-[9px] md:text-[10px] lg:text-xs xl:text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap py-0.5"
@@ -121,7 +134,7 @@ export function Header() {
                 {nav[0].label}
               </Link>
             </div>
-            <div className="row-start-2 col-start-2 flex items-center justify-end min-w-0 overflow-x-auto overflow-y-hidden pr-0.5 scrollbar-none">
+            <div className="flex items-center justify-end min-w-0 overflow-x-auto overflow-y-hidden pr-0.5 scrollbar-none">
               <nav className="flex items-center gap-2 md:gap-2.5 lg:gap-3 xl:gap-4 flex-nowrap shrink-0 min-w-max">
                 {nav.slice(1).map((item) => (
                   <Link
