@@ -4,7 +4,6 @@ import { ServicesSection } from '@/components/ServicesSection'
 import { ReviewsSection } from '@/components/ReviewsSection'
 import { PromosSection } from '@/components/PromosSection'
 import { PartnersSection } from '@/components/PartnersSection'
-import { HowToGetThereSection } from '@/components/HowToGetThereSection'
 import { MapSection } from '@/components/MapSection'
 
 export default function HomePage() {
@@ -15,9 +14,8 @@ export default function HomePage() {
       <ReviewsSection />
       <PromosSection />
       <ServicesSection />
-      <PartnersSection />
       <MapSection />
-      <HowToGetThereSection />
+      <PartnersSection />
     </>
   )
 }

@@ -65,19 +65,29 @@ export function Header() {
     ? { href: `/${locale}/cabinet`, label: t('nav.cabinet') }
     : { href: `/${locale}/login`, label: t('nav.login') }
 
+  const socialLinksNoMax = SOCIAL_LINKS.filter(({ icon }) => icon !== 'max')
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-secondary/10 shadow-sm">
-      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 min-h-14 h-14 sm:h-16 md:h-[4.25rem] lg:h-20 flex items-stretch">
-        {/* Слева: адрес (xl) | лого + Немново */}
+    <header className="fixed top-0 left-0 right-0 z-50 shadow-sm">
+      {/* Полоса соцсетей — на всю ширину над хедером, без MAX */}
+      <div className="w-full bg-primary flex items-center justify-center gap-3 py-2.5">
+        {socialLinksNoMax.map(({ href, label, icon }) => (
+          <a
+            key={href}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-8 h-8 rounded-full text-white/90 hover:text-white hover:bg-white/20 transition-colors"
+            aria-label={label}
+            title={label}
+          >
+            {SOCIAL_ICONS[icon]}
+          </a>
+        ))}
+      </div>
+      <div className="w-full bg-white/90 backdrop-blur-md border-b border-secondary/10 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 min-h-14 h-14 sm:h-16 md:h-[4.25rem] lg:h-20 flex items-stretch">
+        {/* Слева: лого + Немново */}
         <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 shrink-0 min-w-0 border-b border-secondary/10 md:border-b-0 md:border-r md:border-secondary/10 pr-2 sm:pr-3 md:pr-4 lg:pr-5">
-          <div className="hidden lg:flex flex-col justify-center pr-3 border-r border-secondary/20 shrink-0 w-[200px] xl:w-[220px]">
-            <p className="font-sans text-[10px] tracking-wider uppercase text-black/60 whitespace-nowrap">
-              {t('howToGet.addressLabel')}
-            </p>
-            <p className="font-sans text-[10px] lg:text-[11px] text-black/80 leading-tight">
-              {t('footer.addressShort')}
-            </p>
-          </div>
           <Link
             href={`/${locale}`}
             className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-3 font-serif-legacy text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary tracking-tight shrink-0 min-w-0"
@@ -92,25 +102,15 @@ export function Header() {
             <span className="truncate">{t('footer.copyright')}</span>
           </Link>
         </div>
-        {/* Планшет/десктоп: полоса от «Услуги» до почти конца «Контакты», все кнопки внизу в один ряд */}
-        <div className="flex-1 min-w-0 hidden md:flex flex-col h-full justify-center items-end">
+        {/* Десктоп (lg+): полоса от «Услуги» до почти конца «Контакты», все кнопки внизу в один ряд */}
+        <div className="flex-1 min-w-0 hidden lg:flex flex-col h-full justify-center items-end">
           <div className="grid grid-cols-[auto_auto] grid-rows-[auto_1fr] gap-x-2 md:gap-x-3 lg:gap-x-4 items-end shrink-0 w-fit max-w-full min-w-0">
-            {/* Верхний ряд: пустая ячейка над «О нас», полоса над Услуги…Контакты (полоса не до конца) */}
+            {/* Верхний ряд: пустая ячейка над «О нас», полоса с адресом над Услуги…Контакты */}
             <div className="row-start-1 col-start-1" />
-            <div className="row-start-1 col-start-2 bg-primary rounded-bl flex items-center justify-end gap-1 sm:gap-1.5 lg:gap-2 pr-2 sm:pr-3 lg:pr-4 py-0.5 shrink-0">
-              {SOCIAL_LINKS.map(({ href, label, icon }) => (
-                <a
-                  key={href}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 rounded-full text-white/90 hover:text-white hover:bg-white/20 transition-colors shrink-0"
-                  aria-label={label}
-                  title={label}
-                >
-                  {SOCIAL_ICONS[icon]}
-                </a>
-              ))}
+            <div className="row-start-1 col-start-2 flex items-center justify-end pr-2 sm:pr-3 lg:pr-4 py-1 shrink-0 min-w-0">
+              <p className="font-sans text-[10px] sm:text-[11px] lg:text-xs text-black/80 leading-tight line-clamp-2 text-right max-w-full">
+                {t('footer.addressShort')}
+              </p>
             </div>
             {/* Нижний ряд: О нас и остальные кнопки в одну линию */}
             <div className="row-start-2 col-start-1 flex items-center pr-2 md:pr-2.5 lg:pr-3">
@@ -136,8 +136,8 @@ export function Header() {
             </div>
           </div>
         </div>
-        {/* Мобильные: лого + язык + меню */}
-        <div className="flex-1 min-w-0 flex md:hidden items-center justify-end">
+        {/* Свёрнутое меню (до lg): лого + язык + гамбургер */}
+        <div className="flex-1 min-w-0 flex lg:hidden items-center justify-end">
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               <div className="relative">
                 <button
@@ -234,45 +234,45 @@ export function Header() {
         </div>
       </div>
       {open && (
-        <div className="md:hidden bg-white border-t border-secondary/10 py-6 px-6 flex flex-col gap-4">
-          {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="font-sans font-semibold text-black/80 hover:text-black"
-              onClick={() => setOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <Link
-            href={authLink.href}
-            className="font-sans font-semibold px-4 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 text-center"
-            onClick={() => setOpen(false)}
-          >
-            {authLink.label}
-          </Link>
-          <div className="pt-2 border-t border-secondary/10 flex flex-wrap gap-2">
-            {locales.map((loc) => (
+        <div className="lg:hidden bg-white border-t border-secondary/10 py-6 px-6 flex flex-col gap-4">
+            {nav.map((item) => (
               <Link
-                key={loc}
-                href={`/${loc}`}
-                className={`font-sans text-sm px-3 py-1.5 rounded border ${locale === loc ? 'border-primary text-black' : 'border-secondary/30 text-black/80'}`}
+                key={item.href}
+                href={item.href}
+                className="font-sans font-semibold text-black/80 hover:text-black"
                 onClick={() => setOpen(false)}
               >
-                {localeNames[loc]}
+                {item.label}
               </Link>
             ))}
-          </div>
-          <a
-            href="https://nemnovotour.by/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-sans font-bold text-primary hover:text-primary/80"
-            onClick={() => setOpen(false)}
-          >
-            {t('nav.tourfirm')}
-          </a>
+            <Link
+              href={authLink.href}
+              className="font-sans font-semibold px-4 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 text-center"
+              onClick={() => setOpen(false)}
+            >
+              {authLink.label}
+            </Link>
+            <div className="pt-2 border-t border-secondary/10 flex flex-wrap gap-2">
+              {locales.map((loc) => (
+                <Link
+                  key={loc}
+                  href={`/${loc}`}
+                  className={`font-sans text-sm px-3 py-1.5 rounded border ${locale === loc ? 'border-primary text-black' : 'border-secondary/30 text-black/80'}`}
+                  onClick={() => setOpen(false)}
+                >
+                  {localeNames[loc]}
+                </Link>
+              ))}
+            </div>
+            <a
+              href="https://nemnovotour.by/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-sans font-bold text-primary hover:text-primary/80"
+              onClick={() => setOpen(false)}
+            >
+              {t('nav.tourfirm')}
+            </a>
         </div>
       )}
     </header>

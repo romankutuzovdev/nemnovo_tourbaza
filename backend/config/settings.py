@@ -12,8 +12,8 @@ DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,87.229.34.70,.trycloudflare.com').split(',')
 
-# CSRF: доверенные origins (схема обязательна: http:// или https://)
-_default_origins = 'http://87.229.34.70:8005,http://localhost:8005,http://127.0.0.1:8005,https://workflow-spring-dui-units.trycloudflare.com'
+# CSRF: доверенные origins (схема обязательна: http:// или https://). При новом туннеле Cloudflare добавьте его сюда или в .env CSRF_TRUSTED_ORIGINS.
+_default_origins = 'http://87.229.34.70:8005,http://localhost:8005,http://127.0.0.1:8005,https://workflow-spring-dui-units.trycloudflare.com,https://houses-annotation-logos-presented.trycloudflare.com,https://gym-hartford-interest-architects.trycloudflare.com'
 CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', _default_origins).split(',')
 
 INSTALLED_APPS = [
@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
