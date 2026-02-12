@@ -43,7 +43,7 @@ export default async function PromoPage({ params }: Props) {
           ← {t('nav.promos')}
         </Link>
 
-        <article className="bg-secondary/30 border border-secondary/10 rounded-sm overflow-hidden">
+        <article className="pt-16 bg-secondary/30 border border-secondary/10 rounded-sm overflow-hidden">
           {hasImage && (
             <div className="relative aspect-[21/9] w-full">
               <Image

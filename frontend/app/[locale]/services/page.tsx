@@ -18,15 +18,24 @@ export default function ServicesPage() {
   const services = useServices()
 
   return (
-    <div className="pt-24 pb-24 md:pb-32 bg-primary min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 md:pt-12">
-        <p className="font-sans text-sm tracking-[0.2em] uppercase text-white/80 mb-4">
-          {t('servicesSection.badge')}
-        </p>
-        <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight max-w-2xl">
-          {t('servicesSection.title')}
-        </h1>
-        <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+    <div className="min-h-screen bg-primary">
+      <header className="pt-24 pb-10 max-w-6xl mx-auto px-4 sm:px-6">
+        <Link
+          href={`/${locale}`}
+          className="inline-flex items-center gap-2 font-sans text-sm text-white/80 hover:text-white transition-colors"
+        >
+          ← {t('nav.home')}
+        </Link>
+      </header>
+      <section className="py-16 md:py-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <p className="font-sans text-sm tracking-[0.2em] uppercase text-white/80 mb-4">
+            {t('servicesSection.badge')}
+          </p>
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight max-w-2xl mb-8 md:mb-10">
+            {t('servicesSection.title')}
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {services.map((item) => (
             <div key={item.slug} className="min-w-0">
               <Link
@@ -55,8 +64,9 @@ export default function ServicesPage() {
               </Link>
             </div>
           ))}
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }

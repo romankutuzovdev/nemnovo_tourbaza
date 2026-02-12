@@ -27,7 +27,7 @@ export default async function PortfolioItemPage({ params }: Props) {
 
   return (
     <div className="pt-24 pb-24 md:pb-32 min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <Link
           href={`/${locale}/portfolio`}
           className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-10"
@@ -35,6 +35,7 @@ export default async function PortfolioItemPage({ params }: Props) {
           ← {t('portfolioSection.backToPortfolio')}
         </Link>
 
+        <div className="pt-16">
         <header className="mb-12">
           <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-black tracking-tight">
             {item.title}
@@ -92,6 +93,7 @@ export default async function PortfolioItemPage({ params }: Props) {
         {images.length === 0 && (
           <p className="font-sans text-black/60">{t('portfolioSection.description')}</p>
         )}
+        </div>
       </div>
     </div>
   )

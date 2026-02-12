@@ -29,8 +29,8 @@ export function PortfolioSection() {
   const portfolio = usePortfolio()
 
   return (
-    <section id="portfolio" className="py-24 md:py-32 bg-white">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="portfolio" className="py-16 md:py-24 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
           <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">
             {t('portfolioSection.badge')}

@@ -67,7 +67,7 @@ export default async function ServicePage({ params }: Props) {
           ← {t('common.allServices')}
         </Link>
 
-        <article>
+        <article className="pt-16">
           <div className="relative aspect-[16/10] md:aspect-[21/9] rounded-xl overflow-hidden bg-primary">
             <Image
               src={imageSrc}

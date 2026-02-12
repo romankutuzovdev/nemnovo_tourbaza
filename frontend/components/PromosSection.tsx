@@ -23,7 +23,7 @@ export function PromosSection() {
   if (promos.length === 0) return null
 
   return (
-    <section id="promos" className="py-16 sm:py-24 md:py-32 bg-white">
+    <section id="promos" className="py-16 md:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
           <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">

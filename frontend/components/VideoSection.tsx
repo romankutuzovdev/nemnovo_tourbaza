@@ -4,8 +4,8 @@ import { AnimateOnScroll } from './AnimateOnScroll'
 
 export function VideoSection() {
   return (
-    <section className="py-24 md:py-32 bg-white">
-      <div className="max-w-4xl mx-auto px-6">
+    <section className="py-16 md:py-24 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
           <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">
             Видео

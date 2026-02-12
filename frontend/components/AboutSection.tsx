@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl'
 export function AboutSection() {
   const t = useTranslations()
   return (
-    <section id="about" className="pt-24 md:pt-32 pb-12 md:pb-16 bg-secondary/40 border-y border-secondary/10">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="about" className="py-16 md:py-24 bg-secondary/40 border-y border-secondary/10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-center">
           <div>
             <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">{t('about.badge')}</p>
