@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
 import { useAuth } from '@/contexts/AuthContext'
@@ -40,12 +40,14 @@ const SOCIAL_ICONS: Record<string, React.ReactNode> = {
 const YANDEX_MAPS_URL = 'https://yandex.by/maps/?ll=23.762146%2C53.863078&mode=poi&poi%5Bpoint%5D=23.762041%2C53.863286&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D192681682562&pt=23.762146%2C53.863078&z=16'
 
 const SOCIAL_LINKS: { href: string; label: string; icon: keyof typeof SOCIAL_ICONS }[] = [
-  { href: 'https://t.me/nemnovotour', label: 'Telegram', icon: 'telegram' },
+  { href: 'https://t.me/nemnovo', label: 'Telegram', icon: 'telegram' },
   { href: 'https://instagram.com/nemnovotour', label: 'Instagram', icon: 'instagram' },
   { href: 'https://vk.com/nemnovotour', label: 'VK', icon: 'vk' },
   { href: 'https://facebook.com/nemnovotour', label: 'Facebook', icon: 'facebook' },
   { href: 'https://max.ru/', label: 'MAX', icon: 'max' },
 ]
+
+const SCROLL_THRESHOLD = 60
 
 export function Header() {
   const locale = useLocale()
@@ -53,6 +55,14 @@ export function Header() {
   const { isAuthenticated } = useAuth()
   const [open, setOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const nav = [
     { href: `/${locale}/about`, label: t('nav.about') },
@@ -63,6 +73,7 @@ export function Header() {
     { href: `/${locale}/how-to-get`, label: t('nav.howToGet') },
     { href: `/${locale}/reviews`, label: t('nav.reviews') },
     { href: `/${locale}/contact`, label: t('nav.contact') },
+    { href: 'https://nemnovotour.by/', label: t('nav.agencies'), external: true },
   ]
   const authLink = isAuthenticated
     ? { href: `/${locale}/cabinet`, label: t('nav.cabinet') }
@@ -72,8 +83,13 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 shadow-sm">
-      {/* Полоса: слева адрес с иконкой карты, справа соцсети */}
-      <div className="w-full bg-primary flex items-center justify-between gap-4 px-4 sm:px-6 py-2.5">
+      {/* Полоса: слева адрес с иконкой карты, справа соцсети — скрывается при скролле */}
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-out ${
+          scrolled ? 'max-h-0 opacity-0' : 'max-h-16 opacity-100'
+        }`}
+      >
+        <div className="w-full bg-primary flex items-center justify-between gap-4 px-4 sm:px-6 py-2.5">
         <a
           href={YANDEX_MAPS_URL}
           target="_blank"
@@ -105,10 +121,11 @@ export function Header() {
             </a>
           ))}
         </div>
+        </div>
       </div>
       <div className="w-full bg-white/90 backdrop-blur-md border-b border-secondary/10 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 min-h-14 h-14 sm:h-16 md:h-[4.25rem] lg:h-20 flex items-stretch">
         {/* Слева: лого + Немново */}
-        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 shrink-0 min-w-0 border-b border-secondary/10 md:border-b-0 md:border-r md:border-secondary/10 pr-2 sm:pr-3 md:pr-4 lg:pr-5">
+        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 shrink-0 min-w-0 border-b border-secondary/10 md:border-b-0 pr-2 sm:pr-3 md:pr-4 lg:pr-5">
           <Link
             href={`/${locale}`}
             className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-3 font-serif-legacy text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary tracking-tight shrink-0 min-w-0"
@@ -136,15 +153,27 @@ export function Header() {
             </div>
             <div className="flex items-center justify-end min-w-0 overflow-x-auto overflow-y-hidden pr-0.5 scrollbar-none">
               <nav className="flex items-center gap-2 md:gap-2.5 lg:gap-3 xl:gap-4 flex-nowrap shrink-0 min-w-max">
-                {nav.slice(1).map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="font-sans text-[9px] md:text-[10px] lg:text-xs xl:text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap py-0.5 shrink-0"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {nav.slice(1).map((item) =>
+                  (item as { external?: boolean }).external ? (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-sans text-[9px] md:text-[10px] lg:text-xs xl:text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap py-0.5 shrink-0"
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="font-sans text-[9px] md:text-[10px] lg:text-xs xl:text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap py-0.5 shrink-0"
+                    >
+                      {item.label}
+                    </Link>
+                  )
+                )}
               </nav>
             </div>
           </div>
@@ -192,7 +221,7 @@ export function Header() {
             </div>
         </div>
         {/* Справа: Войти, язык, ТУРФИРМА */}
-        <div className="hidden md:flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0 pl-3 sm:pl-4 lg:pl-5 xl:pl-6 border-l border-secondary/10">
+        <div className="hidden md:flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0 pl-3 sm:pl-4 lg:pl-5 xl:pl-6">
           <Link
             href={authLink.href}
             className="font-sans text-[10px] sm:text-xs lg:text-sm font-semibold px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0"
@@ -248,16 +277,29 @@ export function Header() {
       </div>
       {open && (
         <div className="lg:hidden bg-white border-t border-secondary/10 py-6 px-6 flex flex-col gap-4">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="font-sans font-semibold text-black/80 hover:text-black"
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {nav.map((item) =>
+              (item as { external?: boolean }).external ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans font-semibold text-black/80 hover:text-black"
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="font-sans font-semibold text-black/80 hover:text-black"
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
             <Link
               href={authLink.href}
               className="font-sans font-semibold px-4 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 text-center"

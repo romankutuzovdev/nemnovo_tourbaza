@@ -1,6 +1,7 @@
 import { Hero } from '@/components/Hero'
 import { AboutSection } from '@/components/AboutSection'
 import { ServicesSection } from '@/components/ServicesSection'
+import { EventsSection } from '@/components/EventsSection'
 import { ReviewsSection } from '@/components/ReviewsSection'
 import { PromosSection } from '@/components/PromosSection'
 import { PartnersSection } from '@/components/PartnersSection'
@@ -14,6 +15,7 @@ export default function HomePage() {
       <ReviewsSection />
       <PromosSection />
       <ServicesSection />
+      <EventsSection />
       <MapSection />
       <PartnersSection />
     </>

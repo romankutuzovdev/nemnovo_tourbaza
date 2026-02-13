@@ -7,6 +7,7 @@
     "portfolio": "Portfolio",
     "reviews": "Reviews",
     "contact": "Contact",
+    "agencies": "For agencies",
     "promos": "Promos",
     "news": "News",
     "howToGet": "How to get there",
@@ -67,6 +68,10 @@
     "allServices": "All services",
     "more": "Learn more →"
   },
+  "eventsSection": {
+    "badge": "Events",
+    "title": "Marathons and tour camp"
+  },
   "news": {
     "placeholder": "Section coming soon."
   },
@@ -96,8 +101,8 @@
     ]
   },
   "partnersSection": {
-    "badge": "Partners",
-    "title": "Who we work with",
+    "badge": "",
+    "title": "Our clients",
     "loading": "Loading partners…",
     "prevPartner": "Previous partner",
     "nextPartner": "Next partner"
@@ -121,7 +126,8 @@
     "sending": "Sending…",
     "sendError": "Failed to send",
     "send": "Send",
-    "thanks": "Thank you, we have received your message."
+    "thanks": "Thank you, we have received your message.",
+    "close": "Close"
   },
   "footer": {
     "slogan": "Close. Unfamiliar. Belarus. Create vivid memories with us!",
@@ -129,9 +135,17 @@
     "addressShort": "Belarus, Grodno region, Grodno district, Sopotskin s/s, Nemnovo village, 15",
     "howToGet": "How to get there",
     "privacy": "Privacy policy",
+    "personalDataPolicy": "Personal data processing policy",
+    "cookiePolicy": "Cookie policy",
     "copyright": "Nemnovo",
+    "workingHours": "Working hours",
+    "workingHoursValue": "Mon–Sun 9:00–21:00",
+    "phone": "Phone",
+    "phoneValue": "+375 29 123 45 67",
     "legalAddressLabel": "Legal address:",
     "officeAddressLabel": "Office address:",
+    "addressLabel": "Address",
+    "requisites": "Company details",
     "unpLabel": "UNP",
     "okpoLabel": "OKPO"
   },
@@ -157,6 +171,11 @@
     "p2": "The site may use cookies and analytics data (Google Analytics, Yandex Metrica).",
     "p3": "Data from contact forms is used only to respond to your message.",
     "p4": "For data processing enquiries: office@nemnovotour.by."
+  },
+  "cookiePolicy": {
+    "title": "Cookie policy",
+    "p1": "The site uses cookies for operation, analytics and improving user experience.",
+    "p2": "By continuing to use the site, you agree to the use of cookies under this policy."
   },
   "promosSection": {
     "badge": "Promos",

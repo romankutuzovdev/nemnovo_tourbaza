@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import (
     Service, ServiceTranslation,
+    Event, EventTranslation,
     Promo, PromoTranslation,
     PortfolioItem, PortfolioItemImage, PortfolioItemTranslation,
     Review,
@@ -19,6 +20,17 @@ class ServiceTranslationInline(admin.TabularInline):
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ['slug', 'order']
     inlines = [ServiceTranslationInline]
+
+
+class EventTranslationInline(admin.TabularInline):
+    model = EventTranslation
+    extra = 0
+
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ['slug', 'order']
+    inlines = [EventTranslationInline]
 
 
 class PromoTranslationInline(admin.TabularInline):

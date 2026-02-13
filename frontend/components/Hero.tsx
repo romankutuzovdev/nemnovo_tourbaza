@@ -1,12 +1,15 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
+import { ContactFormModal } from '@/components/ContactFormModal'
 
 export function Hero() {
   const t = useTranslations()
   const locale = useLocale()
+  const [modalOpen, setModalOpen] = useState(false)
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-secondary/60 via-white to-secondary/40 pt-24 pb-20">
       <div
@@ -33,11 +36,16 @@ export function Hero() {
           <Link href="#services" className="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-sans text-sm tracking-wide hover:bg-primary/90 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
             {t('hero.cta1')}
           </Link>
-          <Link href={`/${locale}/contact`} className="inline-flex items-center justify-center px-8 py-4 border border-secondary/30 text-black font-sans text-sm tracking-wide hover:border-secondary/50 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
+          <button
+            type="button"
+            onClick={() => setModalOpen(true)}
+            className="inline-flex items-center justify-center px-8 py-4 border border-secondary/30 text-black font-sans text-sm tracking-wide hover:border-secondary/50 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+          >
             {t('hero.cta2')}
-          </Link>
+          </button>
         </div>
       </div>
+      <ContactFormModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
   )
 }

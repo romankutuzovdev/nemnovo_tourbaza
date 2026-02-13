@@ -45,14 +45,22 @@ function SocialLink({ href, label, icon }: { href: string; label: string; icon: 
   )
 }
 
+const SOCIAL_LINKS = [
+  { href: 'https://t.me/nemnovo', label: 'Telegram', icon: 'telegram' as const },
+  { href: 'https://instagram.com/nemnovotour', label: 'Instagram', icon: 'instagram' as const },
+  { href: 'https://vk.com/nemnovotour', label: 'VK', icon: 'vk' as const },
+  { href: 'https://facebook.com/nemnovotour', label: 'Facebook', icon: 'facebook' as const },
+]
+
 const defaultCompany: CompanyInfo = {
   company_name: 'ООО «Немново Тур»',
-  legal_address: 'Республика Беларусь, 230015 г. Гродно, ул. Богуцкого 2/1',
-  office_address: 'Республика Беларусь, 230015 г. Гродно, ул. Богуцкого, 2/1',
+  legal_address: '231734, Гродненская область, Гродненский район д. Немново, 15 – 7',
+  office_address: 'Республика Беларусь, 230002 г. Гродно, ул. Богуцкого, 2/1',
   unp: '591535043',
   okpo: '508605124000',
-  trade_register: 'Дата и номер регистрации в торговом реестре Республики Беларусь: 03.04.2025 г. № 746010',
-  services_register: 'Дата и номер регистрации в реестре бытовых услуг Республики Беларусь: 27.03.2025 г. № 100797',
+  state_registration: 'Свидетельство о государственной регистрации и юридического лица №591535043 от 31.01.2025',
+  trade_register: 'Дата и номер регистрации в торговом реестре Республики Беларусь: 03.04.2025 г. №746010',
+  services_register: 'Дата и номер регистрации в реестре бытовых услуг Республики Беларусь: 27.03.2025 г. №100797',
   contact_email: 'office@nemnovotour.by',
 }
 
@@ -71,12 +79,13 @@ export function Footer() {
 
   return (
     <footer className="bg-secondary/60 border-t border-secondary/10">
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
-          <div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 lg:gap-12">
+          {/* Колонка 1: лого, подпись, кнопка «Как добраться», соцсети */}
+          <div className="flex flex-col">
             <Link
               href={`/${locale}`}
-              className="inline-flex items-center gap-3 font-serif-legacy text-2xl font-medium text-black transition-opacity duration-200 hover:opacity-80"
+              className="inline-flex items-center gap-3 font-serif-legacy text-2xl font-medium text-black transition-opacity duration-200 hover:opacity-80 w-fit"
             >
               <Image
                 src="/logo.png"
@@ -90,8 +99,40 @@ export function Footer() {
             <p className="mt-3 font-sans text-sm text-black/80 max-w-xs">
               {t('footer.slogan')}
             </p>
+            <Link
+              href={`/${locale}/how-to-get`}
+              className="mt-4 inline-flex items-center justify-center px-5 py-2.5 rounded-lg border border-secondary/30 text-black font-sans text-sm font-medium hover:border-primary/50 hover:bg-primary/5 transition-colors w-fit"
+            >
+              {t('footer.howToGet')}
+            </Link>
+            <div className="flex gap-3 mt-6">
+              {SOCIAL_LINKS.map(({ href, label, icon }) => (
+                <SocialLink key={href} href={href} label={label} icon={icon} />
+              ))}
+            </div>
           </div>
-          <div className="font-sans text-sm text-black/80 space-y-2 max-w-sm md:text-right md:ml-auto">
+
+          {/* Колонка 2: время работы, адрес, телефон */}
+          <div className="font-sans text-sm text-black/80 space-y-4">
+            <div>
+              <p className="font-medium text-black mb-1">{t('footer.workingHours')}</p>
+              <p>{t('footer.workingHoursValue')}</p>
+            </div>
+            <div>
+              <p className="font-medium text-black mb-1">{t('footer.addressLabel')}</p>
+              <p>{t('footer.address')}</p>
+            </div>
+            <div>
+              <p className="font-medium text-black mb-1">{t('footer.phone')}</p>
+              <a href={`tel:${t('footer.phoneValue').replace(/\s/g, '')}`} className="hover:text-black transition-colors">
+                {t('footer.phoneValue')}
+              </a>
+            </div>
+          </div>
+
+          {/* Колонка 3: реквизиты, кнопки политик */}
+          <div className="font-sans text-sm text-black/80 space-y-4">
+            <p className="font-medium text-black">{t('footer.requisites')}</p>
             <p className="font-medium text-black">{info.company_name}</p>
             {info.legal_address && (
               <p><span className="text-black/70">{t('footer.legalAddressLabel')}</span> {info.legal_address}</p>
@@ -106,37 +147,33 @@ export function Footer() {
                 {info.okpo && <>{t('footer.okpoLabel')} {info.okpo}</>}
               </p>
             )}
+            {info.state_registration && <p>{info.state_registration}</p>}
             {info.trade_register && <p>{info.trade_register}</p>}
             {info.services_register && <p>{info.services_register}</p>}
-            <a
-              href={`mailto:${info.contact_email}`}
-              className="inline-block font-sans text-black/80 hover:text-black transition-colors duration-200 mt-1"
-            >
+            <a href={`mailto:${info.contact_email}`} className="inline-block text-black/80 hover:text-black transition-colors">
               {info.contact_email}
             </a>
-            <Link
-              href={`/${locale}/how-to-get`}
-              className="block font-sans text-black/80 hover:text-black transition-colors duration-200"
-            >
-              {t('footer.howToGet')}
-            </Link>
-            <div className="flex gap-3 mt-4">
-              <SocialLink href="https://t.me/nemnovotour" label="Telegram" icon="telegram" />
-              <SocialLink href="https://instagram.com/nemnovotour" label="Instagram" icon="instagram" />
-              <SocialLink href="https://vk.com/nemnovotour" label="VK" icon="vk" />
-              <SocialLink href="https://facebook.com/nemnovotour" label="Facebook" icon="facebook" />
+            <div className="flex flex-col gap-2 pt-2">
+              <Link
+                href={`/${locale}/privacy`}
+                className="font-sans text-sm text-black/80 hover:text-black transition-colors underline underline-offset-2"
+              >
+                {t('footer.personalDataPolicy')}
+              </Link>
+              <Link
+                href={`/${locale}/cookie-policy`}
+                className="font-sans text-sm text-black/80 hover:text-black transition-colors underline underline-offset-2"
+              >
+                {t('footer.cookiePolicy')}
+              </Link>
             </div>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-secondary/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+
+        <div className="mt-12 pt-8 border-t border-secondary/10">
           <p className="font-sans text-xs text-black/80">
             © {new Date().getFullYear()} {t('footer.copyright')}
           </p>
-          <div className="flex gap-6">
-            <Link href={`/${locale}/privacy`} className="font-sans text-xs text-black/80 hover:text-black transition-colors duration-200">
-              {t('footer.privacy')}
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

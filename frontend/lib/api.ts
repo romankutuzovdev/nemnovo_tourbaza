@@ -7,7 +7,7 @@ import type { Locale } from './i18n'
 const LOCALES: Locale[] = ['ru', 'be', 'en', 'pl', 'zh']
 
 export function getApiUrl(): string {
-  const url = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+  const url = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000').trim()
   return url.replace(/\/$/, '')
 }
 
@@ -23,6 +23,16 @@ export type ServiceItem = {
 
 /** Ответ /api/services/<slug>/?locale= */
 export type ServiceDetail = ServiceItem & { long_desc: string }
+
+/** Элемент из /api/events/?locale= */
+export type EventItem = {
+  slug: string
+  image: string | null
+  image_url: string
+  order: number
+  title: string
+  short_desc: string
+}
 
 /** Элемент из /api/promos/?locale= */
 export type PromoItem = {
@@ -82,6 +92,13 @@ export async function fetchServiceBySlug(slug: string, locale: Locale): Promise<
   if (res.status === 404) return null
   if (!res.ok) return null
   return res.json().catch(() => null)
+}
+
+export async function fetchEvents(locale: Locale): Promise<EventItem[]> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/events/?locale=${loc}`)
+  if (!res?.ok) return []
+  return res.json().catch(() => [])
 }
 
 export async function fetchPromos(locale: Locale): Promise<PromoItem[]> {
@@ -190,6 +207,7 @@ export type CompanyInfo = {
   office_address: string
   unp: string
   okpo: string
+  state_registration?: string
   trade_register: string
   services_register: string
   contact_email: string

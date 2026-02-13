@@ -42,6 +42,36 @@ class ServiceTranslation(models.Model):
         return f'{self.service.slug} ({self.locale})'
 
 
+class Event(models.Model):
+    """Мероприятие (Марафоны, Турслёт): slug и изображение общие, тексты — по локалям."""
+    slug = models.SlugField(max_length=120, unique=True)
+    image = models.ImageField(upload_to='events/', blank=True, null=True)
+    image_url = models.URLField(blank=True, help_text='Если нет загрузки файла')
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'Мероприятие'
+        verbose_name_plural = 'Мероприятия'
+
+    def __str__(self):
+        return self.slug
+
+
+class EventTranslation(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='translations')
+    locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
+    title = models.CharField(max_length=200)
+    short_desc = models.TextField(blank=True)
+
+    class Meta:
+        unique_together = [('event', 'locale')]
+        ordering = ['event', 'locale']
+
+    def __str__(self):
+        return f'{self.event.slug} ({self.locale})'
+
+
 class Promo(models.Model):
     """Акция: изображение и порядок общие, тексты — по локалям."""
     slug = models.SlugField(max_length=120, unique=True)
@@ -211,6 +241,7 @@ class CompanyInfo(models.Model):
     office_address = models.TextField('Адрес офиса', blank=True)
     unp = models.CharField('УНП', max_length=20, blank=True)
     okpo = models.CharField('ОКПО', max_length=30, blank=True)
+    state_registration = models.CharField('Свидетельство о госрегистрации', max_length=300, blank=True)
     trade_register = models.CharField('Регистрация в торговом реестре', max_length=200, blank=True)
     services_register = models.CharField('Регистрация в реестре бытовых услуг', max_length=200, blank=True)
     contact_email = models.EmailField('Email для контакта', blank=True, default='office@nemnovotour.by')

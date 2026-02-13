@@ -12,10 +12,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Service, Promo, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo
+from .models import Service, Event, Promo, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo
 from .serializers import (
     ServiceListSerializer,
     ServiceDetailSerializer,
+    EventListSerializer,
     PromoListSerializer,
     PromoDetailSerializer,
     PortfolioItemListSerializer,
@@ -90,6 +91,14 @@ def service_detail(request, slug):
     except Service.DoesNotExist:
         return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
     serializer = ServiceDetailSerializer(service, context={'locale': locale})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def event_list(request):
+    locale = get_locale(request)
+    qs = Event.objects.all()
+    serializer = EventListSerializer(qs, many=True, context={'locale': locale})
     return Response(serializer.data)
 
 

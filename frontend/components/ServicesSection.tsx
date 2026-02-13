@@ -20,7 +20,7 @@ export function ServicesSection() {
     <section id="services" className="py-24 md:py-32 bg-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <p className="font-sans text-sm tracking-[0.2em] uppercase text-white/80 mb-4">{t('servicesSection.badge')}</p>
-        <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight max-w-2xl">{t('servicesSection.title')}</h2>
+        <h2 className="font-serif text-3xl md:text-4xl font-medium text-white tracking-tight max-w-2xl">{t('servicesSection.title')}</h2>
         <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {services.map((item) => (
             <div key={item.slug} className="min-w-0">

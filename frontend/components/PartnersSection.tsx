@@ -65,9 +65,11 @@ export function PartnersSection() {
     <section className="py-20 md:py-24 bg-secondary/40 border-y border-secondary/10">
       <div className="max-w-6xl mx-auto px-6">
         <AnimateOnScroll variant="fade-up">
-          <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">
-            {t('badge')}
-          </p>
+          {t('badge') && (
+            <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">
+              {t('badge')}
+            </p>
+          )}
           <h2 className="font-serif text-2xl md:text-3xl font-medium text-black tracking-tight">
             {t('title')}
           </h2>

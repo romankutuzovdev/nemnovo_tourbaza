@@ -56,19 +56,6 @@ export function HowToGetThereSection() {
     navigator.clipboard.writeText(`${address}\nGPS: ${gpsDisplay}; ${gpsDisplayNum}`)
   }, [address, gpsDisplay, gpsDisplayNum])
 
-  if (data && !cities.length) {
-    return (
-      <section id="how-to-get" className="py-16 md:py-24 bg-secondary/40 border-t border-secondary/10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="font-sans text-3xl md:text-4xl font-bold text-black tracking-tight">
-            {t('howToGet.title')}
-          </h2>
-          <p className="mt-4 font-sans text-black/70">{t('howToGet.empty') || 'Раздел «Как добраться» пока не заполнен. Добавьте города в админке.'}</p>
-        </div>
-      </section>
-    )
-  }
-
   return (
     <section id="how-to-get" className="py-16 md:py-24 bg-secondary/40 border-t border-secondary/10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -124,6 +111,8 @@ export function HowToGetThereSection() {
               </a>
             </div>
 
+            {cities.length > 0 ? (
+            <>
             <div className="mt-6 sm:mt-8 flex overflow-x-auto sm:overflow-visible border border-secondary/20 rounded-md overflow-hidden bg-white">
               {cities.map((city) => (
                 <button
@@ -185,6 +174,10 @@ export function HowToGetThereSection() {
                 )
               })}
             </div>
+            </>
+            ) : (
+              <p className="mt-6 font-sans text-black/70">{t('howToGet.empty')}</p>
+            )}
           </>
         )}
       </div>

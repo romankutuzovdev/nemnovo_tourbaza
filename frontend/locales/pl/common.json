@@ -7,6 +7,7 @@
     "portfolio": "Portfolio",
     "reviews": "Opinie",
     "contact": "Kontakt",
+    "agencies": "Dla agencji",
     "promos": "Promocje",
     "news": "Aktualności",
     "howToGet": "Jak dojechać",
@@ -67,6 +68,10 @@
     "allServices": "Wszystkie usługi",
     "more": "Więcej →"
   },
+  "eventsSection": {
+    "badge": "Wydarzenia",
+    "title": "Maratony i biwak"
+  },
   "news": {
     "placeholder": "Sekcja w przygotowaniu."
   },
@@ -96,8 +101,8 @@
     ]
   },
   "partnersSection": {
-    "badge": "Partnerzy",
-    "title": "Z kim współpracujemy",
+    "badge": "",
+    "title": "Nasi klienci",
     "loading": "Ładowanie partnerów…",
     "prevPartner": "Poprzedni partner",
     "nextPartner": "Następny partner"
@@ -128,7 +133,8 @@
     "sending": "Wysyłanie…",
     "sendError": "Nie udało się wysłać",
     "send": "Wyślij",
-    "thanks": "Dziękujemy, otrzymaliśmy wiadomość."
+    "thanks": "Dziękujemy, otrzymaliśmy wiadomość.",
+    "close": "Zamknij"
   },
   "footer": {
     "slogan": "Bliska. Nieznana. Białoruś. Twórz z nami wspomnienia!",
@@ -136,9 +142,17 @@
     "addressShort": "Białoruś, obw. grodzieński, rej. grodzieński, Sopockin s/s, wieś Nemnovo, 15",
     "howToGet": "Dojazd",
     "privacy": "Polityka prywatności",
+    "personalDataPolicy": "Polityka przetwarzania danych osobowych",
+    "cookiePolicy": "Polityka dotycząca plików cookie",
     "copyright": "Nemnovo",
+    "workingHours": "Godziny pracy",
+    "workingHoursValue": "Pn–Nd 9:00–21:00",
+    "phone": "Telefon",
+    "phoneValue": "+375 29 123 45 67",
     "legalAddressLabel": "Adres rejestrowy:",
     "officeAddressLabel": "Adres biura:",
+    "addressLabel": "Adres",
+    "requisites": "Dane firmy",
     "unpLabel": "UNP",
     "okpoLabel": "OKPO"
   },
@@ -164,6 +178,11 @@
     "p2": "Strona może używać cookies i analityki.",
     "p3": "Dane z formularzy służą wyłącznie do odpowiedzi.",
     "p4": "W sprawach danych: office@nemnovotour.by."
+  },
+  "cookiePolicy": {
+    "title": "Polityka dotycząca plików cookie",
+    "p1": "Strona używa plików cookie do działania, analityki i poprawy doświadczenia użytkownika.",
+    "p2": "Kontynuując korzystanie ze strony, zgadzasz się na używanie cookie zgodnie z tą polityką."
   },
   "promosSection": {
     "badge": "Promocje",

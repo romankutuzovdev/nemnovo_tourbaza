@@ -10,7 +10,7 @@ import { LocaleProvider } from '@/contexts/LocaleContext'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { isValidLocale, type Locale } from '@/lib/i18n'
 import { LocaleSetter } from '@/components/LocaleSetter'
-import { fetchServices, fetchPromos, fetchPortfolio } from '@/lib/api'
+import { fetchServices, fetchEvents, fetchPromos, fetchPortfolio } from '@/lib/api'
 
 type Props = { children: React.ReactNode; params: Promise<{ locale: string }> }
 
@@ -33,15 +33,18 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(loc)
 
   let initialServices: Awaited<ReturnType<typeof fetchServices>> = []
+  let initialEvents: Awaited<ReturnType<typeof fetchEvents>> = []
   let initialPromos: Awaited<ReturnType<typeof fetchPromos>> = []
   let initialPortfolio: Awaited<ReturnType<typeof fetchPortfolio>> = []
   try {
-    const [services, promos, portfolio] = await Promise.all([
+    const [services, events, promos, portfolio] = await Promise.all([
       fetchServices(loc),
+      fetchEvents(loc),
       fetchPromos(loc),
       fetchPortfolio(loc),
     ])
     initialServices = services
+    initialEvents = events
     initialPromos = promos
     initialPortfolio = portfolio
   } catch {
@@ -55,6 +58,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <LocaleProvider
         locale={loc}
         initialServices={initialServices}
+        initialEvents={initialEvents}
         initialPromos={initialPromos}
         initialPortfolio={initialPortfolio}
       >

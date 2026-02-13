@@ -7,6 +7,7 @@
     "portfolio": "作品集",
     "reviews": "评价",
     "contact": "联系方式",
+    "agencies": "旅行社",
     "promos": "优惠",
     "news": "新闻",
     "howToGet": "如何到达",
@@ -67,6 +68,10 @@
     "allServices": "全部服务",
     "more": "了解更多 →"
   },
+  "eventsSection": {
+    "badge": "活动",
+    "title": "马拉松和露营"
+  },
   "news": {
     "placeholder": "该板块即将推出。"
   },
@@ -96,8 +101,8 @@
     ]
   },
   "partnersSection": {
-    "badge": "合作伙伴",
-    "title": "我们的合作伙伴",
+    "badge": "",
+    "title": "我们的客户",
     "loading": "加载中…",
     "prevPartner": "上一位",
     "nextPartner": "下一位"
@@ -121,7 +126,8 @@
     "sending": "发送中…",
     "sendError": "发送失败",
     "send": "发送",
-    "thanks": "感谢，我们已收到您的消息。"
+    "thanks": "感谢，我们已收到您的消息。",
+    "close": "关闭"
   },
   "footer": {
     "slogan": "亲近。陌生。白俄罗斯。与我们共创美好回忆！",
@@ -129,9 +135,17 @@
     "addressShort": "白俄罗斯，格罗德诺州，格罗德诺区，索波茨金乡，Nemnovo村15号",
     "howToGet": "如何到达",
     "privacy": "隐私政策",
+    "personalDataPolicy": "个人数据处理政策",
+    "cookiePolicy": "Cookie政策",
     "copyright": "Nemnovo",
+    "workingHours": "营业时间",
+    "workingHoursValue": "周一至周日 9:00–21:00",
+    "phone": "电话",
+    "phoneValue": "+375 29 123 45 67",
     "legalAddressLabel": "注册地址：",
     "officeAddressLabel": "办公地址：",
+    "addressLabel": "地址",
+    "requisites": "公司信息",
     "unpLabel": "УНП",
     "okpoLabel": "ОКПО"
   },
@@ -157,6 +171,11 @@
     "p2": "网站可能使用 cookies 与分析数据。",
     "p3": "表单数据仅用于回复您的消息。",
     "p4": "数据相关咨询：office@nemnovotour.by。"
+  },
+  "cookiePolicy": {
+    "title": "Cookie政策",
+    "p1": "本网站使用 cookie 以确保运营、分析与改善用户体验。",
+    "p2": "继续使用网站即表示您同意根据本政策使用 cookie。"
   },
   "promosSection": {
     "badge": "优惠",

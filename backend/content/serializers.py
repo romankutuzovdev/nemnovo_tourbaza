@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import (
     Service, ServiceTranslation,
+    Event, EventTranslation,
     Promo, PromoTranslation,
     PortfolioItem, PortfolioItemImage, PortfolioItemTranslation,
     Review,
@@ -76,6 +77,23 @@ class ServiceDetailSerializer(serializers.ModelSerializer):
 def _locale_translation(queryset, locale):
     t = queryset.filter(locale=locale).first()
     return t or queryset.filter(locale='ru').first()
+
+
+class EventListSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    short_desc = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Event
+        fields = ['slug', 'image', 'image_url', 'order', 'title', 'short_desc']
+
+    def get_title(self, obj):
+        t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
+        return t.title if t else obj.slug
+
+    def get_short_desc(self, obj):
+        t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
+        return t.short_desc if t else ''
 
 
 class PromoListSerializer(serializers.ModelSerializer):
@@ -225,5 +243,5 @@ class CompanyInfoSerializer(serializers.ModelSerializer):
         model = CompanyInfo
         fields = [
             'company_name', 'legal_address', 'office_address',
-            'unp', 'okpo', 'trade_register', 'services_register', 'contact_email',
+            'unp', 'okpo', 'state_registration', 'trade_register', 'services_register', 'contact_email',
         ]
