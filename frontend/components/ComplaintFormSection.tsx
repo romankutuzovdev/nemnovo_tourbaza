@@ -34,7 +34,7 @@ export function ComplaintFormSection() {
           <p className="font-sans text-black/80">{t('contact.thanks')}</p>
         ) : (
           <form className="space-y-4 max-w-xl" onSubmit={(e) => { e.preventDefault(); handleSubmit(e.currentTarget) }} action="#" method="post">
-            <input type="hidden" name="_to" value="marketingnemnovo@list.ru" />
+            <input type="hidden" name="_to" value="marketing@nemnovo.by" />
             <div>
               <label htmlFor="comp-name" className="block font-sans text-sm text-black/80 mb-1">{t('contact.nameLabel')}</label>
               <input id="comp-name" name="name" type="text" required className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/80/60 focus:outline-none focus:border-secondary/50" placeholder={t('contact.namePlaceholder')} />

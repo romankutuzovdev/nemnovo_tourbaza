@@ -3,6 +3,7 @@
     "home": "Strona główna",
     "menuOpen": "Menu",
     "services": "Usługi",
+    "events": "Wydarzenia",
     "about": "O nas",
     "portfolio": "Portfolio",
     "reviews": "Opinie",
@@ -70,10 +71,15 @@
   },
   "eventsSection": {
     "badge": "Wydarzenia",
-    "title": "Maratony i biwak"
+    "title": "Maratony i biwak",
+    "allEvents": "Wszystkie wydarzenia",
+    "more": "Więcej →"
   },
-  "news": {
-    "placeholder": "Sekcja w przygotowaniu."
+  "newsSection": {
+    "badge": "Aktualności",
+    "title": "Aktualności",
+    "more": "Czytaj więcej →",
+    "noNews": "Brak aktualności."
   },
   "reviewsSection": {
     "badge": "Opinie",
@@ -119,7 +125,7 @@
     "title": "Skontaktuj się",
     "intro": "Zapytania: office@nemnovotour.by. Skargi i sugestie na osobny adres.",
     "inboxNote": "Zapytania trafiają na office@nemnovotour.by. Odpowiemy w ciągu dnia.",
-    "complaintIntro": "Skargi i sugestie trafiają na marketingnemnovo@list.ru.",
+    "complaintIntro": "Skargi i sugestie trafiają na marketing@nemnovo.by.",
     "formMain": "Rezerwacja / zapytanie",
     "formComplaint": "Skargi i sugestie",
     "nameLabel": "Imię",
@@ -137,7 +143,7 @@
     "close": "Zamknij"
   },
   "footer": {
-    "slogan": "Bliska. Nieznana. Białoruś. Twórz z nami wspomnienia!",
+    "slogan": "Bliska. Nieznana. Białoruś.\nTwórz z nami wspomnienia!",
     "address": "Białoruś, obw. grodzieński, rej. grodzieński, Sopockin s/s, wieś Nemnovo, 15. GPS: 53°51′47″N, 23°45′44″E",
     "addressShort": "Białoruś, obw. grodzieński, rej. grodzieński, Sopockin s/s, wieś Nemnovo, 15",
     "howToGet": "Dojazd",
@@ -189,17 +195,45 @@
     "title": "Korzystne oferty"
   },
   "portfolioSection": {
-    "badge": "Portfolio",
-    "title": "Relacje zdjęciowe z wydarzeń",
+    "badge": "Relacje zdjęciowe z wydarzeń",
+    "title": "Portfolio",
     "description": "Zdjęcia z imprez i wyjazdów. Można pobrać album przyciskiem.",
     "button": "Pobierz zdjęcia z wydarzenia",
     "pinnedBadge": "Przypięte",
     "photos": "zdjęć",
     "backToPortfolio": "Portfolio"
   },
+  "agencies": {
+    "badge": "Dla partnerów",
+    "title": "Dla agencji",
+    "intro": "Baza turystyczna «Nemnovo» zaprasza biura podróży do współpracy i oferuje korzystne warunki. Organizujemy wypoczynek i wydarzenia na Białorusi — otrzymujesz prowizję od każdej sprzedaży.",
+    "whyTitle": "Dlaczego wybierają nas?",
+    "why1": "Oficjalna działalność — działamy w ramach prawa, gotowi do przejrzystej współpracy z agencjami.",
+    "why2": "Korzystne warunki — prowizja dla partnerów i elastyczne oferty dla Twoich klientów.",
+    "why3": "Wycieczki i wydarzenia bez zbędnych odwołań — niezawodność dla Twoich turystów.",
+    "why4": "Aktualne informacje o dostępności i warunkach — szybko odpowiadamy i pomagamy w doborze.",
+    "why5": "Wsparcie menedżerów — nasz zespół jest w kontakcie, gotowy odpowiedzieć na pytania i pomóc w sprzedaży.",
+    "why6": "Małe grupy i indywidualne podejście — komfort i uwaga dla każdego gościa.",
+    "howTitle": "Jak rozpocząć współpracę?",
+    "howIntro": "Jeśli jesteś zainteresowany partnerstwem:",
+    "howStep1": "Skontaktuj się z nami telefonicznie lub mailowo, aby uzyskać szczegóły i warunki.",
+    "howStep2": "Wypełnij wymagane dokumenty i wyślij na nasz adres (na życzenie prześlemy szablony).",
+    "howOutro": "Cenimy długoterminowe i mutually beneficial relacje i jesteśmy gotowi wspierać Twoje biuro w zwiększaniu przychodów!",
+    "ctaTitle": "Czekamy na Twoje zapytania!",
+    "ctaPhone": "Telefon",
+    "ctaEmail": "Email",
+    "phoneValue": "+375 29 123 45 67",
+    "emailValue": "office@nemnovotour.by"
+  },
   "common": {
     "allServices": "Wszystkie usługi",
     "otherServices": "Wszystkie usługi",
-    "toServicesPage": "Strona «Co oferujemy»"
+    "toServicesPage": "Strona «Co oferujemy»",
+    "allEvents": "Wszystkie wydarzenia",
+    "otherEvents": "Inne wydarzenia",
+    "toEventsPage": "Strona «Maratony i biwak»",
+    "allNews": "Wszystkie aktualności",
+    "otherNews": "Inne aktualności",
+    "toNewsPage": "Strona «Aktualności»"
   }
 }

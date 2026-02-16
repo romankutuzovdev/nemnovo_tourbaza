@@ -92,9 +92,6 @@ export function ReviewsListSection() {
   return (
     <section id="reviews-list" className="py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">
-          {t('badge')}
-        </p>
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight max-w-2xl mb-8 md:mb-10">
           {t('title')}
         </h2>

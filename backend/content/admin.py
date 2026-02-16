@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import (
     Service, ServiceTranslation,
     Event, EventTranslation,
+    News, NewsTranslation,
     Promo, PromoTranslation,
     PortfolioItem, PortfolioItemImage, PortfolioItemTranslation,
     Review,
@@ -31,6 +32,19 @@ class EventTranslationInline(admin.TabularInline):
 class EventAdmin(admin.ModelAdmin):
     list_display = ['slug', 'order']
     inlines = [EventTranslationInline]
+
+
+class NewsTranslationInline(admin.TabularInline):
+    model = NewsTranslation
+    extra = 0
+
+
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ['slug', 'order', 'is_published', 'created_at']
+    list_filter = ['is_published']
+    list_editable = ['order', 'is_published']
+    inlines = [NewsTranslationInline]
 
 
 class PromoTranslationInline(admin.TabularInline):

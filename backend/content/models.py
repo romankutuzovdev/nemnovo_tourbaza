@@ -63,6 +63,7 @@ class EventTranslation(models.Model):
     locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
     title = models.CharField(max_length=200)
     short_desc = models.TextField(blank=True)
+    long_desc = models.TextField(blank=True, help_text='Расширенное описание для страницы мероприятия')
 
     class Meta:
         unique_together = [('event', 'locale')]
@@ -232,6 +233,39 @@ class HowToGetRouteTranslation(models.Model):
 
     def __str__(self):
         return f'{self.route} ({self.locale})'
+
+
+class News(models.Model):
+    """Новость: slug и изображение общие, тексты — по локалям в NewsTranslation."""
+    slug = models.SlugField(max_length=120, unique=True)
+    image = models.ImageField(upload_to='news/', blank=True, null=True)
+    image_url = models.URLField(blank=True, help_text='Если нет загрузки файла')
+    order = models.PositiveIntegerField(default=0)
+    is_published = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at', 'order', 'id']
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
+
+    def __str__(self):
+        return self.slug
+
+
+class NewsTranslation(models.Model):
+    news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='translations')
+    locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
+    title = models.CharField(max_length=200)
+    short_desc = models.TextField(blank=True)
+    long_desc = models.TextField(blank=True, help_text='Полный текст новости')
+
+    class Meta:
+        unique_together = [('news', 'locale')]
+        ordering = ['news', 'locale']
+
+    def __str__(self):
+        return f'{self.news.slug} ({self.locale})'
 
 
 class CompanyInfo(models.Model):

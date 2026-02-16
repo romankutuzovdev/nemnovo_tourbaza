@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
@@ -49,13 +50,25 @@ const SOCIAL_LINKS: { href: string; label: string; icon: keyof typeof SOCIAL_ICO
 
 const SCROLL_THRESHOLD = 60
 
+/** Текущий путь без сегмента локали (например, /services/foo). */
+function pathWithoutLocale(pathname: string, locale: string): string {
+  const prefix = `/${locale}`
+  if (pathname === prefix || pathname.startsWith(prefix + '/')) {
+    return pathname.slice(prefix.length) || '/'
+  }
+  return '/'
+}
+
 export function Header() {
   const locale = useLocale()
+  const pathname = usePathname()
   const t = useTranslations()
   const { isAuthenticated } = useAuth()
   const [open, setOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+
+  const pathForLocale = (loc: string) => `/${loc}${pathWithoutLocale(pathname ?? '', locale)}`
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD)
@@ -67,13 +80,14 @@ export function Header() {
   const nav = [
     { href: `/${locale}/about`, label: t('nav.about') },
     { href: `/${locale}/services`, label: t('nav.services') },
+    { href: `/${locale}/events`, label: t('nav.events') },
     { href: `/${locale}/portfolio`, label: t('nav.portfolio') },
     { href: `/${locale}/promos`, label: t('nav.promos') },
     { href: `/${locale}/news`, label: t('nav.news') },
     { href: `/${locale}/how-to-get`, label: t('nav.howToGet') },
     { href: `/${locale}/reviews`, label: t('nav.reviews') },
     { href: `/${locale}/contact`, label: t('nav.contact') },
-    { href: 'https://nemnovotour.by/', label: t('nav.agencies'), external: true },
+    { href: `/${locale}/agencies`, label: t('nav.agencies') },
   ]
   const authLink = isAuthenticated
     ? { href: `/${locale}/cabinet`, label: t('nav.cabinet') }
@@ -196,7 +210,7 @@ export function Header() {
                       {locales.map((loc) => (
                         <li key={loc}>
                           <Link
-                            href={`/${loc}`}
+                            href={pathForLocale(loc)}
                             className={`block px-3 py-2 font-sans text-sm ${locale === loc ? 'text-black font-medium' : 'text-black/80'}`}
                             onClick={() => setLangOpen(false)}
                           >
@@ -252,7 +266,7 @@ export function Header() {
                   {locales.map((loc) => (
                     <li key={loc} role="none">
                       <Link
-                        href={`/${loc}`}
+                        href={pathForLocale(loc)}
                         role="menuitem"
                         className={`block px-4 py-2 font-sans text-sm hover:bg-secondary/50 ${locale === loc ? 'text-black font-medium' : 'text-black/80'}`}
                         onClick={() => setLangOpen(false)}
@@ -311,7 +325,7 @@ export function Header() {
               {locales.map((loc) => (
                 <Link
                   key={loc}
-                  href={`/${loc}`}
+                  href={pathForLocale(loc)}
                   className={`font-sans text-sm px-3 py-1.5 rounded border ${locale === loc ? 'border-primary text-black' : 'border-secondary/30 text-black/80'}`}
                   onClick={() => setOpen(false)}
                 >

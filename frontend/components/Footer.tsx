@@ -96,7 +96,7 @@ export function Footer() {
               />
               {t('footer.copyright')}
             </Link>
-            <p className="mt-3 font-sans text-sm text-black/80 max-w-xs">
+            <p className="mt-3 font-sans text-sm text-black/80 max-w-xs whitespace-pre-line">
               {t('footer.slogan')}
             </p>
             <Link

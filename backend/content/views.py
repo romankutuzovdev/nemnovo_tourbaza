@@ -12,11 +12,14 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Service, Event, Promo, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo
+from .models import Service, Event, News, Promo, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo
 from .serializers import (
     ServiceListSerializer,
     ServiceDetailSerializer,
     EventListSerializer,
+    EventDetailSerializer,
+    NewsListSerializer,
+    NewsDetailSerializer,
     PromoListSerializer,
     PromoDetailSerializer,
     PortfolioItemListSerializer,
@@ -98,7 +101,37 @@ def service_detail(request, slug):
 def event_list(request):
     locale = get_locale(request)
     qs = Event.objects.all()
-    serializer = EventListSerializer(qs, many=True, context={'locale': locale})
+    serializer = EventListSerializer(qs, many=True, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def event_detail(request, slug):
+    locale = get_locale(request)
+    try:
+        event = Event.objects.get(slug=slug)
+    except Event.DoesNotExist:
+        return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+    serializer = EventDetailSerializer(event, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def news_list(request):
+    locale = get_locale(request)
+    qs = News.objects.filter(is_published=True)
+    serializer = NewsListSerializer(qs, many=True, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def news_detail(request, slug):
+    locale = get_locale(request)
+    try:
+        news = News.objects.get(slug=slug, is_published=True)
+    except News.DoesNotExist:
+        return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+    serializer = NewsDetailSerializer(news, context={'locale': locale, 'request': request})
     return Response(serializer.data)
 
 

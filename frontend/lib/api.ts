@@ -34,6 +34,43 @@ export type EventItem = {
   short_desc: string
 }
 
+/** Ответ /api/events/<slug>/?locale= */
+export type EventDetail = EventItem & { long_desc: string }
+
+/** Элемент из /api/news/?locale= */
+export type NewsItem = {
+  slug: string
+  image: string | null
+  image_url: string
+  order: number
+  title: string
+  short_desc: string
+  created_at: string
+}
+
+/** Ответ /api/news/<slug>/?locale= */
+export type NewsDetail = NewsItem & { long_desc: string }
+
+/** URL картинки новости: приоритет у загруженного image, иначе image_url */
+export function getNewsImageSrc(item: { image: string | null; image_url: string }): string {
+  if (item.image) {
+    if (item.image.startsWith('http')) return item.image
+    const path = item.image.startsWith('/') ? item.image : `/${item.image}`
+    return `${getApiUrl()}${path}`
+  }
+  return item.image_url || ''
+}
+
+/** URL картинки мероприятия: приоритет у загруженного image, иначе image_url */
+export function getEventImageSrc(item: { image: string | null; image_url: string }): string {
+  if (item.image) {
+    if (item.image.startsWith('http')) return item.image
+    const path = item.image.startsWith('/') ? item.image : `/${item.image}`
+    return `${getApiUrl()}${path}`
+  }
+  return item.image_url || ''
+}
+
 /** Элемент из /api/promos/?locale= */
 export type PromoItem = {
   slug: string
@@ -99,6 +136,31 @@ export async function fetchEvents(locale: Locale): Promise<EventItem[]> {
   const res = await apiFetch(`${getApiUrl()}/api/events/?locale=${loc}`)
   if (!res?.ok) return []
   return res.json().catch(() => [])
+}
+
+export async function fetchEventBySlug(slug: string, locale: Locale): Promise<EventDetail | null> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/events/${encodeURIComponent(slug)}/?locale=${loc}`)
+  if (!res) return null
+  if (res.status === 404) return null
+  if (!res.ok) return null
+  return res.json().catch(() => null)
+}
+
+export async function fetchNews(locale: Locale): Promise<NewsItem[]> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/news/?locale=${loc}`)
+  if (!res?.ok) return []
+  return res.json().catch(() => [])
+}
+
+export async function fetchNewsBySlug(slug: string, locale: Locale): Promise<NewsDetail | null> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/news/${encodeURIComponent(slug)}/?locale=${loc}`)
+  if (!res) return null
+  if (res.status === 404) return null
+  if (!res.ok) return null
+  return res.json().catch(() => null)
 }
 
 export async function fetchPromos(locale: Locale): Promise<PromoItem[]> {

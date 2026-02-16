@@ -9,6 +9,8 @@
 /privacy    /ru/privacy   302
 /services    /ru/services   302
 /services/*    /ru/services/:splat   302
+/events    /ru/events   302
+/events/*    /ru/events/:splat   302
 /register    /ru/register   302
 /login    /ru/login   302
 /forgot-password    /ru/forgot-password   302

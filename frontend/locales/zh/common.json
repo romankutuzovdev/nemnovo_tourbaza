@@ -3,6 +3,7 @@
     "home": "首页",
     "menuOpen": "菜单",
     "services": "服务",
+    "events": "活动",
     "about": "关于我们",
     "portfolio": "作品集",
     "reviews": "评价",
@@ -70,10 +71,15 @@
   },
   "eventsSection": {
     "badge": "活动",
-    "title": "马拉松和露营"
+    "title": "马拉松和露营",
+    "allEvents": "全部活动",
+    "more": "了解更多 →"
   },
-  "news": {
-    "placeholder": "该板块即将推出。"
+  "newsSection": {
+    "badge": "新闻",
+    "title": "新闻",
+    "more": "了解更多 →",
+    "noNews": "暂无新闻。"
   },
   "reviewsSection": {
     "badge": "评价",
@@ -112,7 +118,7 @@
     "title": "联系我们",
     "intro": "申请发送至 office@nemnovotour.by。投诉与建议发至单独邮箱。",
     "inboxNote": "申请发送至 office@nemnovotour.by，我们将在当日回复。",
-    "complaintIntro": "投诉与建议发送至 marketingnemnovo@list.ru。",
+    "complaintIntro": "投诉与建议发送至 marketing@nemnovo.by。",
     "formMain": "预订 / 咨询",
     "formComplaint": "投诉与建议",
     "nameLabel": "姓名",
@@ -130,7 +136,7 @@
     "close": "关闭"
   },
   "footer": {
-    "slogan": "亲近。陌生。白俄罗斯。与我们共创美好回忆！",
+    "slogan": "亲近。陌生。白俄罗斯。\n与我们共创美好回忆！",
     "address": "白俄罗斯，格罗德诺州，格罗德诺区，索波茨金乡，Nemnovo村15号。GPS: 53°51′47″N, 23°45′44″E",
     "addressShort": "白俄罗斯，格罗德诺州，格罗德诺区，索波茨金乡，Nemnovo村15号",
     "howToGet": "如何到达",
@@ -182,17 +188,45 @@
     "title": "优惠活动"
   },
   "portfolioSection": {
-    "badge": "作品集",
-    "title": "活动照片集",
+    "badge": "活动照片集",
+    "title": "作品集",
     "description": "活动和出行的照片。可以通过按钮下载相册。",
     "button": "下载活动照片",
     "pinnedBadge": "置顶",
     "photos": "张照片",
     "backToPortfolio": "作品集"
   },
+  "agencies": {
+    "badge": "合作伙伴",
+    "title": "旅行社",
+    "intro": "涅姆诺沃旅游基地诚邀旅行社合作，提供优惠合作条件。我们组织白俄罗斯的休闲与活动 — 您可从每笔销售获得佣金。",
+    "whyTitle": "为什么选择我们？",
+    "why1": "正规经营 — 在法律框架内运营，愿与旅行社透明合作。",
+    "why2": "优惠条件 — 合作伙伴佣金及针对您客户的灵活方案。",
+    "why3": "行程与活动尽量减少取消 — 为您的游客提供可靠服务。",
+    "why4": "及时提供空位与条件信息 — 快速回复并协助选择。",
+    "why5": "客户经理支持 — 团队随时在线，解答问题并协助销售。",
+    "why6": "小团与个性化服务 — 为每位客人提供舒适与关注。",
+    "howTitle": "如何开始合作？",
+    "howIntro": "若您有意合作：",
+    "howStep1": "请通过电话或邮件联系我们以确认细节与条款。",
+    "howStep2": "填写所需文件并寄至我方地址（可应要求提供模板）。",
+    "howOutro": "我们重视长期互利关系，愿支持贵社提升收入！",
+    "ctaTitle": "期待您的咨询！",
+    "ctaPhone": "电话",
+    "ctaEmail": "邮箱",
+    "phoneValue": "+375 29 123 45 67",
+    "emailValue": "office@nemnovotour.by"
+  },
   "common": {
     "allServices": "全部服务",
     "otherServices": "全部服务",
-    "toServicesPage": "前往「我们提供的服务」"
+    "toServicesPage": "前往「我们提供的服务」",
+    "allEvents": "全部活动",
+    "otherEvents": "其他活动",
+    "toEventsPage": "前往「马拉松和露营」",
+    "allNews": "全部新闻",
+    "otherNews": "其他新闻",
+    "toNewsPage": "前往「新闻」"
   }
 }
