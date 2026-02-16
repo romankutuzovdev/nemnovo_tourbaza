@@ -1,3 +1,4 @@
+from django.conf import settings as django_settings
 from rest_framework import serializers
 from .models import (
     Service, ServiceTranslation,
@@ -12,6 +13,28 @@ from .models import (
 )
 
 
+def _build_media_url(request, image_field):
+    """Полный URL загруженного изображения. Путь всегда /media/ + name (name = news/file.png)."""
+    if not image_field:
+        return None
+    name = (getattr(image_field, 'name', None) or '').strip().lstrip('/')
+    if not name and hasattr(image_field, 'url'):
+        try:
+            raw = (image_field.url or '').strip().lstrip('/')
+            if raw and not raw.startswith(('http://', 'https://')):
+                prefix = django_settings.MEDIA_URL.strip('/')
+                name = raw[len(prefix):].lstrip('/') if raw.startswith(prefix) else raw
+        except Exception:
+            pass
+    if not name:
+        return None
+    media = django_settings.MEDIA_URL.strip('/')
+    path = '/' + media + '/' + name
+    if request:
+        return request.build_absolute_uri(path)
+    return path
+
+
 class ServiceTranslationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceTranslation
@@ -22,6 +45,7 @@ class ServiceListSerializer(serializers.ModelSerializer):
     """Список услуг: один объект с полями перевода для запрошенной локали."""
     title = serializers.SerializerMethodField()
     short_desc = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
@@ -44,12 +68,18 @@ class ServiceListSerializer(serializers.ModelSerializer):
         t = self._get_translation(obj)
         return t.short_desc if t else ''
 
+    def get_image(self, obj):
+        if obj.image:
+            return _build_media_url(self.context.get('request'), obj.image)
+        return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
+
 
 class ServiceDetailSerializer(serializers.ModelSerializer):
     """Одна услуга с полным переводом для локали."""
     title = serializers.SerializerMethodField()
     short_desc = serializers.SerializerMethodField()
     long_desc = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
@@ -73,6 +103,11 @@ class ServiceDetailSerializer(serializers.ModelSerializer):
     def get_long_desc(self, obj):
         t = self._get_translation(obj)
         return t.long_desc if t else ''
+
+    def get_image(self, obj):
+        if obj.image:
+            return _build_media_url(self.context.get('request'), obj.image)
+        return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
 
 
 def _locale_translation(queryset, locale):
@@ -99,10 +134,7 @@ class EventListSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         if obj.image:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.image.url)
-            return obj.image.url
+            return _build_media_url(self.context.get('request'), obj.image)
         return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
 
 
@@ -130,10 +162,7 @@ class EventDetailSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         if obj.image:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.image.url)
-            return obj.image.url
+            return _build_media_url(self.context.get('request'), obj.image)
         return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
 
 
@@ -157,10 +186,7 @@ class NewsListSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         if obj.image:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.image.url)
-            return obj.image.url
+            return _build_media_url(self.context.get('request'), obj.image)
         return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
 
 
@@ -189,16 +215,14 @@ class NewsDetailSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         if obj.image:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.image.url)
-            return obj.image.url
+            return _build_media_url(self.context.get('request'), obj.image)
         return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
 
 
 class PromoListSerializer(serializers.ModelSerializer):
     title = serializers.SerializerMethodField()
     short_desc = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Promo
@@ -212,11 +236,17 @@ class PromoListSerializer(serializers.ModelSerializer):
         t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
         return t.short_desc if t else ''
 
+    def get_image(self, obj):
+        if obj.image:
+            return _build_media_url(self.context.get('request'), obj.image)
+        return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
+
 
 class PromoDetailSerializer(serializers.ModelSerializer):
     title = serializers.SerializerMethodField()
     short_desc = serializers.SerializerMethodField()
     long_desc = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Promo
@@ -234,10 +264,16 @@ class PromoDetailSerializer(serializers.ModelSerializer):
         t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
         return t.long_desc if t else ''
 
+    def get_image(self, obj):
+        if obj.image:
+            return _build_media_url(self.context.get('request'), obj.image)
+        return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
+
 
 class PortfolioItemListSerializer(serializers.ModelSerializer):
     title = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = PortfolioItem
@@ -251,19 +287,30 @@ class PortfolioItemListSerializer(serializers.ModelSerializer):
         t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
         return t.description if t else ''
 
+    def get_image(self, obj):
+        if obj.image:
+            return _build_media_url(self.context.get('request'), obj.image)
+        return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
+
 
 def _portfolio_image_urls(item, request):
-    """Список URL всех фото мероприятия: главное + image_urls + PortfolioItemImage."""
+    """Список URL всех фото: приоритет у загруженного image, затем image_url, image_urls, PortfolioItemImage."""
     urls = []
     if request:
         if item.image:
-            urls.append(request.build_absolute_uri(item.image.url))
-        if item.image_url:
+            u = _build_media_url(request, item.image)
+            if u:
+                urls.append(u)
+        elif item.image_url:
             urls.append(item.image_url)
+    if not urls and item.image_url:
+        urls.append(item.image_url)
     urls.extend(item.image_urls or [])
     for img in item.images.all():
         if img.image and request:
-            urls.append(request.build_absolute_uri(img.image.url))
+            u = _build_media_url(request, img.image)
+            if u:
+                urls.append(u)
         elif img.image_url:
             urls.append(img.image_url)
     return urls
@@ -304,10 +351,7 @@ class PartnerSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'logo_display', 'link', 'order']
 
     def get_logo_display(self, obj):
-        request = self.context.get('request')
-        if obj.logo and request:
-            return request.build_absolute_uri(obj.logo.url)
-        return None
+        return _build_media_url(self.context.get('request'), obj.logo) if obj.logo else None
 
 
 def _locale_translation_how(queryset, locale):

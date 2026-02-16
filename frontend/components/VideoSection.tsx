@@ -7,9 +7,6 @@ export function VideoSection() {
     <section className="py-16 md:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
-          <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">
-            Видео
-          </p>
           <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight">
             Презентация турбазы
           </h2>

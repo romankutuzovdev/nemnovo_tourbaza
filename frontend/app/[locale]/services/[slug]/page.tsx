@@ -2,17 +2,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { fetchServiceBySlug, fetchServices, getApiUrl } from '@/lib/api'
+import { fetchServiceBySlug, fetchServices, getServiceImageSrc } from '@/lib/api'
 import { isValidLocale, type Locale } from '@/lib/i18n'
 import type { Metadata } from 'next'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
-
-function serviceImageSrc(item: { image: string | null; image_url: string }): string {
-  if (item.image_url) return item.image_url
-  if (item.image?.startsWith('http')) return item.image
-  return item.image ? `${getApiUrl()}${item.image}` : ''
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
@@ -55,7 +49,7 @@ export default async function ServicePage({ params }: Props) {
   const blocks = parseServiceItems(service.long_desc)
   const serviceTitle = service.title
   const serviceShortDesc = service.short_desc
-  const imageSrc = serviceImageSrc(service)
+  const imageSrc = getServiceImageSrc(service)
 
   return (
     <div className="pt-24 pb-24 md:pb-32 min-h-screen bg-white">
@@ -132,7 +126,7 @@ export default async function ServicePage({ params }: Props) {
                     }`}
                   >
                     <Image
-                      src={serviceImageSrc(item)}
+                      src={getServiceImageSrc(item)}
                       alt={item.title}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

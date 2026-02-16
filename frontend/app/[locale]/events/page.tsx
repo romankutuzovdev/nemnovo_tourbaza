@@ -23,9 +23,6 @@ export default function EventsPage() {
       </header>
       <section className="py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <p className="font-sans text-sm tracking-[0.2em] uppercase text-white/80 mb-4">
-            {t('eventsSection.badge')}
-          </p>
           <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight max-w-2xl mb-8 md:mb-10">
             {t('eventsSection.title')}
           </h1>

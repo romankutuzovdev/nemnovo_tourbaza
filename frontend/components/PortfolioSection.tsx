@@ -5,14 +5,7 @@ import Link from 'next/link'
 import { AnimateOnScroll } from './AnimateOnScroll'
 import { useTranslations } from 'next-intl'
 import { useLocale, usePortfolio } from '@/contexts/LocaleContext'
-import { getApiUrl } from '@/lib/api'
-import type { PortfolioItem as PortfolioItemType } from '@/lib/api'
-
-function portfolioImageSrc(item: PortfolioItemType): string {
-  if (item.image_url) return item.image_url
-  if (item.image?.startsWith('http')) return item.image
-  return item.image ? `${getApiUrl()}${item.image}` : ''
-}
+import { getPortfolioImageSrc } from '@/lib/api'
 
 /** Формат даты DD.MM.YYYY одинаково на сервере и клиенте (без hydration mismatch). */
 function formatEventDate(isoDate: string): string {
@@ -32,9 +25,6 @@ export function PortfolioSection() {
     <section id="portfolio" className="py-16 md:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
-          <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">
-            {t('portfolioSection.badge')}
-          </p>
           <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight max-w-2xl">
             {t('portfolioSection.title')}
           </h2>
@@ -44,7 +34,7 @@ export function PortfolioSection() {
         </AnimateOnScroll>
         <div className="mt-12 grid sm:grid-cols-2 md:grid-cols-3 gap-6">
           {portfolio.map((item, i) => {
-            const src = portfolioImageSrc(item)
+            const src = getPortfolioImageSrc(item)
             return (
               <AnimateOnScroll key={item.slug} variant="fade-up" delay={i * 100}>
                 <Link href={`/${locale}/portfolio/${item.slug}`} className="block">

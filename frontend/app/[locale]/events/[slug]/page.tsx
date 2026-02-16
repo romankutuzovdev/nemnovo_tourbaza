@@ -61,9 +61,6 @@ export default async function EventPage({ params }: Props) {
               aria-hidden
             />
             <div className="absolute inset-x-0 bottom-0 p-6 md:p-10">
-              <span className="font-sans text-xs tracking-[0.2em] uppercase text-white/80 mb-2 block">
-                {t('eventsSection.badge')}
-              </span>
               <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight">
                 {eventTitle}
               </h1>

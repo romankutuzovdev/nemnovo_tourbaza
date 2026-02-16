@@ -6,9 +6,14 @@ import { useTranslations } from 'next-intl'
 import { useLocale, useNews } from '@/contexts/LocaleContext'
 import { getNewsImageSrc } from '@/lib/api'
 
-function formatNewsDate(iso: string) {
+function formatNewsDate(iso: string, short = false) {
   try {
     const d = new Date(iso)
+    if (short) {
+      const day = String(d.getDate()).padStart(2, '0')
+      const month = String(d.getMonth() + 1).padStart(2, '0')
+      return `${day}.${month}.${d.getFullYear()}`
+    }
     return d.toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })
   } catch {
     return iso
@@ -32,9 +37,6 @@ export default function NewsPage() {
       </header>
       <section className="py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <p className="font-sans text-sm tracking-[0.2em] uppercase text-white/80 mb-4">
-            {t('newsSection.badge')}
-          </p>
           <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight max-w-2xl mb-8 md:mb-10">
             {t('newsSection.title')}
           </h1>
@@ -56,18 +58,19 @@ export default function NewsPage() {
                   ) : (
                     <div className="absolute inset-0 bg-primary/80" aria-hidden />
                   )}
-                  <span className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" aria-hidden />
-                  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 md:p-6 flex flex-col justify-end">
-                    <time className="font-sans text-xs text-white/80 mb-1" dateTime={item.created_at}>
-                      {formatNewsDate(item.created_at)}
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/85 from-40% via-black/40 to-transparent" aria-hidden />
+                  <div className="absolute inset-x-0 bottom-0 min-h-[50%] sm:min-h-0 flex flex-col justify-end p-4 pt-10 pb-4 sm:pt-5 sm:pb-5 md:p-6">
+                    <time className="font-sans text-xs text-white/80 mb-1.5 shrink-0 whitespace-nowrap" dateTime={item.created_at}>
+                      <span className="sm:hidden">{formatNewsDate(item.created_at, true)}</span>
+                      <span className="hidden sm:inline">{formatNewsDate(item.created_at)}</span>
                     </time>
-                    <h2 className="font-serif text-xl sm:text-2xl font-medium text-white tracking-tight line-clamp-2">
+                    <h2 className="font-serif text-lg sm:text-xl md:text-2xl font-medium text-white tracking-tight line-clamp-2">
                       {item.title}
                     </h2>
-                    <p className="mt-1.5 font-sans text-sm text-white/90 leading-snug line-clamp-2">
+                    <p className="mt-1 sm:mt-1.5 font-sans text-sm text-white/90 leading-snug line-clamp-2">
                       {item.short_desc}
                     </p>
-                    <span className="mt-3 font-sans text-xs sm:text-sm text-white/80 group-hover:text-white transition-colors">
+                    <span className="mt-2 sm:mt-3 font-sans text-xs sm:text-sm text-white/80 group-hover:text-white transition-colors shrink-0">
                       {t('newsSection.more')}
                     </span>
                   </div>

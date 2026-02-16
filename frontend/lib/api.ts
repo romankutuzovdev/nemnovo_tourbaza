@@ -7,8 +7,10 @@ import type { Locale } from './i18n'
 const LOCALES: Locale[] = ['ru', 'be', 'en', 'pl', 'zh']
 
 export function getApiUrl(): string {
-  const url = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000').trim()
-  return url.replace(/\/$/, '')
+  const raw = process.env.NEXT_PUBLIC_API_URL
+  if (raw === '' || (typeof raw === 'string' && raw.trim() === '')) return ''
+  const url = (raw || 'http://127.0.0.1:8000').trim().replace(/\/$/, '')
+  return url
 }
 
 /** Элемент из /api/services/?locale= */
@@ -23,6 +25,22 @@ export type ServiceItem = {
 
 /** Ответ /api/services/<slug>/?locale= */
 export type ServiceDetail = ServiceItem & { long_desc: string }
+
+/** Нормализует URL картинки: полный URL или относительный /media/... (если API на том же origin) */
+function toAbsoluteImageUrl(value: string): string {
+  if (value.startsWith('http://') || value.startsWith('https://')) return value
+  const path = value.startsWith('/') ? value : `/${value}`
+  const mediaPath = path.startsWith('/media') ? path : `/media/${path.replace(/^\//, '')}`
+  const base = getApiUrl()
+  if (base === '') return mediaPath
+  return `${base}${mediaPath}`
+}
+
+/** URL картинки услуги: приоритет у загруженного image, иначе image_url */
+export function getServiceImageSrc(item: { image: string | null; image_url: string }): string {
+  if (item.image) return toAbsoluteImageUrl(item.image)
+  return item.image_url || ''
+}
 
 /** Элемент из /api/events/?locale= */
 export type EventItem = {
@@ -53,21 +71,13 @@ export type NewsDetail = NewsItem & { long_desc: string }
 
 /** URL картинки новости: приоритет у загруженного image, иначе image_url */
 export function getNewsImageSrc(item: { image: string | null; image_url: string }): string {
-  if (item.image) {
-    if (item.image.startsWith('http')) return item.image
-    const path = item.image.startsWith('/') ? item.image : `/${item.image}`
-    return `${getApiUrl()}${path}`
-  }
+  if (item.image) return toAbsoluteImageUrl(item.image)
   return item.image_url || ''
 }
 
 /** URL картинки мероприятия: приоритет у загруженного image, иначе image_url */
 export function getEventImageSrc(item: { image: string | null; image_url: string }): string {
-  if (item.image) {
-    if (item.image.startsWith('http')) return item.image
-    const path = item.image.startsWith('/') ? item.image : `/${item.image}`
-    return `${getApiUrl()}${path}`
-  }
+  if (item.image) return toAbsoluteImageUrl(item.image)
   return item.image_url || ''
 }
 
@@ -84,6 +94,12 @@ export type PromoItem = {
 /** Ответ /api/promos/<slug>/?locale= */
 export type PromoDetail = PromoItem & { long_desc: string }
 
+/** URL картинки акции: приоритет у загруженного image, иначе image_url */
+export function getPromoImageSrc(item: { image: string | null; image_url: string }): string {
+  if (item.image) return toAbsoluteImageUrl(item.image)
+  return item.image_url || ''
+}
+
 /** Элемент из /api/portfolio/?locale= */
 export type PortfolioItem = {
   slug: string
@@ -99,6 +115,12 @@ export type PortfolioItem = {
 
 /** Деталь мероприятия из /api/portfolio/<slug>/?locale= — с массивом всех фото */
 export type PortfolioItemDetail = Omit<PortfolioItem, 'image_urls'> & { images: string[] }
+
+/** URL главной картинки портфолио: приоритет у загруженного image, иначе image_url */
+export function getPortfolioImageSrc(item: { image: string | null; image_url: string }): string {
+  if (item.image) return toAbsoluteImageUrl(item.image)
+  return item.image_url || ''
+}
 
 const API_TIMEOUT = 15000 // 15 сек
 

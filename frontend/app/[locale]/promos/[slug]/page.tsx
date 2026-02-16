@@ -2,17 +2,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { fetchPromoBySlug, getApiUrl } from '@/lib/api'
+import { fetchPromoBySlug, getPromoImageSrc } from '@/lib/api'
 import { isValidLocale, type Locale } from '@/lib/i18n'
 import type { Metadata } from 'next'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
-
-function promoImageSrc(item: { image: string | null; image_url: string }): string {
-  if (item.image_url) return item.image_url
-  if (item.image?.startsWith('http')) return item.image
-  return item.image ? `${getApiUrl()}${item.image}` : ''
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
@@ -30,7 +24,7 @@ export default async function PromoPage({ params }: Props) {
   if (!promo) notFound()
 
   const t = await getTranslations()
-  const imageSrc = promoImageSrc(promo)
+  const imageSrc = getPromoImageSrc(promo)
   const hasImage = Boolean(imageSrc)
 
   return (

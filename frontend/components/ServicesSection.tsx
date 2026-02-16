@@ -4,13 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useLocale, useServices } from '@/contexts/LocaleContext'
-import { getApiUrl } from '@/lib/api'
-
-function serviceImageSrc(item: { image: string | null; image_url: string }): string {
-  if (item.image_url) return item.image_url
-  if (item.image?.startsWith('http')) return item.image
-  return item.image ? `${getApiUrl()}${item.image}` : ''
-}
+import { getServiceImageSrc } from '@/lib/api'
 
 export function ServicesSection() {
   const locale = useLocale()
@@ -19,7 +13,6 @@ export function ServicesSection() {
   return (
     <section id="services" className="py-24 md:py-32 bg-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <p className="font-sans text-sm tracking-[0.2em] uppercase text-white/80 mb-4">{t('servicesSection.badge')}</p>
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-white tracking-tight max-w-2xl">{t('servicesSection.title')}</h2>
         <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {services.map((item) => (
@@ -29,7 +22,7 @@ export function ServicesSection() {
                 className="group relative block aspect-square w-full rounded-lg overflow-hidden border border-secondary/30 bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
               >
                 <Image
-                  src={serviceImageSrc(item)}
+                  src={getServiceImageSrc(item)}
                   alt={item.title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

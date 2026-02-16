@@ -8,10 +8,10 @@ export default function AgenciesPage() {
   const t = useTranslations('agencies')
   return (
     <PageLayout
-      badge={t('badge')}
       title={t('title')}
       description={t('intro')}
       titlePrimary
+      headerClassName="pt-32 md:pt-40"
     >
       <AgenciesSection />
     </PageLayout>

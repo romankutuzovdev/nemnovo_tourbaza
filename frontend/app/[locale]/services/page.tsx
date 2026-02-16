@@ -4,13 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useLocale, useServices } from '@/contexts/LocaleContext'
-import { getApiUrl } from '@/lib/api'
-
-function serviceImageSrc(item: { image: string | null; image_url: string }): string {
-  if (item.image_url) return item.image_url
-  if (item.image?.startsWith('http')) return item.image
-  return item.image ? `${getApiUrl()}${item.image}` : ''
-}
+import { getServiceImageSrc } from '@/lib/api'
 
 export default function ServicesPage() {
   const locale = useLocale()
@@ -29,9 +23,6 @@ export default function ServicesPage() {
       </header>
       <section className="py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <p className="font-sans text-sm tracking-[0.2em] uppercase text-white/80 mb-4">
-            {t('servicesSection.badge')}
-          </p>
           <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight max-w-2xl mb-8 md:mb-10">
             {t('servicesSection.title')}
           </h1>
@@ -43,7 +34,7 @@ export default function ServicesPage() {
                 className="group relative block aspect-square w-full rounded-lg overflow-hidden border border-secondary/30 bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
               >
                 <Image
-                  src={serviceImageSrc(item)}
+                  src={getServiceImageSrc(item)}
                   alt={item.title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

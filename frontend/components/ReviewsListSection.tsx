@@ -62,7 +62,9 @@ function StarRating({ rating }: { rating: number }) {
   )
 }
 
-export function ReviewsListSection() {
+type ReviewsListSectionProps = { scrollable?: boolean }
+
+export function ReviewsListSection({ scrollable }: ReviewsListSectionProps) {
   const t = useTranslations('reviewsSection')
   const [reviews, setReviews] = useState<ReviewItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -90,17 +92,16 @@ export function ReviewsListSection() {
   }, [])
 
   return (
-    <section id="reviews-list" className="py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight max-w-2xl mb-8 md:mb-10">
-          {t('title')}
-        </h2>
+    <section id="reviews-list">
+      <div>
         {loading ? (
           <p className="font-sans text-black/60">{t('loading')}</p>
         ) : reviews.length === 0 ? (
           <p className="font-sans text-black/60">{t('noReviews')}</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            className={`gap-6 ${scrollable ? 'flex flex-col max-h-[min(70vh,720px)] overflow-y-auto pr-1' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'}`}
+          >
             {reviews.map((r, i) => (
               <AnimateOnScroll key={r.id} variant="fade-up" delay={i * 50}>
                 <blockquote className="h-full min-h-[200px] p-6 bg-white/80 border border-secondary/10 rounded-sm transition-all duration-300 hover:border-secondary/20 hover:shadow-md flex flex-col">

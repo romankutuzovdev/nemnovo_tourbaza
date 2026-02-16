@@ -82,7 +82,7 @@ def how_to_get(request):
 def service_list(request):
     locale = get_locale(request)
     qs = Service.objects.all()
-    serializer = ServiceListSerializer(qs, many=True, context={'locale': locale})
+    serializer = ServiceListSerializer(qs, many=True, context={'locale': locale, 'request': request})
     return Response(serializer.data)
 
 
@@ -93,7 +93,7 @@ def service_detail(request, slug):
         service = Service.objects.get(slug=slug)
     except Service.DoesNotExist:
         return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
-    serializer = ServiceDetailSerializer(service, context={'locale': locale})
+    serializer = ServiceDetailSerializer(service, context={'locale': locale, 'request': request})
     return Response(serializer.data)
 
 
@@ -139,7 +139,7 @@ def news_detail(request, slug):
 def promo_list(request):
     locale = get_locale(request)
     qs = Promo.objects.filter(is_active=True)
-    serializer = PromoListSerializer(qs, many=True, context={'locale': locale})
+    serializer = PromoListSerializer(qs, many=True, context={'locale': locale, 'request': request})
     return Response(serializer.data)
 
 
@@ -150,7 +150,7 @@ def promo_detail(request, slug):
         promo = Promo.objects.get(slug=slug, is_active=True)
     except Promo.DoesNotExist:
         return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
-    serializer = PromoDetailSerializer(promo, context={'locale': locale})
+    serializer = PromoDetailSerializer(promo, context={'locale': locale, 'request': request})
     return Response(serializer.data)
 
 

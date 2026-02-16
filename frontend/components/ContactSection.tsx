@@ -28,7 +28,6 @@ export function ContactSection() {
   return (
     <section id="contact" className="py-16 md:py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <p className="font-sans text-sm tracking-[0.2em] uppercase text-black/80 mb-4">{t('contact.badge')}</p>
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight">{t('contact.title')}</h2>
         <p className="mt-4 font-sans text-black/80 max-w-xl">{t('contact.intro')}</p>
 
