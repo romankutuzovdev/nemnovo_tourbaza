@@ -5,7 +5,8 @@ import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
 
 export const PAGE_CONTAINER = 'max-w-6xl mx-auto px-4 sm:px-6'
-export const PAGE_TOP = 'pt-24 pb-10'
+// На мобильных хедер выше (полоса с адресом + навбар), чтобы «Главная» не залазила под него
+export const PAGE_TOP = 'pt-32 md:pt-24 pb-10'
 
 type PageLayoutProps = {
   children: React.ReactNode
