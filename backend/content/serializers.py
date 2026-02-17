@@ -281,12 +281,13 @@ class HotOfferListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HotOffer
-        fields = ['slug', 'image', 'link_url', 'order', 'delay_seconds', 'valid_until', 'title', 'short_desc', 'button_text']
+        fields = ['slug', 'image', 'order', 'delay_seconds', 'valid_until', 'title', 'short_desc', 'button_text']
 
     def get_valid_until(self, obj):
-        if obj.valid_until is None:
+        valid_until = obj.get_valid_until()
+        if valid_until is None:
             return None
-        return obj.valid_until.isoformat()
+        return valid_until.isoformat()
 
     def get_title(self, obj):
         t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))

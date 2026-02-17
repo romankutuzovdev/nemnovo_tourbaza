@@ -6,7 +6,7 @@ import { ComplaintFormSection } from '@/components/ComplaintFormSection'
 
 export default function ReviewsPage() {
   return (
-    <PageLayout>
+    <PageLayout simpleHomeLink hideBreadcrumbs>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start">
           <aside className="lg:sticky lg:top-24">

@@ -124,14 +124,6 @@ export default async function EventPage({ params }: Props) {
               )
             })}
           </div>
-          <div className="mt-8">
-            <Link
-              href={`/${locale}/events`}
-              className="inline-flex items-center font-sans text-sm text-black/80 hover:text-black"
-            >
-              {t('common.toEventsPage')}
-            </Link>
-          </div>
         </div>
       </div>
     </div>

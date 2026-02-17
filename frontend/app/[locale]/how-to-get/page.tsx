@@ -10,7 +10,7 @@ export default function HowToGetPage() {
   const t = useTranslations()
 
   return (
-    <PageLayout>
+    <PageLayout simpleHomeLink hideBreadcrumbs>
       <HowToGetThereSection />
       <section className="py-16 md:py-24 max-w-6xl mx-auto px-4 sm:px-6">
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight mb-4">

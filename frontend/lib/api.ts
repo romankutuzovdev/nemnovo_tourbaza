@@ -104,7 +104,6 @@ export function getPromoImageSrc(item: { image: string | null; image_url: string
 export type HotOfferItem = {
   slug: string
   image: string | null
-  link_url: string
   order: number
   delay_seconds: number
   valid_until: string | null
@@ -113,10 +112,20 @@ export type HotOfferItem = {
   button_text: string
 }
 
-/** URL картинки горячего предложения (только загруженный image) */
+/** URL картинки горячего предложения. Всегда отдаём относительный /media/... чтобы запрос шёл через rewrite Next.js на бэкенд (картинка грузится с того же origin). */
 export function getHotOfferImageSrc(item: { image: string | null }): string {
-  if (item.image) return toAbsoluteImageUrl(item.image)
-  return ''
+  const raw = item.image || ''
+  if (!raw) return ''
+  if (raw.startsWith('http://') || raw.startsWith('https://')) {
+    try {
+      const path = new URL(raw).pathname
+      return path.startsWith('/') ? path : `/${path}`
+    } catch {
+      return raw
+    }
+  }
+  const path = raw.startsWith('/') ? raw : `/${raw}`
+  return path.startsWith('/media') ? path : `/media/${path.replace(/^\//, '')}`
 }
 
 /** Элемент из /api/portfolio/?locale= */

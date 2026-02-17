@@ -8,9 +8,9 @@ export function MapSection() {
   const t = useTranslations()
 
   return (
-    <section id="map" className="py-12 sm:py-16 bg-secondary/30 border-t border-secondary/10">
+    <section id="map" className="pt-12 md:pt-16 pb-24 md:pb-32 bg-secondary/30 border-t border-secondary/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <h2 className="font-sans text-2xl sm:text-3xl font-bold text-black tracking-tight mb-6">
+        <h2 className="section-title-main text-black mb-6">
           {t('howToGet.mapTitle') || 'Карта турбазы'}
         </h2>
         <p className="font-sans text-sm text-black/70 mb-6 max-w-2xl">

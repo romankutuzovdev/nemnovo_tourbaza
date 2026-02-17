@@ -11,9 +11,9 @@ export function ServicesSection() {
   const t = useTranslations()
   const services = useServices()
   return (
-    <section id="services" className="py-24 md:py-32 bg-primary">
+    <section id="services" className="pt-12 md:pt-16 pb-24 md:pb-32 bg-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <h2 className="font-serif text-3xl md:text-4xl font-medium text-white tracking-tight max-w-2xl">{t('servicesSection.title')}</h2>
+        <h2 className="section-title-main text-white">{t('servicesSection.title')}</h2>
         <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {services.map((item) => (
             <div key={item.slug} className="min-w-0">

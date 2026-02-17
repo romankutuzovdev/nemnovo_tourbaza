@@ -14,7 +14,7 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-primary">
-      <header className="pt-24 pb-10 max-w-6xl mx-auto px-4 sm:px-6">
+      <header className="pt-40 md:pt-24 pb-10 max-w-6xl mx-auto px-4 sm:px-6">
         <Link
           href={`/${locale}`}
           className="lg:hidden inline-flex items-center gap-2 font-sans text-sm text-white/80 hover:text-white transition-colors"

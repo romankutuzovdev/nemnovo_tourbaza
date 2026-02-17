@@ -187,7 +187,9 @@
   },
   "promosSection": {
     "badge": "Акцыі",
-    "title": "Выгадныя прапановы"
+    "title": "Выгадныя прапановы",
+    "prev": "Назад",
+    "next": "Наперад"
   },
   "portfolioSection": {
     "badge": "Фота з мерапрыемстваў",
@@ -224,7 +226,11 @@
     "close": "Закрыць",
     "closeAria": "Закрыць акно прапановы",
     "formTitle": "Пакінуць заяўку",
-    "timerEndsIn": "Да канца прапановы"
+    "timerEndsIn": "Да канца прапановы",
+    "dayShort": "д",
+    "hourShort": "ч",
+    "minShort": "хв",
+    "secShort": "с"
   },
   "common": {
     "allServices": "Усе паслугі",

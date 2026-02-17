@@ -12,9 +12,9 @@ export function EventsSection() {
   const events = useEvents()
 
   return (
-    <section id="events" className="py-24 md:py-32 bg-[rgb(138_151_196/0.4)]">
+    <section id="events" className="pt-12 md:pt-16 pb-24 md:pb-32 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <h2 className="font-serif text-3xl md:text-4xl font-medium text-white tracking-tight max-w-2xl">{t('eventsSection.title')}</h2>
+        <h2 className="section-title-main text-black">{t('eventsSection.title')}</h2>
         <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
           {events.length === 0 ? null : events.map((item) => (
             <div key={item.slug} className="min-w-0">
@@ -39,14 +39,14 @@ export function EventsSection() {
                   {item.short_desc && (
                     <p className="mt-1 font-sans text-sm text-white/90 leading-snug line-clamp-1">{item.short_desc}</p>
                   )}
-                  <span className="mt-2 font-sans text-xs sm:text-sm text-emerald-200/80 group-hover:text-emerald-100 transition-colors">{t('eventsSection.more')}</span>
+                  <span className="mt-2 font-sans text-xs sm:text-sm text-white transition-colors">{t('eventsSection.more')}</span>
                 </div>
               </Link>
             </div>
           ))}
         </div>
         <div className="mt-10 text-center">
-          <Link href={`/${locale}/events`} className="inline-flex items-center px-6 py-3 border border-white text-white font-sans text-sm tracking-wide hover:bg-white/10 transition-colors">
+          <Link href={`/${locale}/events`} className="inline-flex items-center px-6 py-3 border border-black text-black font-sans text-sm tracking-wide hover:bg-black/10 transition-colors">
             {t('eventsSection.allEvents')}
           </Link>
         </div>

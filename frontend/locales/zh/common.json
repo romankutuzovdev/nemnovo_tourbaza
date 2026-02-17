@@ -187,7 +187,9 @@
   },
   "promosSection": {
     "badge": "优惠",
-    "title": "优惠活动"
+    "title": "优惠活动",
+    "prev": "上一张",
+    "next": "下一张"
   },
   "portfolioSection": {
     "badge": "活动照片集",
@@ -224,7 +226,11 @@
     "close": "关闭",
     "closeAria": "关闭优惠弹窗",
     "formTitle": "提交咨询",
-    "timerEndsIn": "优惠截止"
+    "timerEndsIn": "优惠截止",
+    "dayShort": "天",
+    "hourShort": "时",
+    "minShort": "分",
+    "secShort": "秒"
   },
   "common": {
     "allServices": "全部服务",

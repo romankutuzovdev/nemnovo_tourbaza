@@ -195,6 +195,20 @@ body {
   opacity: 1;
 }
 
+/* Единый стиль заголовков секций на главной: Выгодные предложения, Карта турбазы, Услуги, Мероприятия */
+.section-title-main {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.875rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  max-width: 42rem;
+}
+@media (min-width: 768px) {
+  .section-title-main {
+    font-size: 2.25rem;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

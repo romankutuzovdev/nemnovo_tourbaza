@@ -194,7 +194,9 @@
   },
   "promosSection": {
     "badge": "Promocje",
-    "title": "Korzystne oferty"
+    "title": "Korzystne oferty",
+    "prev": "Wstecz",
+    "next": "Dalej"
   },
   "portfolioSection": {
     "badge": "Relacje zdjęciowe z wydarzeń",
@@ -231,7 +233,11 @@
     "close": "Zamknij",
     "closeAria": "Zamknij okno oferty",
     "formTitle": "Zostaw zapytanie",
-    "timerEndsIn": "Oferta kończy się za"
+    "timerEndsIn": "Oferta kończy się za",
+    "dayShort": "d",
+    "hourShort": "g",
+    "minShort": "m",
+    "secShort": "s"
   },
   "common": {
     "allServices": "Wszystkie usługi",

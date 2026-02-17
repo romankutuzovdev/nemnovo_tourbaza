@@ -21,8 +21,8 @@ const SEGMENT_TO_KEY: Record<string, string> = {
   reviews: 'nav.reviews',
   contact: 'nav.contact',
   agencies: 'nav.agencies',
-  'cookie-policy': 'footer.legal.cookiePolicy',
-  privacy: 'footer.legal.privacy',
+  'cookie-policy': 'footer.cookiePolicy',
+  privacy: 'footer.privacy',
 }
 
 type PageLayoutProps = {
@@ -37,6 +37,10 @@ type PageLayoutProps = {
   titlePrimary?: boolean
   /** Extra class for the header (e.g. pt-32 for more top spacing) */
   headerClassName?: string
+  /** Hide breadcrumbs (e.g. for portfolio, promos) */
+  hideBreadcrumbs?: boolean
+  /** Simple home link like on news page (text link, same spacing) */
+  simpleHomeLink?: boolean
 }
 
 function pathSegments(pathname: string, locale: string): string[] {
@@ -47,7 +51,7 @@ function pathSegments(pathname: string, locale: string): string[] {
   return path ? path.split('/').filter(Boolean) : []
 }
 
-export function PageLayout({ children, badge, title, description, titlePrimary, headerClassName }: PageLayoutProps) {
+export function PageLayout({ children, badge, title, description, titlePrimary, headerClassName, hideBreadcrumbs, simpleHomeLink }: PageLayoutProps) {
   const locale = useLocale()
   const pathname = usePathname() ?? ''
   const t = useTranslations()
@@ -63,36 +67,44 @@ export function PageLayout({ children, badge, title, description, titlePrimary, 
     breadcrumbs.push({ href: acc, label })
   }
 
+  const headerSpacing = simpleHomeLink ? 'pt-40 md:pt-24 pb-12 md:pb-14' : undefined
+
   return (
     <div className="min-h-screen">
-      <header className={`${PAGE_TOP} ${PAGE_CONTAINER} ${headerClassName ?? ''}`}>
-        <nav className="flex flex-col gap-3 md:gap-4" aria-label="Breadcrumb">
+      <header className={`${headerSpacing ?? PAGE_TOP} ${PAGE_CONTAINER} ${headerClassName ?? ''}`}>
+        <nav className={simpleHomeLink ? undefined : 'flex flex-col gap-3 md:gap-4'} aria-label={hideBreadcrumbs ? undefined : 'Breadcrumb'}>
           <Link
             href={`/${locale}`}
-            className="lg:hidden self-start inline-flex items-center gap-2 font-sans text-sm font-medium px-3 py-2 rounded-lg border border-secondary/30 text-black/80 hover:text-black hover:border-secondary/50 hover:bg-secondary/5 transition-colors"
+            className={
+              simpleHomeLink
+                ? 'lg:hidden inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors'
+                : 'lg:hidden self-start inline-flex items-center gap-2 font-sans text-sm font-medium px-3 py-2 rounded-lg border border-secondary/30 text-black/80 hover:text-black hover:border-secondary/50 hover:bg-secondary/5 transition-colors'
+            }
           >
             <span aria-hidden>←</span>
             {t('nav.home')}
           </Link>
-          <ol className="flex flex-wrap items-center gap-1.5 text-sm text-black/70">
-            {breadcrumbs.map((crumb, i) => (
-              <li key={crumb.href} className="flex items-center gap-1.5">
-                {i > 0 && <span className="text-secondary/50" aria-hidden>/</span>}
-                {i === breadcrumbs.length - 1 ? (
-                  <span className="font-medium text-black" aria-current="page">
-                    {crumb.label}
-                  </span>
-                ) : (
-                  <Link
-                    href={crumb.href}
-                    className="hover:text-black transition-colors"
-                  >
-                    {crumb.label}
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ol>
+          {!hideBreadcrumbs && (
+            <ol className="flex flex-wrap items-center gap-1.5 text-sm text-black/70">
+              {breadcrumbs.map((crumb, i) => (
+                <li key={crumb.href} className="flex items-center gap-1.5">
+                  {i > 0 && <span className="text-secondary/50" aria-hidden>/</span>}
+                  {i === breadcrumbs.length - 1 ? (
+                    <span className="font-medium text-black" aria-current="page">
+                      {crumb.label}
+                    </span>
+                  ) : (
+                    <Link
+                      href={crumb.href}
+                      className="hover:text-black transition-colors"
+                    >
+                      {crumb.label}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ol>
+          )}
         </nav>
         {title != null && (
           <h1

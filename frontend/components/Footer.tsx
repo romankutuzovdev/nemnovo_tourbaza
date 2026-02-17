@@ -175,7 +175,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-secondary/10">
-          <p className="font-sans text-xs text-black/80">
+          <p className="font-sans text-xs text-black/80" suppressHydrationWarning>
             © {new Date().getFullYear()} {t('footer.copyright')}
           </p>
         </div>

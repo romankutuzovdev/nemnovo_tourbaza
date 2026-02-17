@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 export function AboutSection() {
   const t = useTranslations()
   return (
-    <section id="about" className="py-16 md:py-24 bg-secondary/40 border-y border-secondary/10">
+    <section id="about" className="pt-8 md:pt-12 pb-16 md:pb-24 bg-secondary/40 border-y border-secondary/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-center">
           <div>

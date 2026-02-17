@@ -115,8 +115,7 @@
   },
   "contact": {
     "badge": "Контакты",
-    "title": "Свяжитесь с нами",
-    "intro": "Заявки приходят на office@nemnovotour.by. Гостевая книга — на отдельную почту.",
+    "title": "Контакты",
     "inboxNote": "Заявки приходят на office@nemnovotour.by. Ответим в течение дня.",
     "complaintIntro": "Оставить отзыв",
     "formMain": "Заявка на бронирование / вопрос",
@@ -187,7 +186,9 @@
   },
   "promosSection": {
     "badge": "Акции",
-    "title": "Выгодные предложения"
+    "title": "Выгодные предложения",
+    "prev": "Назад",
+    "next": "Вперёд"
   },
   "portfolioSection": {
     "badge": "Фотоотчёты с мероприятий",
@@ -224,7 +225,11 @@
     "close": "Закрыть",
     "closeAria": "Закрыть окно предложения",
     "formTitle": "Оставить заявку",
-    "timerEndsIn": "До конца предложения"
+    "timerEndsIn": "До конца предложения",
+    "dayShort": "д",
+    "hourShort": "ч",
+    "minShort": "м",
+    "secShort": "с"
   },
   "common": {
     "allServices": "Все услуги",

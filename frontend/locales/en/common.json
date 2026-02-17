@@ -187,7 +187,9 @@
   },
   "promosSection": {
     "badge": "Promos",
-    "title": "Special offers"
+    "title": "Special offers",
+    "prev": "Previous",
+    "next": "Next"
   },
   "portfolioSection": {
     "badge": "Event photo reports",
@@ -224,7 +226,11 @@
     "close": "Close",
     "closeAria": "Close offer popup",
     "formTitle": "Leave a request",
-    "timerEndsIn": "Offer ends in"
+    "timerEndsIn": "Offer ends in",
+    "dayShort": "d",
+    "hourShort": "h",
+    "minShort": "m",
+    "secShort": "s"
   },
   "common": {
     "allServices": "All services",

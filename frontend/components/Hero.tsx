@@ -11,7 +11,7 @@ export function Hero() {
   const locale = useLocale()
   const [modalOpen, setModalOpen] = useState(false)
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-secondary/60 via-white to-secondary/40 pt-24 pb-20">
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-secondary/60 via-white to-secondary/40 pt-12 pb-20">
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{

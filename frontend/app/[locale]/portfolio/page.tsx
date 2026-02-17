@@ -5,7 +5,7 @@ import { PortfolioSection } from '@/components/PortfolioSection'
 
 export default function PortfolioPage() {
   return (
-    <PageLayout>
+    <PageLayout hideBreadcrumbs simpleHomeLink>
       <PortfolioSection />
     </PageLayout>
   )

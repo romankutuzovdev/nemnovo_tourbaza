@@ -67,15 +67,20 @@ export function Header() {
   const [open, setOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   const pathForLocale = (loc: string) => `/${loc}${pathWithoutLocale(pathname ?? '', locale)}`
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+  useEffect(() => {
+    if (!mounted) return
     const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [mounted])
 
   const nav = [
     { href: `/${locale}/about`, label: t('nav.about') },
@@ -153,46 +158,36 @@ export function Header() {
             <span className="truncate">{t('footer.copyright')}</span>
           </Link>
         </div>
-        {/* Десктоп (lg+): полоса от «Услуги» до почти конца «Контакты», все кнопки внизу в один ряд */}
-        <div className="flex-1 min-w-0 hidden lg:flex flex-col h-full justify-center items-end">
-          <div className="grid grid-cols-[auto_auto] gap-x-2 md:gap-x-3 lg:gap-x-4 items-center shrink-0 w-fit max-w-full min-w-0">
-            <div className="flex items-center pr-2 md:pr-2.5 lg:pr-3">
-              <Link
-                href={nav[0].href}
-                className="font-sans text-[9px] md:text-[10px] lg:text-xs xl:text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap py-0.5"
-              >
-                {nav[0].label}
-              </Link>
-            </div>
-            <div className="flex items-center justify-end min-w-0 overflow-x-auto overflow-y-hidden pr-0.5 scrollbar-none">
-              <nav className="flex items-center gap-2 md:gap-2.5 lg:gap-3 xl:gap-4 flex-nowrap shrink-0 min-w-max">
-                {nav.slice(1).map((item) =>
-                  (item as { external?: boolean }).external ? (
-                    <a
-                      key={item.href}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-sans text-[9px] md:text-[10px] lg:text-xs xl:text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap py-0.5 shrink-0"
-                    >
-                      {item.label}
-                    </a>
-                  ) : (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="font-sans text-[9px] md:text-[10px] lg:text-xs xl:text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap py-0.5 shrink-0"
-                    >
-                      {item.label}
-                    </Link>
-                  )
-                )}
-              </nav>
-            </div>
+        {/* Десктоп (≥1580px): все пункты меню в один ряд; уже — бургер (ниже 1580 «О нас» залазит на лого из‑за 2xl отступов) */}
+        <div className="flex-1 min-w-0 hidden min-[1580px]:flex flex-col h-full justify-center items-end">
+          <div className="flex items-center justify-end min-w-0 overflow-x-auto overflow-y-hidden pr-0.5 scrollbar-none w-full">
+            <nav className="flex items-center gap-2 xl:gap-3 2xl:gap-4 flex-nowrap shrink-0 min-w-max">
+              {nav.map((item) =>
+                (item as { external?: boolean }).external ? (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-sans text-xs xl:text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap py-0.5 shrink-0"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="font-sans text-xs xl:text-sm font-semibold tracking-wide text-black/80 hover:text-black transition-colors whitespace-nowrap py-0.5 shrink-0"
+                  >
+                    {item.label}
+                  </Link>
+                )
+              )}
+            </nav>
           </div>
         </div>
-        {/* Свёрнутое меню (до lg): лого + язык + гамбургер */}
-        <div className="flex-1 min-w-0 flex lg:hidden items-center justify-end">
+        {/* Свёрнутое меню (<1580px): лого + язык + гамбургер */}
+        <div className="flex-1 min-w-0 flex min-[1580px]:hidden items-center justify-end">
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               <div className="relative">
                 <button
@@ -233,8 +228,8 @@ export function Header() {
               </button>
             </div>
         </div>
-        {/* Справа: Войти, язык, ТУРФИРМА */}
-        <div className="hidden md:flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0 pl-3 sm:pl-4 lg:pl-5 xl:pl-6">
+        {/* Справа: Войти, язык, ТУРФИРМА (при ≥1580px) */}
+        <div className="hidden min-[1580px]:flex items-center gap-2 min-[1580px]:gap-3 2xl:gap-4 shrink-0 pl-4 min-[1580px]:pl-5 2xl:pl-6">
           <Link
             href={authLink.href}
             className="font-sans text-[10px] sm:text-xs lg:text-sm font-semibold px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0"
@@ -289,7 +284,7 @@ export function Header() {
         </div>
       </div>
       {open && (
-        <div className="lg:hidden bg-white border-t border-secondary/10 py-6 px-6 flex flex-col gap-4">
+        <div className="min-[1580px]:hidden bg-white border-t border-secondary/10 py-6 px-6 flex flex-col gap-4">
             {nav.map((item) =>
               (item as { external?: boolean }).external ? (
                 <a

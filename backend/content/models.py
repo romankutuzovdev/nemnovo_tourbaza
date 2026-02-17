@@ -269,20 +269,18 @@ class NewsTranslation(models.Model):
 
 
 class HotOffer(models.Model):
-    """Горячее предложение для всплывающего окна: задержка и дата окончания задаются в админке."""
+    """Горячее предложение для всплывающего окна. Время до конца задаётся в формате ч:мм:сс (например 1:59:00)."""
     slug = models.SlugField(max_length=120, unique=True)
     image = models.ImageField(upload_to='hot_offers/', blank=True, null=True)
-    link_url = models.URLField(blank=True, help_text='Ссылка кнопки (например на страницу услуги или акции)')
     order = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=True)
     delay_seconds = models.PositiveIntegerField(
         default=5,
         help_text='Через сколько секунд после захода на сайт показать попап',
     )
-    valid_until = models.DateTimeField(
-        null=True,
-        blank=True,
-        help_text='До какой даты действует предложение (для таймера обратного отсчёта)',
+    duration_seconds = models.PositiveIntegerField(
+        default=0,
+        help_text='Время до конца акции в секундах (например 7140 = 1:59:00). 0 — таймер не показывать.',
     )
 
     class Meta:
@@ -292,6 +290,14 @@ class HotOffer(models.Model):
 
     def __str__(self):
         return self.slug
+
+    def get_valid_until(self):
+        """Момент окончания акции для таймера (сейчас + duration_seconds)."""
+        if not self.duration_seconds:
+            return None
+        from django.utils import timezone
+        from datetime import timedelta
+        return timezone.now() + timedelta(seconds=self.duration_seconds)
 
 
 class HotOfferTranslation(models.Model):

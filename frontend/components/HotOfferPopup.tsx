@@ -1,22 +1,74 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
-import { fetchHotOffers, getHotOfferImageSrc, type HotOfferItem } from '@/lib/api'
+import { fetchHotOffers, getHotOfferImageSrc, sendContactForm, type HotOfferItem } from '@/lib/api'
 
 const HOT_OFFER_SEEN_KEY = 'nemnovo-hot-offer-seen'
-const DELAY_MS = 5000
+
+function useCountdown(validUntil: string | null): { days: number; hours: number; minutes: number; seconds: number; expired: boolean } {
+  const [left, setLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number; expired: boolean }>({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    expired: true,
+  })
+
+  useEffect(() => {
+    if (!validUntil) {
+      setLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, expired: true })
+      return
+    }
+    const end = new Date(validUntil).getTime()
+    const update = () => {
+      const now = Date.now()
+      const diff = Math.max(0, end - now)
+      if (diff === 0) {
+        setLeft((p) => (p.expired ? p : { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true }))
+        return
+      }
+      const d = Math.floor(diff / (24 * 60 * 60 * 1000))
+      const h = Math.floor((diff % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
+      const m = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000))
+      const s = Math.floor((diff % (60 * 1000)) / 1000)
+      setLeft({ days: d, hours: h, minutes: m, seconds: s, expired: false })
+    }
+    update()
+    const t = setInterval(update, 1000)
+    return () => clearInterval(t)
+  }, [validUntil])
+
+  return left
+}
 
 export function HotOfferPopup() {
   const locale = useLocale()
   const t = useTranslations('hotOffer')
+  const tContact = useTranslations('contact')
   const [offer, setOffer] = useState<HotOfferItem | null>(null)
   const [visible, setVisible] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const countdown = useCountdown(offer?.valid_until ?? null)
+
+  const [formName, setFormName] = useState('')
+  const [formEmail, setFormEmail] = useState('')
+  const [formMessage, setFormMessage] = useState('')
+  const [formSending, setFormSending] = useState(false)
+  const [formSent, setFormSent] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
+
+  const cancelledRef = useRef(false)
+  const mountedRef = useRef(true)
+
+  useEffect(() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+    }
+  }, [])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -24,19 +76,28 @@ export function HotOfferPopup() {
     const seen = sessionStorage.getItem(HOT_OFFER_SEEN_KEY)
     if (seen === '1') return
 
-    let cancelled = false
-    fetchHotOffers(locale).then((list) => {
-      if (cancelled || list.length === 0) return
-      setOffer(list[0])
-      setLoaded(true)
-      timerRef.current = setTimeout(() => {
-        if (!cancelled) setVisible(true)
-      }, DELAY_MS)
-    })
+    cancelledRef.current = false
+    fetchHotOffers(locale)
+      .then((list) => {
+        if (cancelledRef.current || !mountedRef.current || list.length === 0) return
+        const first = list[0]
+        setOffer(first)
+        setLoaded(true)
+        const delayMs = Math.max(0, (first.delay_seconds ?? 5)) * 1000
+        timerRef.current = window.setTimeout(() => {
+          if (!cancelledRef.current && mountedRef.current) setVisible(true)
+        }, delayMs)
+      })
+      .catch(() => {
+        // сеть или API недоступен — попап не показываем
+      })
 
     return () => {
-      cancelled = true
-      if (timerRef.current) clearTimeout(timerRef.current)
+      cancelledRef.current = true
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+        timerRef.current = null
+      }
     }
   }, [locale])
 
@@ -45,76 +106,172 @@ export function HotOfferPopup() {
     setVisible(false)
   }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setFormError(null)
+    setFormSending(true)
+    const result = await sendContactForm('hot_offer', {
+      name: formName.trim(),
+      email: formEmail.trim(),
+      message: formMessage.trim(),
+    })
+    setFormSending(false)
+    if ('error' in result) {
+      setFormError(result.error)
+      return
+    }
+    setFormSent(true)
+    setFormName('')
+    setFormEmail('')
+    setFormMessage('')
+  }
+
   if (!loaded || !offer || !visible) return null
 
   const imageSrc = getHotOfferImageSrc(offer)
-  const linkUrl = (offer.link_url || '').trim()
+  const showTimer = offer.valid_until && !countdown.expired
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-label={offer.title}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm animate-fade-in pb-[env(safe-area-inset-bottom,0)]"
       onClick={(e) => e.target === e.currentTarget && close()}
     >
-      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden animate-fade-up">
+      {/* Широкий баннер: десктоп max-w-6xl с фиксированной высотой, мобильный — на весь экран снизу */}
+      <div
+        className="relative w-full max-w-6xl h-[94vh] max-h-[94vh] sm:h-[85vh] sm:max-h-[88vh] overflow-hidden bg-white shadow-xl animate-fade-up flex flex-col sm:flex-row rounded-t-2xl sm:rounded-none min-h-[85vh] sm:min-h-[480px]"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           type="button"
           onClick={close}
-          className="absolute top-3 right-3 z-10 w-10 h-10 rounded-full bg-white/90 hover:bg-white text-black/70 flex items-center justify-center transition-colors"
+          className="absolute top-2 right-2 z-10 min-w-[44px] min-h-[44px] flex items-center justify-center bg-white/95 hover:bg-white text-black/70 border border-black/10 shadow-sm transition-colors rounded-none"
           aria-label={t('closeAria')}
         >
-          <span className="text-xl leading-none">×</span>
+          <span className="text-2xl leading-none">×</span>
         </button>
 
-        {imageSrc ? (
-          <div className="relative w-full aspect-[4/3] bg-secondary/10">
-            <Image
+        {/* Слева 70% — картинка; на десктопе — явная высота и flex-1 чтобы не схлопывалось */}
+        <div className="w-full sm:w-[70%] flex-shrink-0 relative h-[50vh] min-h-[240px] sm:h-full sm:min-h-[400px] aspect-[4/3] sm:aspect-auto bg-secondary/10">
+          {imageSrc ? (
+            <img
               src={imageSrc}
               alt=""
-              fill
-              className="object-cover"
-              sizes="(max-width: 448px) 100vw, 448px"
-              unoptimized={imageSrc.startsWith('http') && !imageSrc.includes(process.env.NEXT_PUBLIC_API_URL || '')}
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover"
             />
-          </div>
-        ) : null}
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-black/30 font-sans text-sm px-4">
+              {offer.title}
+            </div>
+          )}
+        </div>
 
-        <div className="p-6">
-          <h3 className="font-serif text-xl md:text-2xl font-medium text-black mb-2">{offer.title}</h3>
-          {offer.short_desc ? (
-            <p className="font-sans text-sm text-black/80 mb-4 whitespace-pre-line">{offer.short_desc}</p>
+        {/* Справа 30% — таймер, описание, кнопка и форма заявки */}
+        <div className="w-full sm:w-[30%] flex-shrink-0 flex flex-col min-h-0 p-4 sm:p-5 overflow-y-auto border-t sm:border-t-0 sm:border-l border-black/10">
+          <h3 className="font-serif text-lg sm:text-xl font-medium text-black mb-2 pr-10">{offer.title}</h3>
+
+          {showTimer ? (
+            <div className="mb-3 p-2.5 sm:p-3 bg-primary/10 border border-primary/20">
+              <p className="font-sans text-xs text-black/70 mb-1.5">{t('timerEndsIn')}</p>
+              <div className="flex gap-1.5 flex-wrap font-mono text-xs sm:text-sm">
+                {countdown.days > 0 && (
+                  <span className="inline-flex min-w-[2rem] justify-center px-1.5 py-1 bg-white border border-black/15 font-semibold">
+                    {countdown.days}
+                    <span className="ml-0.5 font-sans text-[10px] sm:text-xs font-normal opacity-80">{t('dayShort')}</span>
+                  </span>
+                )}
+                <span className="inline-flex min-w-[2rem] justify-center px-1.5 py-1 bg-white border border-black/15 font-semibold">
+                  {String(countdown.hours).padStart(2, '0')}
+                  <span className="ml-0.5 font-sans text-[10px] sm:text-xs font-normal opacity-80">{t('hourShort')}</span>
+                </span>
+                <span className="inline-flex min-w-[2rem] justify-center px-1.5 py-1 bg-white border border-black/15 font-semibold">
+                  {String(countdown.minutes).padStart(2, '0')}
+                  <span className="ml-0.5 font-sans text-[10px] sm:text-xs font-normal opacity-80">{t('minShort')}</span>
+                </span>
+                <span className="inline-flex min-w-[2rem] justify-center px-1.5 py-1 bg-white border border-black/15 font-semibold">
+                  {String(countdown.seconds).padStart(2, '0')}
+                  <span className="ml-0.5 font-sans text-[10px] sm:text-xs font-normal opacity-80">{t('secShort')}</span>
+                </span>
+              </div>
+            </div>
           ) : null}
-          <div className="flex flex-wrap gap-3">
-            {linkUrl ? (
-              linkUrl.startsWith('/') ? (
-                <Link
-                  href={linkUrl}
-                  onClick={close}
-                  className="inline-flex px-5 py-2.5 bg-primary text-white font-sans text-sm tracking-wide hover:bg-primary/90 transition-colors rounded"
+
+          {offer.short_desc ? (
+            <p className="font-sans text-xs sm:text-sm text-black/80 mb-0 whitespace-pre-line">{offer.short_desc}</p>
+          ) : null}
+
+          <div className="border-t border-black/10 pt-2 mt-2">
+            <h4 className="font-sans text-xs sm:text-sm font-medium text-black mb-2">{t('formTitle')}</h4>
+            {formSent ? (
+              <p className="font-sans text-xs sm:text-sm text-black/80">{tContact('thanks')}</p>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-2 sm:space-y-2.5">
+                <div>
+                  <label htmlFor="ho-name" className="block font-sans text-[10px] sm:text-xs text-black/70 mb-0.5">
+                    {tContact('nameLabel')}
+                  </label>
+                  <input
+                    id="ho-name"
+                    type="text"
+                    value={formName}
+                    onChange={(e) => setFormName(e.target.value)}
+                    placeholder={tContact('namePlaceholder')}
+                    className="w-full min-h-[40px] sm:min-h-[44px] px-2.5 py-1.5 sm:py-2 border border-black/20 font-sans text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="ho-email" className="block font-sans text-[10px] sm:text-xs text-black/70 mb-0.5">
+                    {tContact('emailLabel')}
+                  </label>
+                  <input
+                    id="ho-email"
+                    type="email"
+                    value={formEmail}
+                    onChange={(e) => setFormEmail(e.target.value)}
+                    placeholder={tContact('emailPlaceholder')}
+                    className="w-full min-h-[40px] sm:min-h-[44px] px-2.5 py-1.5 sm:py-2 border border-black/20 font-sans text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="ho-message" className="block font-sans text-[10px] sm:text-xs text-black/70 mb-0.5">
+                    {tContact('messageLabel')}
+                  </label>
+                  <textarea
+                    id="ho-message"
+                    value={formMessage}
+                    onChange={(e) => setFormMessage(e.target.value)}
+                    placeholder={tContact('messagePlaceholder')}
+                    rows={2}
+                    className="w-full min-h-[64px] sm:min-h-[72px] px-2.5 py-1.5 sm:py-2 border border-black/20 font-sans text-sm resize-none"
+                    required
+                  />
+                </div>
+                {formError && (
+                  <p className="font-sans text-[10px] sm:text-xs text-red-600">{formError}</p>
+                )}
+                <button
+                  type="submit"
+                  disabled={formSending}
+                  className="w-full min-h-[40px] sm:min-h-[44px] px-3 py-2 bg-primary text-white font-sans text-xs sm:text-sm font-medium hover:bg-primary/90 disabled:opacity-60 transition-colors"
                 >
-                  {offer.button_text || 'Подробнее'}
-                </Link>
-              ) : (
-                <a
-                  href={linkUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex px-5 py-2.5 bg-primary text-white font-sans text-sm tracking-wide hover:bg-primary/90 transition-colors rounded"
-                >
-                  {offer.button_text || 'Подробнее'}
-                </a>
-              )
-            ) : null}
-            <button
-              type="button"
-              onClick={close}
-              className="inline-flex px-5 py-2.5 border border-black/20 text-black/80 font-sans text-sm hover:bg-black/5 transition-colors rounded"
-            >
-              {t('close')}
-            </button>
+                  {formSending ? tContact('sending') : t('formTitle')}
+                </button>
+              </form>
+            )}
           </div>
+
+          <button
+            type="button"
+            onClick={close}
+            className="mt-2 sm:mt-3 font-sans text-xs sm:text-sm text-black/60 hover:text-black underline"
+          >
+            {t('close')}
+          </button>
         </div>
       </div>
     </div>

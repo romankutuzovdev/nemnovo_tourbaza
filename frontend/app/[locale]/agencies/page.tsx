@@ -12,6 +12,8 @@ export default function AgenciesPage() {
       description={t('intro')}
       titlePrimary
       headerClassName="pt-32 md:pt-40"
+      simpleHomeLink
+      hideBreadcrumbs
     >
       <AgenciesSection />
     </PageLayout>
