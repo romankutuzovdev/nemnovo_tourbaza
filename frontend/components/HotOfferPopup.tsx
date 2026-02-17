@@ -50,7 +50,7 @@ export function HotOfferPopup() {
   const [offer, setOffer] = useState<HotOfferItem | null>(null)
   const [visible, setVisible] = useState(false)
   const [loaded, setLoaded] = useState(false)
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const timerRef = useRef<number | null>(null)
   const countdown = useCountdown(offer?.valid_until ?? null)
 
   const [formName, setFormName] = useState('')
