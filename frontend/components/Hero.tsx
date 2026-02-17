@@ -11,7 +11,7 @@ export function Hero() {
   const locale = useLocale()
   const [modalOpen, setModalOpen] = useState(false)
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-secondary/60 via-white to-secondary/40 pt-12 pb-20">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-secondary/60 via-white to-secondary/40 pt-28 md:pt-32 pb-16">
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
@@ -20,7 +20,7 @@ export function Hero() {
           animation: 'gradient-shift 15s ease infinite',
         }}
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center text-center relative w-full">
         <p className="font-sans text-base md:text-lg tracking-[0.2em] uppercase text-black/80 mb-6 animate-fade-up" style={{ animationDelay: '0.1s', opacity: 0, animationFillMode: 'forwards' }}>
           {t('hero.badge')}
         </p>
