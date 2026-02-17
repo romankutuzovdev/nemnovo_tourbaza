@@ -123,6 +123,7 @@ export function Header() {
           <span className="font-sans text-[10px] sm:text-xs leading-tight truncate max-w-[180px] sm:max-w-[240px] md:max-w-none">
             {t('footer.addressShort')}
           </span>
+          
         </a>
         <div className="flex items-center gap-3 shrink-0">
           {socialLinksNoMax.map(({ href, label, icon }) => (
