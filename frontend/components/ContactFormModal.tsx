@@ -69,10 +69,9 @@ export function ContactFormModal({ isOpen, onClose }: Props) {
           </svg>
         </button>
         <div className="p-6 md:p-8">
-          <h2 id="modal-title" className="font-serif text-xl md:text-2xl font-medium text-black tracking-tight pr-10">
+          <h2 id="modal-title" className="font-serif text-xl md:text-2xl font-medium text-black tracking-tight pr-10 mb-6">
             {t('formMain')}
           </h2>
-          <p className="mt-2 font-sans text-sm text-black/80 mb-6">{t('inboxNote')}</p>
           {sent ? (
             <p className="font-sans text-black/80">{t('thanks')}</p>
           ) : (

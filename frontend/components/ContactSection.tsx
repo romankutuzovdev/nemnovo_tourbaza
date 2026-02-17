@@ -53,7 +53,7 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-16 md:py-24 bg-white">
+    <section id="contact" className="pt-6 md:pt-8 pb-16 md:pb-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight">{t('contact.title')}</h2>
 
@@ -104,8 +104,7 @@ export function ContactSection() {
           {/* Форма */}
           <div className="lg:col-span-3">
             <div className="max-w-xl">
-              <h3 className="font-serif text-xl font-medium text-black mb-2">{t('contact.formMain')}</h3>
-              <p className="font-sans text-sm text-black/80 mb-6">{t('contact.inboxNote')}</p>
+              <h3 className="font-serif text-xl font-medium text-black mb-6">{t('contact.formMain')}</h3>
               {sent ? (
                 <p className="font-sans text-black/80">{t('contact.thanks')}</p>
               ) : (

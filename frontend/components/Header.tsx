@@ -123,7 +123,7 @@ export function Header() {
           <span className="font-sans text-[10px] sm:text-xs leading-tight truncate max-w-[180px] sm:max-w-[240px] md:max-w-none">
             {t('footer.addressShort')}
           </span>
-          
+
         </a>
         <div className="flex items-center gap-3 shrink-0">
           {socialLinksNoMax.map(({ href, label, icon }) => (
@@ -142,7 +142,7 @@ export function Header() {
         </div>
         </div>
       </div>
-      <div className="w-full bg-white/90 backdrop-blur-md border-b border-secondary/10 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 min-h-14 h-14 sm:h-16 md:h-[4.25rem] lg:h-20 flex items-stretch">
+      <div className="w-full bg-white/90 backdrop-blur-md border-b border-secondary/10 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 min-h-14 h-14 sm:h-16 md:h-[4.25rem] lg:h-20 flex items-stretch pt-4 sm:pt-0">
         {/* Слева: лого + Немново */}
         <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 shrink-0 min-w-0 border-b border-secondary/10 md:border-b-0 pr-2 sm:pr-3 md:pr-4 lg:pr-5">
           <Link

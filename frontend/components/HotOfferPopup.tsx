@@ -139,9 +139,9 @@ export function HotOfferPopup() {
       className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm animate-fade-in pb-[env(safe-area-inset-bottom,0)]"
       onClick={(e) => e.target === e.currentTarget && close()}
     >
-      {/* Широкий баннер: десктоп max-w-6xl с фиксированной высотой, мобильный — на весь экран снизу */}
+      {/* Широкий баннер: десктоп max-w-6xl с фиксированной высотой, мобильный — высота 94vh, контент справа листается */}
       <div
-        className="relative w-full max-w-6xl h-[94vh] max-h-[94vh] sm:h-[85vh] sm:max-h-[88vh] overflow-hidden bg-white shadow-xl animate-fade-up flex flex-col sm:flex-row rounded-t-2xl sm:rounded-none min-h-[85vh] sm:min-h-[480px]"
+        className="relative w-full max-w-6xl h-[94vh] max-h-[94vh] sm:h-[85vh] sm:max-h-[88vh] sm:min-h-[480px] bg-white shadow-xl animate-fade-up flex flex-col rounded-t-2xl sm:rounded-none overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -153,8 +153,8 @@ export function HotOfferPopup() {
           <span className="text-2xl leading-none">×</span>
         </button>
 
-        {/* Слева 70% — картинка; на десктопе — явная высота и flex-1 чтобы не схлопывалось */}
-        <div className="w-full sm:w-[70%] flex-shrink-0 relative h-[50vh] min-h-[240px] sm:h-full sm:min-h-[400px] aspect-[4/3] sm:aspect-auto bg-secondary/10">
+        {/* Слева 70% — картинка; на мобильном фиксированная высота, на десктопе — на всю высоту */}
+        <div className="w-full sm:w-[70%] flex-shrink-0 relative h-[40vh] min-h-[200px] max-h-[320px] sm:h-full sm:min-h-[400px] sm:max-h-none aspect-[4/3] sm:aspect-auto bg-secondary/10">
           {imageSrc ? (
             <img
               src={imageSrc}
@@ -169,8 +169,8 @@ export function HotOfferPopup() {
           )}
         </div>
 
-        {/* Справа 30% — таймер, описание, кнопка и форма заявки */}
-        <div className="w-full sm:w-[30%] flex-shrink-0 flex flex-col min-h-0 p-4 sm:p-5 overflow-y-auto border-t sm:border-t-0 sm:border-l border-black/10">
+        {/* Справа 30% — таймер, описание, кнопка и форма заявки; на мобильном — прокручиваемая область */}
+        <div className="w-full sm:w-[30%] flex-1 sm:flex-shrink-0 flex flex-col min-h-0 p-4 sm:p-5 overflow-y-auto overflow-x-hidden border-t sm:border-t-0 sm:border-l border-black/10">
           <h3 className="font-serif text-lg sm:text-xl font-medium text-black mb-2 pr-10">{offer.title}</h3>
 
           {showTimer ? (

@@ -13,9 +13,15 @@ export function AgenciesSection() {
   const whyItems = [t('why1'), t('why2'), t('why3'), t('why4'), t('why5'), t('why6')]
 
   return (
-    <section id="agencies" className="pb-16 md:pb-24">
+    <section id="agencies" className="pt-6 md:pt-8 pb-16 md:pb-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <hr className="mb-10 md:mb-14 border-t border-secondary/20" />
+        <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight max-w-2xl">
+          {t('title')}
+        </h2>
+        <p className="mt-4 font-sans text-black/80 max-w-xl">
+          {t('intro')}
+        </p>
+        <hr className="mt-10 md:mt-12 mb-10 md:mb-14 border-t border-secondary/20" />
 
         {/* Почему выбирают нас */}
         <h2 className="font-serif text-2xl md:text-3xl font-medium text-black tracking-tight mb-6 md:mb-8">

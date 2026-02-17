@@ -6,8 +6,8 @@ import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
 
 export const PAGE_CONTAINER = 'max-w-6xl mx-auto px-4 sm:px-6'
-// На мобильных отступ больше (хедер выше), на десктопе — меньше
-export const PAGE_TOP = 'pt-40 md:pt-24 pb-10'
+// На мобильных отступ больше (хедер выше), на десктопе — меньше. pb единый под заголовок страницы.
+export const PAGE_TOP = 'pt-40 md:pt-24 pb-6 md:pb-8'
 
 /** Сегмент пути → ключ перевода (nav.* или footer.legal.*) */
 const SEGMENT_TO_KEY: Record<string, string> = {
@@ -41,6 +41,8 @@ type PageLayoutProps = {
   hideBreadcrumbs?: boolean
   /** Simple home link like on news page (text link, same spacing) */
   simpleHomeLink?: boolean
+  /** Больше верхнего отступа, чтобы ссылка «назад» не заходила под хедер */
+  moreTopPadding?: boolean
 }
 
 function pathSegments(pathname: string, locale: string): string[] {
@@ -51,7 +53,7 @@ function pathSegments(pathname: string, locale: string): string[] {
   return path ? path.split('/').filter(Boolean) : []
 }
 
-export function PageLayout({ children, badge, title, description, titlePrimary, headerClassName, hideBreadcrumbs, simpleHomeLink }: PageLayoutProps) {
+export function PageLayout({ children, badge, title, description, titlePrimary, headerClassName, hideBreadcrumbs, simpleHomeLink, moreTopPadding }: PageLayoutProps) {
   const locale = useLocale()
   const pathname = usePathname() ?? ''
   const t = useTranslations()
@@ -67,7 +69,9 @@ export function PageLayout({ children, badge, title, description, titlePrimary, 
     breadcrumbs.push({ href: acc, label })
   }
 
-  const headerSpacing = simpleHomeLink ? 'pt-40 md:pt-24 pb-12 md:pb-14' : undefined
+  const headerSpacing = simpleHomeLink
+    ? (moreTopPadding ? 'pt-44 md:pt-32 pb-6 md:pb-8' : 'pt-40 md:pt-24 pb-6 md:pb-8')
+    : undefined
 
   return (
     <div className="min-h-screen">
