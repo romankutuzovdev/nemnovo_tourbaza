@@ -81,7 +81,7 @@ export function Footer() {
     <footer className="bg-secondary/60 border-t border-secondary/10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 lg:gap-12">
-          {/* Колонка 1: лого, подпись, кнопка «Как добраться», соцсети */}
+          {/* Колонка 1: лого, подпись, соцсети */}
           <div className="flex flex-col">
             <Link
               href={`/${locale}`}
@@ -99,12 +99,6 @@ export function Footer() {
             <p className="mt-3 font-sans text-sm text-black/80 max-w-xs whitespace-pre-line">
               {t('footer.slogan')}
             </p>
-            <Link
-              href={`/${locale}/how-to-get`}
-              className="mt-4 inline-flex items-center justify-center px-5 py-2.5 rounded-lg border border-secondary/30 text-black font-sans text-sm font-medium hover:border-primary/50 hover:bg-primary/5 transition-colors w-fit"
-            >
-              {t('footer.howToGet')}
-            </Link>
             <div className="flex gap-3 mt-6">
               {SOCIAL_LINKS.map(({ href, label, icon }) => (
                 <SocialLink key={href} href={href} label={label} icon={icon} />
@@ -112,22 +106,32 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Колонка 2: время работы, адрес, телефон */}
+          {/* Колонка 2: адрес, время работы, телефон */}
           <div className="font-sans text-sm text-black/80 space-y-4">
-            <div>
-              <p className="font-medium text-black mb-1">{t('footer.workingHours')}</p>
-              <p>{t('footer.workingHoursValue')}</p>
-            </div>
             <div>
               <p className="font-medium text-black mb-1">{t('footer.addressLabel')}</p>
               <p>{t('footer.address')}</p>
             </div>
             <div>
-              <p className="font-medium text-black mb-1">{t('footer.phone')}</p>
-              <a href={`tel:${t('footer.phoneValue').replace(/\s/g, '')}`} className="hover:text-black transition-colors">
-                {t('footer.phoneValue')}
-              </a>
+              <p className="font-medium text-black mb-1">{t('footer.workingHours')}</p>
+              <p className="whitespace-pre-line uppercase">{t('footer.workingHoursValue')}</p>
             </div>
+            <div className="space-y-3">
+              <div>
+                <p className="font-medium text-black mb-1">{t('footer.phone1Label')}</p>
+                <a href="tel:+375291792539" className="hover:text-black transition-colors">+375 29 179 25 39</a>
+              </div>
+              <div>
+                <p className="font-medium text-black mb-1">{t('footer.phone2Label')}</p>
+                <a href="tel:+375297801304" className="hover:text-black transition-colors">+375 29 780 13 04</a>
+              </div>
+            </div>
+            <Link
+              href={`/${locale}/how-to-get`}
+              className="mt-4 inline-flex items-center justify-center px-5 py-2.5 rounded-lg border border-secondary/30 text-black font-sans text-sm font-medium hover:border-primary/50 hover:bg-primary/5 transition-colors w-fit"
+            >
+              {t('footer.howToGet')}
+            </Link>
           </div>
 
           {/* Колонка 3: реквизиты, кнопки политик */}

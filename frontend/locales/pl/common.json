@@ -71,7 +71,7 @@
   },
   "eventsSection": {
     "badge": "Wydarzenia",
-    "title": "Maratony i biwak",
+    "title": "Wydarzenia",
     "allEvents": "Wszystkie wydarzenia",
     "more": "Więcej →"
   },
@@ -125,7 +125,7 @@
     "title": "Skontaktuj się",
     "intro": "Zapytania: office@nemnovotour.by. Skargi i sugestie na osobny adres.",
     "inboxNote": "Zapytania trafiają na office@nemnovotour.by. Odpowiemy w ciągu dnia.",
-    "complaintIntro": "Skargi i sugestie trafiają na marketing@nemnovo.by.",
+    "complaintIntro": "Zostaw opinię",
     "formMain": "Rezerwacja / zapytanie",
     "formComplaint": "Skargi i sugestie",
     "nameLabel": "Imię",
@@ -152,9 +152,11 @@
     "cookiePolicy": "Polityka dotycząca plików cookie",
     "copyright": "Nemnovo",
     "workingHours": "Godziny pracy",
-    "workingHoursValue": "Pn–Nd 9:00–21:00",
+    "workingHoursValue": "ŚR–ND 8:00–22:00\nPN, WT — ZAMKNIĘTE",
     "phone": "Telefon",
     "phoneValue": "+375 29 123 45 67",
+    "phone1Label": "Administrator",
+    "phone2Label": "Specjalista ds. turystyki",
     "legalAddressLabel": "Adres rejestrowy:",
     "officeAddressLabel": "Adres biura:",
     "addressLabel": "Adres",
@@ -225,13 +227,19 @@
     "phoneValue": "+375 29 123 45 67",
     "emailValue": "office@nemnovotour.by"
   },
+  "hotOffer": {
+    "close": "Zamknij",
+    "closeAria": "Zamknij okno oferty",
+    "formTitle": "Zostaw zapytanie",
+    "timerEndsIn": "Oferta kończy się za"
+  },
   "common": {
     "allServices": "Wszystkie usługi",
     "otherServices": "Wszystkie usługi",
     "toServicesPage": "Strona «Co oferujemy»",
     "allEvents": "Wszystkie wydarzenia",
     "otherEvents": "Inne wydarzenia",
-    "toEventsPage": "Strona «Maratony i biwak»",
+    "toEventsPage": "Strona «Wydarzenia»",
     "allNews": "Wszystkie aktualności",
     "otherNews": "Inne aktualności",
     "toNewsPage": "Strona «Aktualności»"

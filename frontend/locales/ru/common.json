@@ -71,7 +71,7 @@
   },
   "eventsSection": {
     "badge": "Мероприятия",
-    "title": "Марафоны и турслёт",
+    "title": "Мероприятия",
     "allEvents": "Все мероприятия",
     "more": "Подробнее →"
   },
@@ -116,11 +116,11 @@
   "contact": {
     "badge": "Контакты",
     "title": "Свяжитесь с нами",
-    "intro": "Заявки приходят на office@nemnovotour.by. Претензии и предложения — на отдельную почту.",
+    "intro": "Заявки приходят на office@nemnovotour.by. Гостевая книга — на отдельную почту.",
     "inboxNote": "Заявки приходят на office@nemnovotour.by. Ответим в течение дня.",
-    "complaintIntro": "Претензии и предложения приходят на marketing@nemnovo.by.",
+    "complaintIntro": "Оставить отзыв",
     "formMain": "Заявка на бронирование / вопрос",
-    "formComplaint": "Претензии и предложения",
+    "formComplaint": "Гостевая книга",
     "nameLabel": "Имя",
     "namePlaceholder": "Как к вам обращаться",
     "emailLabel": "Email",
@@ -145,9 +145,11 @@
     "cookiePolicy": "Политика в отношении обработки cookie",
     "copyright": "Немново",
     "workingHours": "Время работы",
-    "workingHoursValue": "Пн–Вс 9:00–21:00",
+    "workingHoursValue": "СР–ВС 8:00–22:00\nПН, ВТ — ВЫХОДНОЙ",
     "phone": "Телефон",
     "phoneValue": "+375 29 123 45 67",
+    "phone1Label": "Администратор",
+    "phone2Label": "Специалист по туризму",
     "legalAddressLabel": "Юридический адрес:",
     "officeAddressLabel": "Адрес офиса:",
     "addressLabel": "Адрес",
@@ -218,13 +220,19 @@
     "phoneValue": "+375 29 123 45 67",
     "emailValue": "office@nemnovotour.by"
   },
+  "hotOffer": {
+    "close": "Закрыть",
+    "closeAria": "Закрыть окно предложения",
+    "formTitle": "Оставить заявку",
+    "timerEndsIn": "До конца предложения"
+  },
   "common": {
     "allServices": "Все услуги",
     "otherServices": "Все услуги",
     "toServicesPage": "На страницу «Что мы предлагаем»",
     "allEvents": "Все мероприятия",
     "otherEvents": "Другие мероприятия",
-    "toEventsPage": "На страницу «Марафоны и турслёт»",
+    "toEventsPage": "На страницу «Мероприятия»",
     "allNews": "Все новости",
     "otherNews": "Другие новости",
     "toNewsPage": "На страницу «Новости»"

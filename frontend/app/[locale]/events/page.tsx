@@ -16,7 +16,7 @@ export default function EventsPage() {
       <header className="pt-24 pb-10 max-w-6xl mx-auto px-4 sm:px-6">
         <Link
           href={`/${locale}`}
-          className="inline-flex items-center gap-2 font-sans text-sm text-white/80 hover:text-white transition-colors"
+          className="lg:hidden inline-flex items-center gap-2 font-sans text-sm text-white/80 hover:text-white transition-colors"
         >
           ← {t('nav.home')}
         </Link>

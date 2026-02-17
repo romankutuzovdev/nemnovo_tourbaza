@@ -71,7 +71,7 @@
   },
   "eventsSection": {
     "badge": "Events",
-    "title": "Marathons and tour camp",
+    "title": "Events",
     "allEvents": "All events",
     "more": "Learn more →"
   },
@@ -118,7 +118,7 @@
     "title": "Get in touch",
     "intro": "Requests go to office@nemnovotour.by. Complaints and suggestions to a separate email.",
     "inboxNote": "Requests go to office@nemnovotour.by. We will reply within a day.",
-    "complaintIntro": "Complaints and suggestions go to marketing@nemnovo.by.",
+    "complaintIntro": "Leave a review",
     "formMain": "Booking / enquiry",
     "formComplaint": "Complaints and suggestions",
     "nameLabel": "Name",
@@ -145,9 +145,11 @@
     "cookiePolicy": "Cookie policy",
     "copyright": "Nemnovo",
     "workingHours": "Working hours",
-    "workingHoursValue": "Mon–Sun 9:00–21:00",
+    "workingHoursValue": "WED–SUN 8:00–22:00\nMON, TUE — CLOSED",
     "phone": "Phone",
     "phoneValue": "+375 29 123 45 67",
+    "phone1Label": "Administrator",
+    "phone2Label": "Tourism specialist",
     "legalAddressLabel": "Legal address:",
     "officeAddressLabel": "Office address:",
     "addressLabel": "Address",
@@ -218,13 +220,19 @@
     "phoneValue": "+375 29 123 45 67",
     "emailValue": "office@nemnovotour.by"
   },
+  "hotOffer": {
+    "close": "Close",
+    "closeAria": "Close offer popup",
+    "formTitle": "Leave a request",
+    "timerEndsIn": "Offer ends in"
+  },
   "common": {
     "allServices": "All services",
     "otherServices": "All services",
     "toServicesPage": "To «What we offer» page",
     "allEvents": "All events",
     "otherEvents": "Other events",
-    "toEventsPage": "To «Marathons and tour camp» page",
+    "toEventsPage": "To «Events» page",
     "allNews": "All news",
     "otherNews": "Other news",
     "toNewsPage": "To «News» page"

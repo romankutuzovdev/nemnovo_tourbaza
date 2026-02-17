@@ -71,7 +71,7 @@
   },
   "eventsSection": {
     "badge": "活动",
-    "title": "马拉松和露营",
+    "title": "活动",
     "allEvents": "全部活动",
     "more": "了解更多 →"
   },
@@ -118,7 +118,7 @@
     "title": "联系我们",
     "intro": "申请发送至 office@nemnovotour.by。投诉与建议发至单独邮箱。",
     "inboxNote": "申请发送至 office@nemnovotour.by，我们将在当日回复。",
-    "complaintIntro": "投诉与建议发送至 marketing@nemnovo.by。",
+    "complaintIntro": "留下评价",
     "formMain": "预订 / 咨询",
     "formComplaint": "投诉与建议",
     "nameLabel": "姓名",
@@ -145,9 +145,11 @@
     "cookiePolicy": "Cookie政策",
     "copyright": "Nemnovo",
     "workingHours": "营业时间",
-    "workingHoursValue": "周一至周日 9:00–21:00",
+    "workingHoursValue": "周三至周日 8:00–22:00\n周一、周二 休息",
     "phone": "电话",
     "phoneValue": "+375 29 123 45 67",
+    "phone1Label": "管理员",
+    "phone2Label": "旅游专员",
     "legalAddressLabel": "注册地址：",
     "officeAddressLabel": "办公地址：",
     "addressLabel": "地址",
@@ -218,13 +220,19 @@
     "phoneValue": "+375 29 123 45 67",
     "emailValue": "office@nemnovotour.by"
   },
+  "hotOffer": {
+    "close": "关闭",
+    "closeAria": "关闭优惠弹窗",
+    "formTitle": "提交咨询",
+    "timerEndsIn": "优惠截止"
+  },
   "common": {
     "allServices": "全部服务",
     "otherServices": "全部服务",
     "toServicesPage": "前往「我们提供的服务」",
     "allEvents": "全部活动",
     "otherEvents": "其他活动",
-    "toEventsPage": "前往「马拉松和露营」",
+    "toEventsPage": "前往「活动」",
     "allNews": "全部新闻",
     "otherNews": "其他新闻",
     "toNewsPage": "前往「新闻」"

@@ -5,6 +5,7 @@ from .models import (
     Event, EventTranslation,
     News, NewsTranslation,
     Promo, PromoTranslation,
+    HotOffer, HotOfferTranslation,
     PortfolioItem, PortfolioItemImage, PortfolioItemTranslation,
     Review,
     Partner,
@@ -268,6 +269,41 @@ class PromoDetailSerializer(serializers.ModelSerializer):
         if obj.image:
             return _build_media_url(self.context.get('request'), obj.image)
         return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
+
+
+class HotOfferListSerializer(serializers.ModelSerializer):
+    """Горячее предложение для попапа: заголовок, описание, кнопка, картинка, ссылка, задержка, дата окончания."""
+    title = serializers.SerializerMethodField()
+    short_desc = serializers.SerializerMethodField()
+    button_text = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
+    valid_until = serializers.SerializerMethodField()
+
+    class Meta:
+        model = HotOffer
+        fields = ['slug', 'image', 'link_url', 'order', 'delay_seconds', 'valid_until', 'title', 'short_desc', 'button_text']
+
+    def get_valid_until(self, obj):
+        if obj.valid_until is None:
+            return None
+        return obj.valid_until.isoformat()
+
+    def get_title(self, obj):
+        t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
+        return t.title if t else obj.slug
+
+    def get_short_desc(self, obj):
+        t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
+        return t.short_desc if t else ''
+
+    def get_button_text(self, obj):
+        t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
+        return (t.button_text or 'Подробнее') if t else 'Подробнее'
+
+    def get_image(self, obj):
+        if obj.image:
+            return _build_media_url(self.context.get('request'), obj.image)
+        return None
 
 
 class PortfolioItemListSerializer(serializers.ModelSerializer):

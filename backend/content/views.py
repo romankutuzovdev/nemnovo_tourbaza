@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Service, Event, News, Promo, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo
+from .models import Service, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo
 from .serializers import (
     ServiceListSerializer,
     ServiceDetailSerializer,
@@ -22,6 +22,7 @@ from .serializers import (
     NewsDetailSerializer,
     PromoListSerializer,
     PromoDetailSerializer,
+    HotOfferListSerializer,
     PortfolioItemListSerializer,
     PortfolioItemDetailSerializer,
     _portfolio_image_urls,
@@ -155,6 +156,15 @@ def promo_detail(request, slug):
 
 
 @api_view(['GET'])
+def hot_offer_list(request):
+    """Список активных горячих предложений для попапа (по одному показывают через 5 сек)."""
+    locale = get_locale(request)
+    qs = HotOffer.objects.filter(is_active=True)
+    serializer = HotOfferListSerializer(qs, many=True, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 def partner_list(request):
     """Список партнёров для блока «С кем мы сотрудничаем»."""
     qs = Partner.objects.all()
@@ -198,16 +208,18 @@ def contact_submit(request):
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     form_type = data.get('type')
-    if form_type not in ('main', 'complaint'):
-        return JsonResponse({'error': 'type must be main or complaint'}, status=400)
+    if form_type not in ('main', 'complaint', 'hot_offer'):
+        return JsonResponse({'error': 'type must be main, complaint or hot_offer'}, status=400)
     name = (data.get('name') or '').strip()
     email = (data.get('email') or '').strip()
     message = (data.get('message') or '').strip()
     if not name or not email or not message:
         return JsonResponse({'error': 'name, email, message required'}, status=400)
     to_email = getattr(settings, 'CONTACT_TEST_EMAIL', 'roman.kutuzov.dev@gmail.com')
-    subject = '[Заявка] Nemnovo Tour' if form_type == 'main' else '[Претензия/предложение] Nemnovo Tour'
-    body = f"Тип: {'Заявка' if form_type == 'main' else 'Претензия/предложение'}\nИмя: {name}\nEmail: {email}\n\nСообщение:\n{message}"
+    subject_map = {'main': '[Заявка] Nemnovo Tour', 'complaint': '[Претензия/предложение] Nemnovo Tour', 'hot_offer': '[Горячее предложение] Nemnovo Tour'}
+    subject = subject_map.get(form_type, '[Заявка] Nemnovo Tour')
+    type_label = {'main': 'Заявка', 'complaint': 'Претензия/предложение', 'hot_offer': 'Горячее предложение'}.get(form_type, form_type)
+    body = f"Тип: {type_label}\nИмя: {name}\nEmail: {email}\n\nСообщение:\n{message}"
     try:
         send_mail(
             subject=subject,

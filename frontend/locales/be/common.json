@@ -71,7 +71,7 @@
   },
   "eventsSection": {
     "badge": "Мерапрыемствы",
-    "title": "Марафоны і турслёт",
+    "title": "Мерапрыемствы",
     "allEvents": "Усе мерапрыемствы",
     "more": "Падрабязней →"
   },
@@ -118,7 +118,7 @@
     "title": "Звяжыцеся з нами",
     "intro": "Заяўкі прыходзяць на office@nemnovotour.by.",
     "inboxNote": "Заяўкі прыходзяць на office@nemnovotour.by. Адкажам на працягу дня.",
-    "complaintIntro": "Прэтэнзіі і прапановы прыходзяць на marketing@nemnovo.by.",
+    "complaintIntro": "Пакінуць водгук",
     "formMain": "Заяўка на браніраванне",
     "formComplaint": "Прэтэнзіі і прапановы",
     "nameLabel": "Імя",
@@ -145,9 +145,11 @@
     "cookiePolicy": "Палітыка ў адносінах да апрацоўкі cookie",
     "copyright": "Немнова",
     "workingHours": "Час работы",
-    "workingHoursValue": "Пн–Нд 9:00–21:00",
+    "workingHoursValue": "СР–НД 8:00–22:00\nПН, АЎТ — ВЫХОДНЫ",
     "phone": "Тэлефон",
     "phoneValue": "+375 29 123 45 67",
+    "phone1Label": "Адміністратар",
+    "phone2Label": "Спецыяліст па турызме",
     "legalAddressLabel": "Юрыдычны адрас:",
     "officeAddressLabel": "Адрас офіса:",
     "addressLabel": "Адрас",
@@ -218,13 +220,19 @@
     "phoneValue": "+375 29 123 45 67",
     "emailValue": "office@nemnovotour.by"
   },
+  "hotOffer": {
+    "close": "Закрыць",
+    "closeAria": "Закрыць акно прапановы",
+    "formTitle": "Пакінуць заяўку",
+    "timerEndsIn": "Да канца прапановы"
+  },
   "common": {
     "allServices": "Усе паслугі",
     "otherServices": "Усе паслугі",
     "toServicesPage": "На старонку «Што мы прапануем»",
     "allEvents": "Усе мерапрыемствы",
     "otherEvents": "Іншыя мерапрыемствы",
-    "toEventsPage": "На старонку «Марафоны і турслёт»",
+    "toEventsPage": "На старонку «Мерапрыемствы»",
     "allNews": "Усе навіны",
     "otherNews": "Іншыя навіны",
     "toNewsPage": "На старонку «Навіны»"

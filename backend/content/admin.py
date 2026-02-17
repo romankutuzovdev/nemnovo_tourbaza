@@ -4,6 +4,7 @@ from .models import (
     Event, EventTranslation,
     News, NewsTranslation,
     Promo, PromoTranslation,
+    HotOffer, HotOfferTranslation,
     PortfolioItem, PortfolioItemImage, PortfolioItemTranslation,
     Review,
     Partner,
@@ -57,6 +58,18 @@ class PromoAdmin(admin.ModelAdmin):
     list_display = ['slug', 'order', 'is_active']
     list_filter = ['is_active']
     inlines = [PromoTranslationInline]
+
+
+class HotOfferTranslationInline(admin.TabularInline):
+    model = HotOfferTranslation
+    extra = 0
+
+
+@admin.register(HotOffer)
+class HotOfferAdmin(admin.ModelAdmin):
+    list_display = ['slug', 'order', 'is_active', 'delay_seconds', 'valid_until', 'link_url']
+    list_filter = ['is_active']
+    inlines = [HotOfferTranslationInline]
 
 
 class PortfolioItemTranslationInline(admin.TabularInline):

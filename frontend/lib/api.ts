@@ -100,6 +100,25 @@ export function getPromoImageSrc(item: { image: string | null; image_url: string
   return item.image_url || ''
 }
 
+/** Элемент из /api/hot-offers/?locale= (горячее предложение для попапа) */
+export type HotOfferItem = {
+  slug: string
+  image: string | null
+  link_url: string
+  order: number
+  delay_seconds: number
+  valid_until: string | null
+  title: string
+  short_desc: string
+  button_text: string
+}
+
+/** URL картинки горячего предложения (только загруженный image) */
+export function getHotOfferImageSrc(item: { image: string | null }): string {
+  if (item.image) return toAbsoluteImageUrl(item.image)
+  return ''
+}
+
 /** Элемент из /api/portfolio/?locale= */
 export type PortfolioItem = {
   slug: string
@@ -199,6 +218,13 @@ export async function fetchPromoBySlug(slug: string, locale: Locale): Promise<Pr
   if (res.status === 404) return null
   if (!res.ok) return null
   return res.json().catch(() => null)
+}
+
+export async function fetchHotOffers(locale: Locale): Promise<HotOfferItem[]> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/hot-offers/?locale=${loc}`)
+  if (!res?.ok) return []
+  return res.json().catch(() => [])
 }
 
 export async function fetchPortfolio(locale: Locale): Promise<PortfolioItem[]> {
@@ -303,8 +329,8 @@ export async function fetchCompanyInfo(): Promise<CompanyInfo | null> {
   return res.json().catch(() => null)
 }
 
-/** Отправка формы контакта (заявка или претензия). Тестово письма уходят на один ящик. */
-export type ContactFormType = 'main' | 'complaint'
+/** Отправка формы контакта (заявка, претензия или обратная связь из горячего предложения). */
+export type ContactFormType = 'main' | 'complaint' | 'hot_offer'
 
 export async function sendContactForm(
   type: ContactFormType,

@@ -30,6 +30,7 @@ export function ComplaintFormSection() {
       <div>
         <h2 className="font-serif text-2xl md:text-3xl font-medium text-black tracking-tight">{t('contact.formComplaint')}</h2>
         <p className="mt-2 font-sans text-sm text-black/80 mb-8 max-w-xl">{t('contact.complaintIntro')}</p>
+        <div className="mt-6">
         {sent ? (
           <p className="font-sans text-black/80">{t('contact.thanks')}</p>
         ) : (
@@ -51,6 +52,7 @@ export function ComplaintFormSection() {
             <button type="submit" disabled={loading} className="px-6 py-3 border border-secondary/30 text-black font-sans text-sm tracking-wide hover:border-secondary/50 transition-colors disabled:opacity-60">{loading ? t('contact.sending') : t('contact.send')}</button>
           </form>
         )}
+        </div>
       </div>
     </section>
   )

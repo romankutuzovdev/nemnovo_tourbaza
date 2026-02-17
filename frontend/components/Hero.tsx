@@ -20,7 +20,7 @@ export function Hero() {
           animation: 'gradient-shift 15s ease infinite',
         }}
       />
-      <div className="max-w-4xl mx-auto px-6 text-center relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center relative">
         <p className="font-sans text-base md:text-lg tracking-[0.2em] uppercase text-black/80 mb-6 animate-fade-up" style={{ animationDelay: '0.1s', opacity: 0, animationFillMode: 'forwards' }}>
           {t('hero.badge')}
         </p>

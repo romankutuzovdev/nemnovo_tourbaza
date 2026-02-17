@@ -80,7 +80,6 @@ export function Header() {
   const nav = [
     { href: `/${locale}/about`, label: t('nav.about') },
     { href: `/${locale}/services`, label: t('nav.services') },
-    { href: `/${locale}/events`, label: t('nav.events') },
     { href: `/${locale}/portfolio`, label: t('nav.portfolio') },
     { href: `/${locale}/promos`, label: t('nav.promos') },
     { href: `/${locale}/news`, label: t('nav.news') },

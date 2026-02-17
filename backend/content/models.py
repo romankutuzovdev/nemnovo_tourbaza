@@ -268,6 +268,47 @@ class NewsTranslation(models.Model):
         return f'{self.news.slug} ({self.locale})'
 
 
+class HotOffer(models.Model):
+    """Горячее предложение для всплывающего окна: задержка и дата окончания задаются в админке."""
+    slug = models.SlugField(max_length=120, unique=True)
+    image = models.ImageField(upload_to='hot_offers/', blank=True, null=True)
+    link_url = models.URLField(blank=True, help_text='Ссылка кнопки (например на страницу услуги или акции)')
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    delay_seconds = models.PositiveIntegerField(
+        default=5,
+        help_text='Через сколько секунд после захода на сайт показать попап',
+    )
+    valid_until = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='До какой даты действует предложение (для таймера обратного отсчёта)',
+    )
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'Горячее предложение'
+        verbose_name_plural = 'Горячие предложения'
+
+    def __str__(self):
+        return self.slug
+
+
+class HotOfferTranslation(models.Model):
+    hot_offer = models.ForeignKey(HotOffer, on_delete=models.CASCADE, related_name='translations')
+    locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
+    title = models.CharField(max_length=200)
+    short_desc = models.TextField(blank=True)
+    button_text = models.CharField(max_length=100, blank=True, default='Подробнее')
+
+    class Meta:
+        unique_together = [('hot_offer', 'locale')]
+        ordering = ['hot_offer', 'locale']
+
+    def __str__(self):
+        return f'{self.hot_offer.slug} ({self.locale})'
+
+
 class CompanyInfo(models.Model):
     """Одна запись — контактные/юридические данные для футера и страниц (редактируются в админке)."""
     company_name = models.CharField('Название', max_length=200, default='ООО «Немново Тур»')

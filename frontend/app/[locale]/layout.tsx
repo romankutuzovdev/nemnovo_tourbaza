@@ -6,6 +6,7 @@ import { setRequestLocale } from 'next-intl/server'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { CookieBanner } from '@/components/CookieBanner'
+import { HotOfferPopup } from '@/components/HotOfferPopup'
 import { LocaleProvider } from '@/contexts/LocaleContext'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { isValidLocale, type Locale } from '@/lib/i18n'
@@ -72,6 +73,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <main className="flex-1">{children}</main>
         <Footer />
         <CookieBanner />
+        <HotOfferPopup />
         </AuthProvider>
       </LocaleProvider>
     </NextIntlClientProvider>

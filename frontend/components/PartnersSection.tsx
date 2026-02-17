@@ -63,7 +63,7 @@ export function PartnersSection() {
 
   return (
     <section className="py-20 md:py-24 bg-secondary/40 border-y border-secondary/10">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
           <h2 className="font-serif text-2xl md:text-3xl font-medium text-black tracking-tight">
             {t('title')}
@@ -73,7 +73,7 @@ export function PartnersSection() {
         {partners.length === 0 ? (
           <div className="mt-10 font-sans text-sm text-black/60">{t('loading')}</div>
         ) : (
-          <div className="mt-12 max-w-6xl mx-auto px-6">
+          <div className="mt-12">
             <div className="relative">
               <div
                 ref={scrollRef}
