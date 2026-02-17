@@ -14,9 +14,9 @@ const config: Config = {
         white: '#FFFFFF',
       },
       fontFamily: {
-        serif: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-        'serif-legacy': ['Georgia', 'Times New Roman', 'Times', 'serif'],
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        sans: ['var(--font-pt-serif)', 'PT Serif', 'Georgia', 'Times New Roman', 'serif'],
+        serif: ['var(--font-pt-serif)', 'PT Serif', 'Georgia', 'Times New Roman', 'serif'],
+        'serif-legacy': ['var(--font-pt-serif)', 'PT Serif', 'Georgia', 'Times New Roman', 'serif'],
       },
       animation: {
         'fade-up': 'fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards',

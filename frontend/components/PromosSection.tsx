@@ -44,7 +44,7 @@ export function PromosSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
           <div className="flex items-center justify-between gap-4 flex-wrap">
-            <h2 className="section-title-main text-black">
+            <h2 className="section-title-main text-primary">
               {t('promosSection.title')}
             </h2>
             {promos.length > 1 && (
