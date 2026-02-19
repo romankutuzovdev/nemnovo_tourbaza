@@ -57,7 +57,7 @@ export function HowToGetThereSection() {
   }, [address, gpsDisplay, gpsDisplayNum])
 
   return (
-    <section id="how-to-get" className="pt-6 md:pt-8 pb-16 md:pb-24 bg-secondary/40 border-t border-secondary/10">
+    <section id="how-to-get" className="pt-6 md:pt-8 pb-3 md:pb-4 bg-secondary/40 border-t border-secondary/10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
           <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold text-black tracking-tight shrink-0">

@@ -8,7 +8,7 @@ export function MapSection() {
   const t = useTranslations()
 
   return (
-    <section id="map" className="pt-12 md:pt-16 pb-24 md:pb-32 bg-secondary/30 border-t border-secondary/10">
+    <section id="map" className="pt-12 md:pt-16 pb-6 md:pb-8 bg-secondary/30 border-t border-secondary/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <h2 className="section-title-main text-primary mb-6">
           {t('howToGet.mapTitle') || 'Карта турбазы'}

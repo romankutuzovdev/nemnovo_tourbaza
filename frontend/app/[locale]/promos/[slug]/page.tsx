@@ -28,7 +28,7 @@ export default async function PromoPage({ params }: Props) {
   const hasImage = Boolean(imageSrc)
 
   return (
-    <div className="pt-36 md:pt-24 pb-24 md:pb-32 min-h-screen bg-white">
+    <div className="pt-36 md:pt-24 pb-12 md:pb-16 min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <Link
           href={`/${locale}/promos`}

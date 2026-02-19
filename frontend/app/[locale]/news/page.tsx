@@ -35,7 +35,7 @@ export default function NewsPage() {
           ← {t('nav.home')}
         </Link>
       </header>
-      <section className="pt-6 md:pt-8 pb-16 md:pb-24">
+      <section className="pt-6 md:pt-8 pb-3 md:pb-4">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight max-w-2xl mb-8 md:mb-10">
             {t('newsSection.title')}

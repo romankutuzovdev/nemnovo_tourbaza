@@ -15,7 +15,7 @@ export type MapArea = {
   photos?: string[]
 }
 
-const MAP_IMAGE = '/images/mapa-nemnovo.png'
+const MAP_IMAGE = '/map.png'
 
 // Фото с Unsplash (домики, природа, отдых). w=1200 — крупный размер для качества.
 const DEMO_PHOTOS = [
@@ -36,29 +36,29 @@ const DEMO_PHOTOS = [
   'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200',
 ]
 
-// Домики и палатки — синие кружки с номерами (координаты из калибровки).
+// Домики и палатки — синие эллипсы с номерами (координаты из калибровки).
 const MAP_AREAS: MapArea[] = [
-  { id: 'berloga', name: '9 Берлога', number: '9', left: 42.1, top: 4.6, width: 10, height: 8, photos: [DEMO_PHOTOS[0], DEMO_PHOTOS[4], DEMO_PHOTOS[5]] },
-  { id: 'paparats-kvetka', name: '10 Папараць-кветка', number: '10', left: 34.2, top: 14.3, width: 10, height: 8, photos: [DEMO_PHOTOS[1], DEMO_PHOTOS[6]] },
-  { id: 'kolobok', name: '8 Колобок', number: '8', left: 43.8, top: 21.7, width: 10, height: 8, photos: [DEMO_PHOTOS[2], DEMO_PHOTOS[7]] },
-  { id: 'ladya', name: '7 Ладья', number: '7', left: 43.2, top: 30.5, width: 10, height: 8, photos: [DEMO_PHOTOS[3], DEMO_PHOTOS[8]] },
-  { id: 'cherny-voron', name: '11 Черный ворон', number: '11', left: 31.9, top: 32.9, width: 10, height: 8, photos: [DEMO_PHOTOS[4], DEMO_PHOTOS[9]] },
-  { id: 'stolik-bobra', name: '12 Столик бобра', number: '12', left: 34.6, top: 42.4, width: 10, height: 8, photos: [DEMO_PHOTOS[5], DEMO_PHOTOS[10]] },
-  { id: 'berezki', name: '6 Березки', number: '6', left: 42.3, top: 45.9, width: 10, height: 8, photos: [DEMO_PHOTOS[6], DEMO_PHOTOS[11]] },
-  { id: 'ochag-bylin', name: '14 Очаг былин', number: '14', left: 28.2, top: 45.5, width: 10, height: 8, photos: [DEMO_PHOTOS[7], DEMO_PHOTOS[12]] },
-  { id: 'ogon-peruna', name: '12+1 Огонь Перуна', number: '12+1', left: 21.6, top: 56.4, width: 10, height: 8, photos: [DEMO_PHOTOS[8], DEMO_PHOTOS[13]] },
-  { id: 'tihaya-zatoka', name: '15 Тихая затока', number: '15', left: 28.6, top: 71.7, width: 10, height: 8, photos: [DEMO_PHOTOS[0], DEMO_PHOTOS[14]] },
-  { id: 'zeleny-dyatel', name: '16 Зеленый дятел', number: '16', left: 16.1, top: 78.4, width: 10, height: 8, photos: [DEMO_PHOTOS[1], DEMO_PHOTOS[2]] },
-  { id: 'buhta-gerodota', name: '18 Бухта Геродота', number: '18', left: 38.8, top: 60.1, width: 10, height: 8, photos: [DEMO_PHOTOS[2], DEMO_PHOTOS[3]] },
-  { id: 'tent-23', name: 'Палатка 23', number: '23', left: 41.6, top: 52.1, width: 10, height: 8, photos: [DEMO_PHOTOS[3], DEMO_PHOTOS[4]] },
-  { id: 'tent-22', name: 'Палатка 22', number: '22', left: 48.0, top: 45.6, width: 10, height: 8, photos: [DEMO_PHOTOS[4], DEMO_PHOTOS[5]] },
-  { id: 'syabry', name: '5 Сябры', number: '5', left: 54.3, top: 54.7, width: 10, height: 8, photos: [DEMO_PHOTOS[5], DEMO_PHOTOS[6]] },
-  { id: 'polka', name: '4 Полька', number: '4', left: 64.8, top: 57.0, width: 10, height: 8, photos: [DEMO_PHOTOS[6], DEMO_PHOTOS[7]] },
-  { id: 'karchma', name: '3 Карчма', number: '3', left: 65.7, top: 73.6, width: 10, height: 8, photos: [DEMO_PHOTOS[7], DEMO_PHOTOS[8]] },
-  { id: 'gavan', name: '2 Тихая гавань', number: '2', left: 65.3, top: 80.3, width: 10, height: 8, photos: [DEMO_PHOTOS[8], DEMO_PHOTOS[9]] },
-  { id: 'mokry-kot', name: '19 Мокрый кот', number: '19', left: 58.5, top: 82.2, width: 10, height: 8, photos: [DEMO_PHOTOS[9], DEMO_PHOTOS[10]] },
-  { id: 'uzhyk', name: '1 Ужик', number: '1', left: 90.5, top: 61.9, width: 10, height: 8, photos: [DEMO_PHOTOS[10], DEMO_PHOTOS[11]] },
-  { id: 'melnitsa', name: '24 Мельница', number: '24', left: 83.3, top: 67.9, width: 10, height: 8, photos: [DEMO_PHOTOS[11], DEMO_PHOTOS[12]] },
+  { id: 'berloga', name: '9 Берлога', number: '9', left: 42.1, top: 7.1, width: 10, height: 8, photos: [DEMO_PHOTOS[0], DEMO_PHOTOS[4], DEMO_PHOTOS[5]] },
+  { id: 'paparats-kvetka', name: '10 Папараць-кветка', number: '10', left: 35.9, top: 16.1, width: 10, height: 8, photos: [DEMO_PHOTOS[1], DEMO_PHOTOS[6]] },
+  { id: 'kolobok', name: '8 Колобок', number: '8', left: 44.0, top: 24.1, width: 10, height: 8, photos: [DEMO_PHOTOS[2], DEMO_PHOTOS[7]] },
+  { id: 'ladya', name: '7 Ладья', number: '7', left: 43.3, top: 32.4, width: 10, height: 8, photos: [DEMO_PHOTOS[3], DEMO_PHOTOS[8]] },
+  { id: 'cherny-voron', name: '11 Черный ворон', number: '11', left: 32.9, top: 34.6, width: 10, height: 8, photos: [DEMO_PHOTOS[4], DEMO_PHOTOS[9]] },
+  { id: 'stolik-bobra', name: '12 Столик бобра', number: '12', left: 34.9, top: 44.7, width: 10, height: 8, photos: [DEMO_PHOTOS[5], DEMO_PHOTOS[10]] },
+  { id: 'berezki', name: '6 Березки', number: '6', left: 42.4, top: 47.8, width: 10, height: 8, photos: [DEMO_PHOTOS[6], DEMO_PHOTOS[11]] },
+  { id: 'ochag-bylin', name: '14 Очаг былин', number: '14', left: 28.3, top: 47.3, width: 10, height: 8, photos: [DEMO_PHOTOS[7], DEMO_PHOTOS[12]] },
+  { id: 'ogon-peruna', name: '12+1 Огонь Перуна', number: '12+1', left: 22.0, top: 57.8, width: 10, height: 8, photos: [DEMO_PHOTOS[8], DEMO_PHOTOS[13]] },
+  { id: 'tihaya-zatoka', name: '15 Тихая затока', number: '15', left: 28.5, top: 73.7, width: 10, height: 8, photos: [DEMO_PHOTOS[0], DEMO_PHOTOS[14]] },
+  { id: 'zeleny-dyatel', name: '16 Зеленый дятел', number: '16', left: 16.7, top: 80.3, width: 10, height: 8, photos: [DEMO_PHOTOS[1], DEMO_PHOTOS[2]] },
+  { id: 'buhta-gerodota', name: '18 Бухта Геродота', number: '18', left: 38.5, top: 60.9, width: 10, height: 8, photos: [DEMO_PHOTOS[2], DEMO_PHOTOS[3]] },
+  { id: 'tent-23', name: 'Палатка 23', number: '23', left: 42.2, top: 54.4, width: 10, height: 8, photos: [DEMO_PHOTOS[3], DEMO_PHOTOS[4]] },
+  { id: 'tent-22', name: 'Палатка 22', number: '22', left: 48.5, top: 47.9, width: 10, height: 8, photos: [DEMO_PHOTOS[4], DEMO_PHOTOS[5]] },
+  { id: 'syabry', name: '5 Сябры', number: '5', left: 53.5, top: 57.0, width: 10, height: 8, photos: [DEMO_PHOTOS[5], DEMO_PHOTOS[6]] },
+  { id: 'polka', name: '4 Полька', number: '4', left: 64.3, top: 59.4, width: 10, height: 8, photos: [DEMO_PHOTOS[6], DEMO_PHOTOS[7]] },
+  { id: 'karchma', name: '3 Карчма', number: '3', left: 65.3, top: 75.8, width: 10, height: 8, photos: [DEMO_PHOTOS[7], DEMO_PHOTOS[8]] },
+  { id: 'gavan', name: '2 Тихая гавань', number: '2', left: 65.6, top: 82.5, width: 10, height: 8, photos: [DEMO_PHOTOS[8], DEMO_PHOTOS[9]] },
+  { id: 'mokry-kot', name: '19 Мокрый кот', number: '19', left: 59.3, top: 84.7, width: 10, height: 8, photos: [DEMO_PHOTOS[9], DEMO_PHOTOS[10]] },
+  { id: 'uzhyk', name: '1 Ужик', number: '1', left: 89.8, top: 64.6, width: 10, height: 8, photos: [DEMO_PHOTOS[10], DEMO_PHOTOS[11]] },
+  { id: 'melnitsa', name: '24 Мельница', number: '24', left: 83.6, top: 69.1, width: 10, height: 8, photos: [DEMO_PHOTOS[11], DEMO_PHOTOS[12]] },
 ]
 
 type Props = {
@@ -148,27 +148,34 @@ export function InteractiveMap({ className = '' }: Props) {
           draggable={false}
         />
         {!calibrate && MAP_AREAS.map((area) => {
-          const size = 4.2
-          const half = size / 2
+          const baseW = 5.6
+          const wider15 = ['gavan', 'karchma', 'mokry-kot'].includes(area.id)
+          const w = area.id === 'ogon-peruna' ? baseW * 1.56 : area.id === 'zeleny-dyatel' ? baseW * 1.2 : area.id === 'paparats-kvetka' ? baseW * 1.573 : area.id === 'cherny-voron' ? baseW * 1.1 : area.id === 'stolik-bobra' ? baseW * 1.15 : area.id === 'buhta-gerodota' ? baseW * 1.2 : area.id === 'tihaya-zatoka' ? baseW * 1.15 : wider15 ? baseW * 1.15 : baseW
+          const h = 2.56
           return (
-            <button
+            <div
               key={area.id}
-              type="button"
-              className="absolute rounded-full bg-primary/60 text-white border border-primary shadow-sm hover:bg-primary/75 focus:bg-primary/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 transition-all duration-200 hover:scale-110 touch-manipulation origin-center flex items-center justify-center font-sans font-bold text-[9px] sm:text-[10px] leading-none"
+              className="absolute"
               style={{
-                left: `${area.left - half}%`,
-                top: `${area.top - half}%`,
-                width: `${size}%`,
-                height: `${size}%`,
-                minWidth: 20,
-                minHeight: 20,
+                left: `${area.left}%`,
+                top: `${area.top}%`,
+                width: `${w}%`,
+                height: `${h}%`,
+                minWidth: 35,
+                minHeight: 22,
+                transform: area.id === 'zeleny-dyatel' ? 'translate(-50%, calc(-50% - 3px))' : ['ogon-peruna', 'gavan', 'karchma', 'mokry-kot'].includes(area.id) ? 'translate(-50%, calc(-50% - 2px))' : 'translate(-50%, -50%)',
               }}
-              onClick={() => setActiveArea(area)}
-              aria-label={area.name}
-              title={area.name}
             >
-              {area.number}
-            </button>
+              <button
+                type="button"
+                className="w-full h-full rounded-[50%] bg-red-600 text-white border border-red-700 shadow-sm hover:bg-red-500 focus:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-1 transition-all duration-200 hover:scale-110 touch-manipulation flex items-center justify-center font-sans font-bold text-[8px] sm:text-[9px] leading-none origin-center"
+                onClick={() => setActiveArea(area)}
+                aria-label={area.name}
+                title={area.name}
+              >
+                {area.number}
+              </button>
+            </div>
           )
         })}
       </div>

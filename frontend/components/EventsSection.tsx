@@ -12,7 +12,7 @@ export function EventsSection() {
   const events = useEvents()
 
   return (
-    <section id="events" className="pt-12 md:pt-16 pb-24 md:pb-32 bg-white">
+    <section id="events" className="pt-12 md:pt-16 pb-6 md:pb-8 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <h2 className="section-title-main text-primary">{t('eventsSection.title')}</h2>
         <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">

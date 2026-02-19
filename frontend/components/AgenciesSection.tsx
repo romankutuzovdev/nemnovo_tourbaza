@@ -13,7 +13,7 @@ export function AgenciesSection() {
   const whyItems = [t('why1'), t('why2'), t('why3'), t('why4'), t('why5'), t('why6')]
 
   return (
-    <section id="agencies" className="pt-6 md:pt-8 pb-16 md:pb-24 bg-white">
+    <section id="agencies" className="pt-6 md:pt-8 pb-3 md:pb-4 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight max-w-2xl">
           {t('title')}

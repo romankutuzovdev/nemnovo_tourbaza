@@ -26,7 +26,7 @@ export default async function PortfolioItemPage({ params }: Props) {
   const images = item.images || []
 
   return (
-    <div className="pt-32 pb-24 md:pb-32 min-h-screen bg-white">
+    <div className="pt-32 pb-16 md:pb-16 min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <Link
           href={`/${locale}/portfolio`}

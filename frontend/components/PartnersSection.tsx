@@ -62,7 +62,7 @@ export function PartnersSection() {
   }, [partners.length, scrollToSlide])
 
   return (
-    <section className="pt-10 md:pt-12 pb-20 md:pb-24 bg-secondary/40 border-y border-secondary/10">
+    <section className="pt-10 md:pt-12 pb-5 md:pb-6 bg-secondary/40 border-y border-secondary/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
           <h2 className="font-serif text-2xl md:text-3xl font-medium text-primary tracking-tight">

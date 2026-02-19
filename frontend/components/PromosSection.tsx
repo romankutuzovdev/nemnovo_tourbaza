@@ -40,7 +40,7 @@ export function PromosSection() {
   if (promos.length === 0) return null
 
   return (
-    <section id="promos" className="pt-6 md:pt-8 pb-24 md:pb-32 bg-white">
+    <section id="promos" className="pt-6 md:pt-8 pb-3 md:pb-4 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
           <div className="flex items-center justify-between gap-4 flex-wrap">

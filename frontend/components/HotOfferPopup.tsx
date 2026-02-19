@@ -139,9 +139,9 @@ export function HotOfferPopup() {
       className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm animate-fade-in pb-[env(safe-area-inset-bottom,0)]"
       onClick={(e) => e.target === e.currentTarget && close()}
     >
-      {/* Широкий баннер: десктоп max-w-6xl с фиксированной высотой, мобильный — высота 94vh, контент справа листается */}
+      {/* Широкий баннер: десктоп — ряд (картинка слева, форма справа), мобильный — колонка */}
       <div
-        className="relative w-full max-w-6xl h-[94vh] max-h-[94vh] sm:h-[85vh] sm:max-h-[88vh] sm:min-h-[480px] bg-white shadow-xl animate-fade-up flex flex-col rounded-t-2xl sm:rounded-none overflow-hidden"
+        className="relative w-full max-w-6xl h-[94vh] max-h-[94vh] sm:h-[85vh] sm:max-h-[88vh] sm:min-h-[480px] bg-white shadow-xl animate-fade-up flex flex-col sm:flex-row rounded-t-2xl sm:rounded-none overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <button

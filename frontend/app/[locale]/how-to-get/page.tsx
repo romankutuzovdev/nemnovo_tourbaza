@@ -12,7 +12,7 @@ export default function HowToGetPage() {
   return (
     <PageLayout simpleHomeLink hideBreadcrumbs>
       <HowToGetThereSection />
-      <section className="pt-6 md:pt-8 pb-16 md:pb-24 max-w-6xl mx-auto px-4 sm:px-6">
+      <section className="pt-6 md:pt-8 pb-3 md:pb-4 max-w-6xl mx-auto px-4 sm:px-6">
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight mb-4">
           {t('howToGet.mapTitle') || 'Карта турбазы'}
         </h2>

@@ -21,9 +21,7 @@ const SOCIAL_ICONS: Record<string, React.ReactNode> = {
     </svg>
   ),
   vk: (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 sm:w-5 sm:h-5">
-      <path d="M12.785 16.241s.288-.032.436-.194c.136-.148.132-.427.132-.427s-.02-1.304.576-1.496c.586-.19 1.341 1.26 2.14 1.818.605.42 1.064.328 1.064.328l2.137-.03s1.117-.07.587-.962c-.043-.073-.308-.662-1.588-1.87-1.34-1.263-1.16-1.058.454-3.246.984-1.327 1.377-2.137 1.254-2.482-.117-.329-.84-.242-.84-.242l-2.406.015s-.178-.025-.31.056c-.128.078-.21.26-.21.26s-.377 1.01-.88 1.87c-1.063 1.818-1.49 1.914-1.663 1.798-.406-.27-.304-1.088-.304-1.669 0-1.816.27-2.572-.525-2.77-.264-.066-.458-.11-1.133-.117-.865-.01-1.598.003-2.014.21-.276.139-.49.449-.36.467.161.022.525.1.718.368.25.348.24 1.13.24 1.13s.144 2.112-.334 2.371c-.328.18-.778-.187-1.745-1.86-.494-.855-.866-1.803-.866-1.803s-.07-.175-.196-.27c-.153-.117-.368-.154-.368-.154l-2.286.015s-.343.01-.468.161c-.112.134-.009.41-.009.41s1.795 4.257 3.832 6.406c1.866 1.964 3.989 1.835 3.989 1.835h.961z" />
-    </svg>
+    <Image src="/vklogo.png" alt="VK" width={20} height={20} className="w-4 h-4 sm:w-5 sm:h-5 object-contain" />
   ),
   facebook: (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 sm:w-5 sm:h-5">
@@ -194,7 +192,7 @@ export function Header() {
                 <button
                   type="button"
                   onClick={() => setLangOpen(!langOpen)}
-                  className="font-sans text-[10px] sm:text-xs text-black/80 px-1.5 sm:px-2 py-1 border border-secondary/30 rounded"
+                  className="font-sans text-[10px] sm:text-xs text-black/80 px-1.5 sm:px-2 py-1 border-2 border-blue-900 rounded"
                 >
                   {locale.toUpperCase()}
                 </button>
@@ -241,7 +239,7 @@ export function Header() {
               <button
                 type="button"
                 onClick={() => setLangOpen(!langOpen)}
-                className="font-sans text-[10px] sm:text-xs lg:text-sm font-semibold tracking-wide text-black/80 hover:text-black px-1.5 sm:px-2 py-1 border border-secondary/30 rounded"
+                className="font-sans text-[10px] sm:text-xs lg:text-sm font-semibold tracking-wide text-black/80 hover:text-black px-1.5 sm:px-2 py-1 border-2 border-blue-900 rounded"
                 aria-expanded={langOpen}
                 aria-haspopup="true"
               >
