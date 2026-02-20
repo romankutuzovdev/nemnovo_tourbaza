@@ -19,7 +19,7 @@ const SOCIAL_ICONS: Record<string, React.ReactNode> = {
     </svg>
   ),
   vk: (
-    <Image src="/vk_logo.png" alt="VK" width={20} height={20} className="w-5 h-5 object-contain" />
+    <Image src="/vklogo.png" alt="VK" width={20} height={20} className="w-5 h-5 object-contain" />
   ),
   facebook: (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
