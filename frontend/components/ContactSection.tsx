@@ -74,17 +74,23 @@ export function ContactSection() {
                 <IconClock />
                 <div>
                   <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70 mb-1">{t('footer.workingHours')}</p>
-                  <p className="font-sans text-sm text-black/90 leading-snug whitespace-pre-line uppercase">{t('footer.workingHoursValue')}</p>
+                  <p className="font-sans text-sm text-black/90 leading-snug whitespace-pre-line">{t('footer.workingHoursValue')}</p>
                 </div>
               </div>
             </div>
             <div className="p-5 rounded-xl bg-secondary/10 border border-secondary/20 space-y-4">
               <div className="flex gap-4">
                 <IconPhone />
-                <div className="space-y-3 min-w-0">
-                  <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70">{t('footer.phone1Label')}</p>
+                <div className="space-y-3 min-w-0 flex-1">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70">{t('footer.phone1Label')}</p>
+                    <p className="font-sans text-[11px] text-black/70 text-right whitespace-pre-line">{t('footer.adminHours')}</p>
+                  </div>
                   <a href="tel:+375291792539" className="block font-sans text-sm font-medium text-black hover:text-primary transition-colors">+375 29 179 25 39</a>
-                  <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70 pt-1">{t('footer.phone2Label')}</p>
+                  <div className="flex flex-wrap items-baseline justify-between gap-2 pt-1">
+                    <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70">{t('footer.phone2Label')}</p>
+                    <p className="font-sans text-[11px] text-black/70 text-right whitespace-pre-line">{t('footer.specialistHours')}</p>
+                  </div>
                   <a href="tel:+375297801304" className="block font-sans text-sm font-medium text-black hover:text-primary transition-colors">+375 29 780 13 04</a>
                 </div>
               </div>
