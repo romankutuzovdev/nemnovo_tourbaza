@@ -13,6 +13,8 @@
     "news": "News",
     "howToGet": "How to get there",
     "cabinet": "Account",
+    "more": "More",
+    "payment": "Payment",
     "tourfirm": "TOUR OPERATOR",
     "login": "Log in",
     "logout": "Log out",
@@ -97,13 +99,34 @@
     "stat2Value": "15+",
     "stat2Label": "years of experience",
     "reviews": [
-      { "text": "Quiet place, nature, everything is welcoming. Recommend.", "author": "Anna, Grodno" },
-      { "text": "Family trip — kids loved it, we'll come back.", "author": "Dmitry, Minsk" },
-      { "text": "Clean, cosy, attentive hosts. Great fishing.", "author": "Sergey, Vitebsk" },
-      { "text": "Third year here — always warm and peaceful.", "author": "Olga & Igor, Grodno" },
-      { "text": "Kids had a blast, we relaxed. Sauna is great!", "author": "Alexey, Minsk" },
-      { "text": "Nature, silence, campfire by the water — perfect weekend.", "author": "Maria, Brest" },
-      { "text": "Just like the photos, even better. Thanks for the hospitality!", "author": "Natalia, Gomel" }
+      {
+        "text": "Quiet place, nature, everything is welcoming. Recommend.",
+        "author": "Anna, Grodno"
+      },
+      {
+        "text": "Family trip — kids loved it, we'll come back.",
+        "author": "Dmitry, Minsk"
+      },
+      {
+        "text": "Clean, cosy, attentive hosts. Great fishing.",
+        "author": "Sergey, Vitebsk"
+      },
+      {
+        "text": "Third year here — always warm and peaceful.",
+        "author": "Olga & Igor, Grodno"
+      },
+      {
+        "text": "Kids had a blast, we relaxed. Sauna is great!",
+        "author": "Alexey, Minsk"
+      },
+      {
+        "text": "Nature, silence, campfire by the water — perfect weekend.",
+        "author": "Maria, Brest"
+      },
+      {
+        "text": "Just like the photos, even better. Thanks for the hospitality!",
+        "author": "Natalia, Gomel"
+      }
     ]
   },
   "partnersSection": {
@@ -243,6 +266,11 @@
     "toEventsPage": "To «Events» page",
     "allNews": "All news",
     "otherNews": "Other news",
+    "readAlso": "Read also",
     "toNewsPage": "To «News» page"
+  },
+  "payment": {
+    "title": "Payment Terms",
+    "content": "Information about WebPay payment terms will be added soon."
   }
 }

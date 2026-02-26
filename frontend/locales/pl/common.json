@@ -13,6 +13,8 @@
     "news": "Aktualności",
     "howToGet": "Jak dojechać",
     "cabinet": "Konto",
+    "more": "Więcej",
+    "payment": "Płatność",
     "tourfirm": "BIURO PODRÓŻY",
     "login": "Zaloguj się",
     "logout": "Wyloguj",
@@ -97,13 +99,34 @@
     "stat2Value": "15+",
     "stat2Label": "lat doświadczenia",
     "reviews": [
-      { "text": "Spokojne miejsce, natura, ludzka atmosfera. Polecam.", "author": "Anna, Grodno" },
-      { "text": "Wypoczynek z rodziną — dzieci zachwycone, wrócimy.", "author": "Dmitrij, Mińsk" },
-      { "text": "Czysto, przytulnie, gospodarze pomocni. Ryby łowią się świetnie.", "author": "Siergiej, Witebsk" },
-      { "text": "Trzeci rok z rzędu — zawsze ciepło i spokojnie.", "author": "Olga i Igor, Grodno" },
-      { "text": "Dzieci się wyszalały, my odpoczęliśmy. Sauna super!", "author": "Aleksiej, Mińsk" },
-      { "text": "Natura, cisza, ognisko nad wodą — to czego potrzeba na weekend.", "author": "Maria, Brześć" },
-      { "text": "Wszystko jak na zdjęciach, nawet lepiej. Dziękujemy za gościnność!", "author": "Natalia, Homel" }
+      {
+        "text": "Spokojne miejsce, natura, ludzka atmosfera. Polecam.",
+        "author": "Anna, Grodno"
+      },
+      {
+        "text": "Wypoczynek z rodziną — dzieci zachwycone, wrócimy.",
+        "author": "Dmitrij, Mińsk"
+      },
+      {
+        "text": "Czysto, przytulnie, gospodarze pomocni. Ryby łowią się świetnie.",
+        "author": "Siergiej, Witebsk"
+      },
+      {
+        "text": "Trzeci rok z rzędu — zawsze ciepło i spokojnie.",
+        "author": "Olga i Igor, Grodno"
+      },
+      {
+        "text": "Dzieci się wyszalały, my odpoczęliśmy. Sauna super!",
+        "author": "Aleksiej, Mińsk"
+      },
+      {
+        "text": "Natura, cisza, ognisko nad wodą — to czego potrzeba na weekend.",
+        "author": "Maria, Brześć"
+      },
+      {
+        "text": "Wszystko jak na zdjęciach, nawet lepiej. Dziękujemy za gościnność!",
+        "author": "Natalia, Homel"
+      }
     ]
   },
   "partnersSection": {
@@ -250,6 +273,11 @@
     "toEventsPage": "Strona «Wydarzenia»",
     "allNews": "Wszystkie aktualności",
     "otherNews": "Inne aktualności",
+    "readAlso": "Czytaj również",
     "toNewsPage": "Strona «Aktualności»"
+  },
+  "payment": {
+    "title": "Warunki płatności",
+    "content": "Informacje o warunkach płatności przez WebPay zostaną dodane wkrótce."
   }
 }

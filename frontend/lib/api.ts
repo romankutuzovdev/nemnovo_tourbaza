@@ -67,7 +67,10 @@ export type NewsItem = {
 }
 
 /** Ответ /api/news/<slug>/?locale= */
-export type NewsDetail = NewsItem & { long_desc: string }
+export type NewsDetail = NewsItem & {
+  long_desc: string
+  related_news: { url: string; title: string } | null
+}
 
 /** URL картинки новости: приоритет у загруженного image, иначе image_url */
 export function getNewsImageSrc(item: { image: string | null; image_url: string }): string {

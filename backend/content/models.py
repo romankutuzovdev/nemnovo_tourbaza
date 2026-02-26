@@ -243,6 +243,17 @@ class News(models.Model):
     order = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    related_link_title = models.CharField(
+        'Заголовок ссылки в конце статьи',
+        max_length=300,
+        blank=True,
+        help_text='Текст, который будет кликабельным (например: «10 книг об искусстве»)',
+    )
+    related_link_url = models.URLField(
+        'URL ссылки в конце статьи',
+        blank=True,
+        help_text='Адрес страницы — своей новости или внешнего сайта',
+    )
 
     class Meta:
         ordering = ['-created_at', 'order', 'id']

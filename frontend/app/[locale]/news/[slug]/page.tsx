@@ -88,6 +88,20 @@ export default async function NewsArticlePage({ params }: Props) {
               {newsItem.long_desc}
             </div>
           )}
+
+          {newsItem.related_news && (
+            <div className="mt-10 pt-6 border-t border-black/10">
+              <p className="font-sans text-sm text-black/50 mb-1">{t('common.readAlso')}</p>
+              <a
+                href={newsItem.related_news.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-sans text-primary hover:underline"
+              >
+                {newsItem.related_news.title}
+              </a>
+            </div>
+          )}
         </article>
 
         <div className="mt-12">

@@ -45,6 +45,15 @@ class NewsAdmin(admin.ModelAdmin):
     list_display = ['slug', 'order', 'is_published', 'created_at']
     list_filter = ['is_published']
     list_editable = ['order', 'is_published']
+    fieldsets = [
+        (None, {
+            'fields': ['slug', 'image', 'image_url', 'order', 'is_published'],
+        }),
+        ('Ссылка в конце статьи', {
+            'fields': ['related_link_title', 'related_link_url'],
+            'description': 'Заполните оба поля, чтобы в конце статьи появилась кликабельная ссылка.',
+        }),
+    ]
     inlines = [NewsTranslationInline]
 
 

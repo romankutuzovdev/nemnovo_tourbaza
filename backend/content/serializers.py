@@ -197,10 +197,11 @@ class NewsDetailSerializer(serializers.ModelSerializer):
     long_desc = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
     created_at = serializers.DateTimeField(format='%Y-%m-%dT%H:%M:%S', read_only=True)
+    related_news = serializers.SerializerMethodField()
 
     class Meta:
         model = News
-        fields = ['slug', 'image', 'image_url', 'order', 'title', 'short_desc', 'long_desc', 'created_at']
+        fields = ['slug', 'image', 'image_url', 'order', 'title', 'short_desc', 'long_desc', 'created_at', 'related_news']
 
     def get_title(self, obj):
         t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
@@ -218,6 +219,14 @@ class NewsDetailSerializer(serializers.ModelSerializer):
         if obj.image:
             return _build_media_url(self.context.get('request'), obj.image)
         return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
+
+    def get_related_news(self, obj):
+        if not obj.related_link_url:
+            return None
+        return {
+            'url': obj.related_link_url,
+            'title': obj.related_link_title or obj.related_link_url,
+        }
 
 
 class PromoListSerializer(serializers.ModelSerializer):
