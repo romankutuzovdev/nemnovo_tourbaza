@@ -25,9 +25,6 @@ build/
 .env.local
 .env.*.local
 
-# Database
-*.sqlite3
-db.sqlite3
 
 # Media (загруженные файлы — при необходимости раскомментируйте)
 # backend/media/
