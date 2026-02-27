@@ -84,12 +84,12 @@ export function ContactSection() {
                 <div className="space-y-3 min-w-0 flex-1">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70">{t('footer.phone1Label')}</p>
-                    <p className="font-sans text-[11px] text-black/70 text-right whitespace-pre-line">{t('footer.adminHours')}</p>
+                    <p className="font-sans text-[13px] text-black/70 text-right whitespace-pre-line">{t('footer.adminHours')}</p>
                   </div>
                   <a href="tel:+375291792539" className="block font-sans text-sm font-medium text-black hover:text-primary transition-colors">+375 29 179 25 39</a>
                   <div className="flex flex-wrap items-baseline justify-between gap-2 pt-1">
                     <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70">{t('footer.phone2Label')}</p>
-                    <p className="font-sans text-[11px] text-black/70 text-right whitespace-pre-line">{t('footer.specialistHours')}</p>
+                    <p className="font-sans text-[13px] text-black/70 text-right whitespace-pre-line">{t('footer.specialistHours')}</p>
                   </div>
                   <a href="tel:+375297801304" className="block font-sans text-sm font-medium text-black hover:text-primary transition-colors">+375 29 780 13 04</a>
                 </div>

@@ -19,4 +19,5 @@ urlpatterns = [
     path('portfolio/<slug:slug>/', views.portfolio_detail),
     path('portfolio/<slug:slug>/download/', views.portfolio_download),
     path('reviews/', views.review_list),
+    path('map-areas/', views.map_area_list),
 ]

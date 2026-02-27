@@ -9,12 +9,25 @@ LOCALE_CHOICES = [
 ]
 
 
+SERVICE_CATEGORY_CHOICES = [
+    ('general', 'Общая услуга'),
+    ('gazebo', 'Беседка'),
+]
+
+
 class Service(models.Model):
     """Услуга: slug и изображение общие, тексты — по локалям в ServiceTranslation."""
     slug = models.SlugField(max_length=120, unique=True)
     image = models.ImageField(upload_to='services/', blank=True, null=True)
     image_url = models.URLField(blank=True, help_text='Если нет загрузки файла')
     order = models.PositiveIntegerField(default=0)
+    category = models.CharField(
+        'Категория',
+        max_length=20,
+        choices=SERVICE_CATEGORY_CHOICES,
+        default='general',
+        help_text='Беседки выводятся отдельной секцией на странице услуг и связываются с картой',
+    )
 
     class Meta:
         ordering = ['order', 'id']
@@ -23,6 +36,20 @@ class Service(models.Model):
 
     def __str__(self):
         return self.slug
+
+
+class ServiceImage(models.Model):
+    """Дополнительное фото для услуги (галерея / слайдер)."""
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='services/gallery/', blank=True, null=True)
+    image_url = models.URLField(blank=True, help_text='Если не загружаете файл')
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return f'{self.service.slug} #{self.order}'
 
 
 class ServiceTranslation(models.Model):
@@ -277,6 +304,51 @@ class NewsTranslation(models.Model):
 
     def __str__(self):
         return f'{self.news.slug} ({self.locale})'
+
+
+class MapArea(models.Model):
+    """
+    Область на интерактивной карте турбазы.
+    Номер и название отображаются на карте, service — ссылка на страницу услуги.
+    Позиция задаётся в процентах от размера изображения карты.
+    """
+    area_id = models.SlugField(
+        'Идентификатор',
+        max_length=80,
+        unique=True,
+        help_text='Уникальный slug, например: berloga, besedka-6',
+    )
+    number = models.CharField(
+        'Номер / метка на карте',
+        max_length=20,
+        help_text='Текст внутри кружка на карте (например: 6, 8+1, 12)',
+    )
+    name = models.CharField(
+        'Название',
+        max_length=200,
+        help_text='Всплывающая подсказка при наведении (например: Беседка на 6 мест)',
+    )
+    left = models.FloatField('Позиция X (%)', default=50, help_text='Горизонталь 0–100')
+    top = models.FloatField('Позиция Y (%)', default=50, help_text='Вертикаль 0–100')
+    service = models.ForeignKey(
+        Service,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='map_areas',
+        verbose_name='Услуга',
+        help_text='Страница услуги, которая откроется при клике на кружок',
+    )
+    order = models.PositiveIntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Активна', default=True)
+
+    class Meta:
+        ordering = ['order', 'area_id']
+        verbose_name = 'Область карты'
+        verbose_name_plural = 'Области карты'
+
+    def __str__(self):
+        return f'{self.number} {self.name}'
 
 
 class HotOffer(models.Model):

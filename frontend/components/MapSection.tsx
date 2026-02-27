@@ -2,10 +2,13 @@
 
 import { Suspense } from 'react'
 import { useTranslations } from 'next-intl'
+import { useLocale } from '@/contexts/LocaleContext'
 import { InteractiveMap } from '@/components/InteractiveMap'
+import type { Locale } from '@/lib/i18n'
 
 export function MapSection() {
   const t = useTranslations()
+  const locale = useLocale() as Locale
 
   return (
     <section id="map" className="pt-12 md:pt-16 pb-6 md:pb-8 bg-secondary/30 border-t border-secondary/10">
@@ -17,7 +20,7 @@ export function MapSection() {
           {t('howToGet.mapHint') || 'Нажмите на объект, чтобы увеличить изображение'}
         </p>
         <Suspense fallback={<div className="aspect-[4/3] bg-secondary/30 animate-pulse rounded" />}>
-          <InteractiveMap />
+          <InteractiveMap locale={locale} />
         </Suspense>
       </div>
     </section>

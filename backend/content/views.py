@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Service, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo
+from .models import Service, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo, MapArea
 from .serializers import (
     ServiceListSerializer,
     ServiceDetailSerializer,
@@ -30,6 +30,7 @@ from .serializers import (
     PartnerSerializer,
     how_to_get_cities_from_routes,
     CompanyInfoSerializer,
+    MapAreaSerializer,
 )
 
 VALID_LOCALES = {'ru', 'be', 'en', 'pl', 'zh'}
@@ -82,7 +83,7 @@ def how_to_get(request):
 @api_view(['GET'])
 def service_list(request):
     locale = get_locale(request)
-    qs = Service.objects.all()
+    qs = Service.objects.prefetch_related('translations', 'images').all()
     serializer = ServiceListSerializer(qs, many=True, context={'locale': locale, 'request': request})
     return Response(serializer.data)
 
@@ -91,7 +92,7 @@ def service_list(request):
 def service_detail(request, slug):
     locale = get_locale(request)
     try:
-        service = Service.objects.get(slug=slug)
+        service = Service.objects.prefetch_related('translations', 'images').get(slug=slug)
     except Service.DoesNotExist:
         return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
     serializer = ServiceDetailSerializer(service, context={'locale': locale, 'request': request})
@@ -231,6 +232,15 @@ def contact_submit(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
     return JsonResponse({'ok': True})
+
+
+@api_view(['GET'])
+def map_area_list(request):
+    """Активные области интерактивной карты с данными связанных услуг."""
+    locale = get_locale(request)
+    qs = MapArea.objects.filter(is_active=True).select_related('service').prefetch_related('service__images', 'service__translations')
+    serializer = MapAreaSerializer(qs, many=True, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
 
 
 def portfolio_download(request, slug):

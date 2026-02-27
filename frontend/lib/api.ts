@@ -19,8 +19,10 @@ export type ServiceItem = {
   image: string | null
   image_url: string
   order: number
+  category: 'general' | 'gazebo'
   title: string
   short_desc: string
+  images: string[]
 }
 
 /** Ответ /api/services/<slug>/?locale= */
@@ -339,6 +341,28 @@ export async function fetchCompanyInfo(): Promise<CompanyInfo | null> {
   const res = await apiFetch(`${getApiUrl()}/api/company-info/`)
   if (!res?.ok) return null
   return res.json().catch(() => null)
+}
+
+/** Область интерактивной карты из /api/map-areas/?locale= */
+export type MapAreaItem = {
+  area_id: string
+  number: string
+  name: string
+  left: number
+  top: number
+  order: number
+  service_slug: string | null
+  service_title: string | null
+  service_image: string | null
+  service_images: string[]
+  service_short_desc: string | null
+}
+
+export async function fetchMapAreas(locale: Locale): Promise<MapAreaItem[]> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/map-areas/?locale=${loc}`)
+  if (!res?.ok) return []
+  return res.json().catch(() => [])
 }
 
 /** Отправка формы контакта (заявка, претензия или обратная связь из горячего предложения). */

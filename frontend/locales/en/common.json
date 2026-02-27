@@ -69,7 +69,8 @@
     "badge": "What we offer",
     "title": "Services",
     "allServices": "All services",
-    "more": "Learn more →"
+    "more": "Learn more →",
+    "gazebos": "Gazebos"
   },
   "eventsSection": {
     "badge": "Events",

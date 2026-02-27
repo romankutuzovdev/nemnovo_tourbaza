@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Service, ServiceTranslation,
+    Service, ServiceImage, ServiceTranslation,
     Event, EventTranslation,
     News, NewsTranslation,
     Promo, PromoTranslation,
@@ -10,6 +10,7 @@ from .models import (
     Partner,
     HowToGetRoute, HowToGetRouteTranslation,
     CompanyInfo,
+    MapArea,
 )
 
 
@@ -18,10 +19,18 @@ class ServiceTranslationInline(admin.TabularInline):
     extra = 0
 
 
+class ServiceImageInline(admin.TabularInline):
+    model = ServiceImage
+    extra = 1
+    fields = ['image', 'image_url', 'order']
+
+
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ['slug', 'order']
-    inlines = [ServiceTranslationInline]
+    list_display = ['slug', 'category', 'order']
+    list_filter = ['category']
+    list_editable = ['category', 'order']
+    inlines = [ServiceTranslationInline, ServiceImageInline]
 
 
 class EventTranslationInline(admin.TabularInline):
@@ -197,6 +206,24 @@ class HowToGetRouteAdmin(admin.ModelAdmin):
     list_filter = ['city_slug', 'transport_type']
     list_editable = ['order']
     inlines = [HowToGetRouteTranslationInline]
+
+
+@admin.register(MapArea)
+class MapAreaAdmin(admin.ModelAdmin):
+    list_display = ['number', 'name', 'area_id', 'service', 'order', 'is_active']
+    list_filter = ['is_active']
+    list_editable = ['order', 'is_active']
+    raw_id_fields = ['service']
+    fieldsets = [
+        (None, {
+            'fields': ['area_id', 'number', 'name', 'service', 'order', 'is_active'],
+        }),
+        ('Позиция на карте (%)', {
+            'fields': ['left', 'top'],
+            'description': 'Координаты центра кружка в процентах от размера карты (0–100). '
+                           'Для точной настройки откройте страницу карты с параметром ?calibrate=1.',
+        }),
+    ]
 
 
 @admin.register(CompanyInfo)

@@ -69,7 +69,8 @@
     "badge": "服务",
     "title": "我们提供的服务",
     "allServices": "全部服务",
-    "more": "了解更多 →"
+    "more": "了解更多 →",
+    "gazebos": "凉亭"
   },
   "eventsSection": {
     "badge": "活动",

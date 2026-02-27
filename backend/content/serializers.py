@@ -1,7 +1,7 @@
 from django.conf import settings as django_settings
 from rest_framework import serializers
 from .models import (
-    Service, ServiceTranslation,
+    Service, ServiceImage, ServiceTranslation,
     Event, EventTranslation,
     News, NewsTranslation,
     Promo, PromoTranslation,
@@ -11,6 +11,7 @@ from .models import (
     Partner,
     HowToGetRoute, HowToGetRouteTranslation,
     CompanyInfo,
+    MapArea,
 )
 
 
@@ -36,6 +37,27 @@ def _build_media_url(request, image_field):
     return path
 
 
+def _service_image_urls(obj, request):
+    """Все фото услуги: сначала основное, затем gallery (ServiceImage), без дублей."""
+    urls = []
+    # основное изображение
+    if obj.image:
+        u = _build_media_url(request, obj.image)
+        if u:
+            urls.append(u)
+    elif getattr(obj, 'image_url', None):
+        urls.append(obj.image_url)
+    # дополнительные фото
+    for si in obj.images.all():
+        if si.image:
+            u = _build_media_url(request, si.image)
+            if u:
+                urls.append(u)
+        elif si.image_url:
+            urls.append(si.image_url)
+    return urls
+
+
 class ServiceTranslationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceTranslation
@@ -47,10 +69,11 @@ class ServiceListSerializer(serializers.ModelSerializer):
     title = serializers.SerializerMethodField()
     short_desc = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
-        fields = ['slug', 'image', 'image_url', 'order', 'title', 'short_desc']
+        fields = ['slug', 'image', 'image_url', 'order', 'category', 'title', 'short_desc', 'images']
 
     def _get_locale(self):
         return self.context.get('locale', 'ru')
@@ -74,6 +97,9 @@ class ServiceListSerializer(serializers.ModelSerializer):
             return _build_media_url(self.context.get('request'), obj.image)
         return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
 
+    def get_images(self, obj):
+        return _service_image_urls(obj, self.context.get('request'))
+
 
 class ServiceDetailSerializer(serializers.ModelSerializer):
     """Одна услуга с полным переводом для локали."""
@@ -81,10 +107,11 @@ class ServiceDetailSerializer(serializers.ModelSerializer):
     short_desc = serializers.SerializerMethodField()
     long_desc = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
-        fields = ['slug', 'image', 'image_url', 'order', 'title', 'short_desc', 'long_desc']
+        fields = ['slug', 'image', 'image_url', 'order', 'category', 'title', 'short_desc', 'long_desc', 'images']
 
     def _get_locale(self):
         return self.context.get('locale', 'ru')
@@ -109,6 +136,9 @@ class ServiceDetailSerializer(serializers.ModelSerializer):
         if obj.image:
             return _build_media_url(self.context.get('request'), obj.image)
         return (obj.image_url or None) if getattr(obj, 'image_url', None) else None
+
+    def get_images(self, obj):
+        return _service_image_urls(obj, self.context.get('request'))
 
 
 def _locale_translation(queryset, locale):
@@ -435,3 +465,45 @@ class CompanyInfoSerializer(serializers.ModelSerializer):
             'company_name', 'legal_address', 'office_address',
             'unp', 'okpo', 'state_registration', 'trade_register', 'services_register', 'contact_email',
         ]
+
+
+class MapAreaSerializer(serializers.ModelSerializer):
+    """Область на интерактивной карте: позиция, метка и slug связанной услуги."""
+    service_slug = serializers.SerializerMethodField()
+    service_title = serializers.SerializerMethodField()
+    service_image = serializers.SerializerMethodField()
+    service_images = serializers.SerializerMethodField()
+    service_short_desc = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MapArea
+        fields = ['area_id', 'number', 'name', 'left', 'top', 'order',
+                  'service_slug', 'service_title', 'service_image', 'service_images', 'service_short_desc']
+
+    def get_service_slug(self, obj):
+        return obj.service.slug if obj.service_id else None
+
+    def get_service_title(self, obj):
+        if not obj.service_id:
+            return None
+        t = _locale_translation(obj.service.translations, self.context.get('locale', 'ru'))
+        return t.title if t else obj.service.slug
+
+    def get_service_image(self, obj):
+        if not obj.service_id:
+            return None
+        svc = obj.service
+        if svc.image:
+            return _build_media_url(self.context.get('request'), svc.image)
+        return svc.image_url or None
+
+    def get_service_images(self, obj):
+        if not obj.service_id:
+            return []
+        return _service_image_urls(obj.service, self.context.get('request'))
+
+    def get_service_short_desc(self, obj):
+        if not obj.service_id:
+            return None
+        t = _locale_translation(obj.service.translations, self.context.get('locale', 'ru'))
+        return t.short_desc if t else ''

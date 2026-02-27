@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { fetchServiceBySlug, fetchServices, getServiceImageSrc } from '@/lib/api'
 import { isValidLocale, type Locale } from '@/lib/i18n'
+import { ServiceImageSlider } from '@/components/ServiceImageSlider'
 import type { Metadata } from 'next'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
@@ -50,9 +51,10 @@ export default async function ServicePage({ params }: Props) {
   const serviceTitle = service.title
   const serviceShortDesc = service.short_desc
   const imageSrc = getServiceImageSrc(service)
+  const images = service.images && service.images.length > 0 ? service.images : (imageSrc ? [imageSrc] : [])
 
   return (
-    <div className="pt-32 pb-16 md:pb-16 min-h-screen bg-white">
+    <div className="pt-48 md:pt-40 pb-12 md:pb-16 min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <Link
           href={`/${locale}/services`}
@@ -62,20 +64,9 @@ export default async function ServicePage({ params }: Props) {
         </Link>
 
         <article className="pt-16">
-          <div className="relative aspect-[16/10] md:aspect-[21/9] rounded-xl overflow-hidden bg-primary">
-            <Image
-              src={imageSrc}
-              alt={serviceTitle}
-              fill
-              sizes="(max-width: 768px) 100vw, 1024px"
-              className="object-cover"
-              priority
-            />
-            <span
-              className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
-              aria-hidden
-            />
-            <div className="absolute inset-x-0 bottom-0 p-6 md:p-10">
+          <div className="relative">
+            <ServiceImageSlider images={images} title={serviceTitle} />
+            <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 z-10 pointer-events-none">
               <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight">
                 {serviceTitle}
               </h1>
