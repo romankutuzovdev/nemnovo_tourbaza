@@ -87,26 +87,26 @@ export function PromosSection() {
                 style={{ scrollSnapAlign: 'start' }}
                 aria-label={p.title}
               >
-                <article className="h-full min-h-[140px] bg-secondary/50 border border-secondary/10 rounded-sm flex flex-col md:flex-row gap-4 overflow-hidden transition-all duration-300 hover:border-secondary/20 hover:shadow-md">
+                <article className="h-full bg-secondary/50 border border-secondary/10 rounded-sm flex flex-col overflow-hidden transition-all duration-300 hover:border-secondary/20 hover:shadow-md">
                   {src && (
-                    <div className="relative w-full md:w-36 h-36 shrink-0">
+                    <div className="relative w-full h-48 shrink-0">
                       <Image
                         src={src}
                         alt={p.title}
                         fill
-                        sizes="(max-width: 768px) 320px, 160px"
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 320px, 380px"
                         className="object-cover"
                       />
                     </div>
                   )}
                   <div className="p-4 sm:p-5 flex-1 flex flex-col justify-center min-w-0">
-                    <h3 className="font-serif text-xl font-medium text-black group-hover:text-primary transition-colors">
+                    <h3 className="font-serif text-xl font-medium text-primary">
                       {p.title}
                     </h3>
-                    <p className="mt-2 font-sans text-sm text-black/80 line-clamp-3 break-words">
+                    <p className="mt-2 font-sans text-sm text-primary/80 line-clamp-3 break-words">
                       {p.short_desc.length > 120 ? `${p.short_desc.slice(0, 120).trim()}…` : p.short_desc}
                     </p>
-                    <span className="mt-2 font-sans text-xs text-black/60 group-hover:text-primary transition-colors">
+                    <span className="mt-2 font-sans text-xs text-primary/60">
                       {t('servicesSection.more')}
                     </span>
                   </div>

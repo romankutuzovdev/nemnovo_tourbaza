@@ -52,6 +52,22 @@ class ServiceImage(models.Model):
         return f'{self.service.slug} #{self.order}'
 
 
+class ServiceVariant(models.Model):
+    """Вариант услуги (например, конкретная беседка) — выбирается из выпадающего списка."""
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='variants')
+    name = models.CharField('Название', max_length=200)
+    description = models.TextField('Описание', blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'Вариант услуги'
+        verbose_name_plural = 'Варианты услуги'
+
+    def __str__(self):
+        return f'{self.service.slug} — {self.name}'
+
+
 class ServiceTranslation(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='translations')
     locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
@@ -396,6 +412,156 @@ class HotOfferTranslation(models.Model):
 
     def __str__(self):
         return f'{self.hot_offer.slug} ({self.locale})'
+
+
+LEGAL_PAGE_CHOICES = [
+    ('privacy', 'Политика обработки персональных данных'),
+    ('cookie-policy', 'Политика в отношении обработки cookie'),
+]
+
+
+class LegalPage(models.Model):
+    """Юридическая страница (политика персональных данных, cookie). Одна запись на тип."""
+    page_key = models.CharField(
+        'Идентификатор',
+        max_length=50,
+        choices=LEGAL_PAGE_CHOICES,
+        unique=True,
+    )
+
+    class Meta:
+        verbose_name = 'Юридическая страница'
+        verbose_name_plural = 'Юридические страницы'
+
+    def __str__(self):
+        return self.get_page_key_display()
+
+
+class LegalPageTranslation(models.Model):
+    page = models.ForeignKey(LegalPage, on_delete=models.CASCADE, related_name='translations')
+    locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
+    title = models.CharField('Заголовок', max_length=300)
+    content = models.TextField(
+        'Содержание',
+        help_text='Абзацы разделяются пустой строкой (двойной перевод строки \\n\\n).',
+    )
+
+    class Meta:
+        unique_together = [('page', 'locale')]
+        ordering = ['page', 'locale']
+        verbose_name = 'Перевод юридической страницы'
+        verbose_name_plural = 'Переводы юридических страниц'
+
+    def __str__(self):
+        return f'{self.page} ({self.locale})'
+
+
+class AgenciesPage(models.Model):
+    """Страница «Агентствам». Синглтон — одна запись."""
+
+    class Meta:
+        verbose_name = 'Страница агентств'
+        verbose_name_plural = 'Страница агентств'
+
+    def __str__(self):
+        return 'Агентствам'
+
+
+class AgenciesPageTranslation(models.Model):
+    page = models.ForeignKey(AgenciesPage, on_delete=models.CASCADE, related_name='translations')
+    locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
+    title = models.CharField('Заголовок', max_length=300, blank=True)
+    intro = models.TextField('Введение', blank=True)
+    why_title = models.CharField('Заголовок раздела «Почему мы»', max_length=300, blank=True)
+    why_items = models.TextField(
+        'Преимущества (каждое с новой строки)',
+        blank=True,
+        help_text='Каждое преимущество — на отдельной строке.',
+    )
+    how_title = models.CharField('Заголовок раздела «Как начать»', max_length=300, blank=True)
+    how_intro = models.TextField('Текст перед шагами', blank=True)
+    how_steps = models.TextField(
+        'Шаги сотрудничества (каждый с новой строки)',
+        blank=True,
+        help_text='Каждый шаг — на отдельной строке.',
+    )
+    how_outro = models.TextField('Текст после шагов', blank=True)
+    cta_title = models.CharField('Заголовок CTA блока', max_length=300, blank=True)
+    contact1_label = models.CharField('Контакт 1 — должность', max_length=200, blank=True)
+    contact1_phone = models.CharField('Контакт 1 — телефон', max_length=50, blank=True)
+    contact2_label = models.CharField('Контакт 2 — должность', max_length=200, blank=True)
+    contact2_phone = models.CharField('Контакт 2 — телефон', max_length=50, blank=True)
+
+    class Meta:
+        unique_together = [('page', 'locale')]
+        ordering = ['page', 'locale']
+        verbose_name = 'Перевод страницы агентств'
+        verbose_name_plural = 'Переводы страницы агентств'
+
+    def __str__(self):
+        return f'Агентствам ({self.locale})'
+
+
+class AboutContent(models.Model):
+    """Блок «О нас» / микропрезентация. Синглтон — одна запись."""
+
+    class Meta:
+        verbose_name = 'Блок «О нас»'
+        verbose_name_plural = 'Блок «О нас»'
+
+    def __str__(self):
+        return 'О нас'
+
+
+class AboutContentTranslation(models.Model):
+    about = models.ForeignKey(AboutContent, on_delete=models.CASCADE, related_name='translations')
+    locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
+    title = models.CharField('Заголовок', max_length=300, blank=True)
+    paragraphs = models.TextField(
+        'Текст (абзацы)',
+        blank=True,
+        help_text='Абзацы разделяются пустой строкой (\\n\\n).',
+    )
+
+    class Meta:
+        unique_together = [('about', 'locale')]
+        ordering = ['about', 'locale']
+        verbose_name = 'Перевод блока «О нас»'
+        verbose_name_plural = 'Переводы блока «О нас»'
+
+    def __str__(self):
+        return f'О нас ({self.locale})'
+
+
+class HeroContent(models.Model):
+    """Контент главного блока (hero). Одна запись — картинка и переводы текстов."""
+    image = models.ImageField(upload_to='hero/', blank=True, null=True)
+    image_url = models.URLField(blank=True, help_text='Если нет загрузки файла')
+
+    class Meta:
+        verbose_name = 'Главный блок (Hero)'
+        verbose_name_plural = 'Главный блок (Hero)'
+
+    def __str__(self):
+        return 'Hero'
+
+
+class HeroContentTranslation(models.Model):
+    hero = models.ForeignKey(HeroContent, on_delete=models.CASCADE, related_name='translations')
+    locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
+    badge = models.CharField('Надпись-бейдж', max_length=200, blank=True)
+    title1 = models.CharField('Заголовок строка 1', max_length=200, blank=True)
+    title2 = models.CharField('Заголовок строка 2', max_length=200, blank=True)
+    subtitle = models.TextField('Подзаголовок', blank=True)
+
+    class Meta:
+        unique_together = [('hero', 'locale')]
+        ordering = ['hero', 'locale']
+        verbose_name = 'Перевод Hero'
+        verbose_name_plural = 'Переводы Hero'
+
+    def __str__(self):
+        return f'Hero ({self.locale})'
 
 
 class CompanyInfo(models.Model):

@@ -28,9 +28,6 @@ export function PortfolioSection() {
           <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight max-w-2xl">
             {t('portfolioSection.title')}
           </h2>
-          <p className="mt-4 font-sans text-black/80 max-w-xl">
-            {t('portfolioSection.description')}
-          </p>
         </AnimateOnScroll>
         <div className="mt-12 grid sm:grid-cols-2 md:grid-cols-3 gap-6">
           {portfolio.map((item, i) => {
@@ -67,7 +64,7 @@ export function PortfolioSection() {
                         </time>
                       )}
                       {item.description && (
-                        <p className="mt-2 font-sans text-sm text-black/80 line-clamp-2">{item.description}</p>
+                        <p className="mt-2 font-sans text-sm text-primary line-clamp-2">{item.description}</p>
                       )}
                     </div>
                   </article>

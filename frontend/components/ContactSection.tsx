@@ -33,6 +33,9 @@ const IconDirections = () => (
 export function ContactSection() {
   const t = useTranslations()
   const locale = useLocale()
+  const adminHours = t('footer.adminHours').split('\n')
+  const specialistHours = t('footer.specialistHours').split('\n')
+
   const [sent, setSent] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -55,7 +58,7 @@ export function ContactSection() {
   return (
     <section id="contact" className="pt-6 md:pt-8 pb-3 md:pb-4 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight">{t('contact.title')}</h2>
+        <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight">{t('contact.title')}</h2>
 
         <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
           {/* Контактная информация: адрес, время, телефоны, как добраться */}
@@ -81,17 +84,22 @@ export function ContactSection() {
             <div className="p-5 rounded-xl bg-secondary/10 border border-secondary/20 space-y-4">
               <div className="flex gap-4">
                 <IconPhone />
-                <div className="space-y-3 min-w-0 flex-1">
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <div className="min-w-0 flex-1 space-y-4">
+                  {/* Администратор турбазы */}
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-1 items-baseline">
                     <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70">{t('footer.phone1Label')}</p>
-                    <p className="font-sans text-[13px] text-black/70 text-right whitespace-pre-line">{t('footer.adminHours')}</p>
+                    <p className="font-sans text-[13px] text-black/70">{adminHours[0]}</p>
+                    <a href="tel:+375291792539" className="font-sans text-sm font-medium text-black hover:text-primary transition-colors">+375 29 179 25 39</a>
+                    <p className="font-sans text-[13px] text-black/70">{adminHours[1]}</p>
                   </div>
-                  <a href="tel:+375291792539" className="block font-sans text-sm font-medium text-black hover:text-primary transition-colors">+375 29 179 25 39</a>
-                  <div className="flex flex-wrap items-baseline justify-between gap-2 pt-1">
+                  <div className="border-t border-secondary/20" />
+                  {/* Специалист по туризму */}
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-1 items-baseline">
                     <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70">{t('footer.phone2Label')}</p>
-                    <p className="font-sans text-[13px] text-black/70 text-right whitespace-pre-line">{t('footer.specialistHours')}</p>
+                    <p className="font-sans text-[13px] text-black/70">{specialistHours[0]}</p>
+                    <a href="tel:+375297801304" className="font-sans text-sm font-medium text-black hover:text-primary transition-colors">+375 29 780 13 04</a>
+                    <p className="font-sans text-[13px] text-black/70">{specialistHours[1]}</p>
                   </div>
-                  <a href="tel:+375297801304" className="block font-sans text-sm font-medium text-black hover:text-primary transition-colors">+375 29 780 13 04</a>
                 </div>
               </div>
             </div>
@@ -100,8 +108,8 @@ export function ContactSection() {
               className="flex items-center gap-4 p-5 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/15 hover:border-primary/30 transition-colors group"
             >
               <IconDirections />
-              <span className="font-sans text-sm font-semibold text-black group-hover:text-primary transition-colors">{t('footer.howToGet')}</span>
-              <svg className="w-4 h-4 ml-auto text-black/60 group-hover:text-primary group-hover:translate-x-0.5 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+              <span className="font-sans text-sm font-semibold text-primary transition-colors">{t('footer.howToGet')}</span>
+              <svg className="w-4 h-4 ml-auto text-primary/60 group-hover:text-primary group-hover:translate-x-0.5 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </Link>
@@ -110,22 +118,22 @@ export function ContactSection() {
           {/* Форма */}
           <div className="lg:col-span-3">
             <div className="max-w-xl">
-              <h3 className="font-serif text-xl font-medium text-black mb-6">{t('contact.formMain')}</h3>
+              <h3 className="font-serif text-xl font-medium text-primary mb-6">{t('contact.formMain')}</h3>
               {sent ? (
                 <p className="font-sans text-black/80">{t('contact.thanks')}</p>
               ) : (
                 <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleSubmit(e.currentTarget) }} action="#" method="post">
                   <input type="hidden" name="_to" value="office@nemnovotour.by" />
                   <div>
-                    <label htmlFor="main-name" className="block font-sans text-sm text-black/80 mb-1">{t('contact.nameLabel')}</label>
+                    <label htmlFor="main-name" className="block font-sans text-sm text-primary mb-1">{t('contact.nameLabel')}</label>
                     <input id="main-name" name="name" type="text" required className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/80/60 focus:outline-none focus:border-primary/50 rounded-lg" placeholder={t('contact.namePlaceholder')} />
                   </div>
                   <div>
-                    <label htmlFor="main-email" className="block font-sans text-sm text-black/80 mb-1">{t('contact.emailLabel')}</label>
+                    <label htmlFor="main-email" className="block font-sans text-sm text-primary mb-1">{t('contact.emailLabel')}</label>
                     <input id="main-email" name="email" type="email" required className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/80/60 focus:outline-none focus:border-primary/50 rounded-lg" placeholder={t('contact.emailPlaceholder')} />
                   </div>
                   <div>
-                    <label htmlFor="main-msg" className="block font-sans text-sm text-black/80 mb-1">{t('contact.messageLabel')}</label>
+                    <label htmlFor="main-msg" className="block font-sans text-sm text-primary mb-1">{t('contact.messageLabel')}</label>
                     <textarea id="main-msg" name="message" rows={3} className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/80/60 focus:outline-none focus:border-primary/50 rounded-lg resize-none" placeholder={t('contact.messagePlaceholder')} />
                   </div>
                   {error && <p className="font-sans text-sm text-red-600">{error}</p>}

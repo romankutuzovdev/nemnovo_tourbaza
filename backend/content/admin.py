@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Service, ServiceImage, ServiceTranslation,
+    Service, ServiceImage, ServiceVariant, ServiceTranslation,
     Event, EventTranslation,
     News, NewsTranslation,
     Promo, PromoTranslation,
@@ -11,6 +11,10 @@ from .models import (
     HowToGetRoute, HowToGetRouteTranslation,
     CompanyInfo,
     MapArea,
+    HeroContent, HeroContentTranslation,
+    LegalPage, LegalPageTranslation,
+    AgenciesPage, AgenciesPageTranslation,
+    AboutContent, AboutContentTranslation,
 )
 
 
@@ -25,12 +29,18 @@ class ServiceImageInline(admin.TabularInline):
     fields = ['image', 'image_url', 'order']
 
 
+class ServiceVariantInline(admin.TabularInline):
+    model = ServiceVariant
+    extra = 1
+    fields = ['name', 'description', 'order']
+
+
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ['slug', 'category', 'order']
     list_filter = ['category']
     list_editable = ['category', 'order']
-    inlines = [ServiceTranslationInline, ServiceImageInline]
+    inlines = [ServiceTranslationInline, ServiceImageInline, ServiceVariantInline]
 
 
 class EventTranslationInline(admin.TabularInline):
@@ -224,6 +234,50 @@ class MapAreaAdmin(admin.ModelAdmin):
                            'Для точной настройки откройте страницу карты с параметром ?calibrate=1.',
         }),
     ]
+
+
+class LegalPageTranslationInline(admin.StackedInline):
+    model = LegalPageTranslation
+    extra = 0
+
+
+@admin.register(LegalPage)
+class LegalPageAdmin(admin.ModelAdmin):
+    list_display = ['page_key', '__str__']
+    inlines = [LegalPageTranslationInline]
+
+
+class HeroContentTranslationInline(admin.TabularInline):
+    model = HeroContentTranslation
+    extra = 0
+
+
+@admin.register(HeroContent)
+class HeroContentAdmin(admin.ModelAdmin):
+    list_display = ['__str__']
+    inlines = [HeroContentTranslationInline]
+
+
+class AgenciesPageTranslationInline(admin.StackedInline):
+    model = AgenciesPageTranslation
+    extra = 0
+
+
+@admin.register(AgenciesPage)
+class AgenciesPageAdmin(admin.ModelAdmin):
+    list_display = ['__str__']
+    inlines = [AgenciesPageTranslationInline]
+
+
+class AboutContentTranslationInline(admin.StackedInline):
+    model = AboutContentTranslation
+    extra = 0
+
+
+@admin.register(AboutContent)
+class AboutContentAdmin(admin.ModelAdmin):
+    list_display = ['__str__']
+    inlines = [AboutContentTranslationInline]
 
 
 @admin.register(CompanyInfo)

@@ -2,6 +2,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('about-content/', views.about_content),
+    path('agencies-page/', views.agencies_page),
+    path('hero/', views.hero_content),
+    path('legal/<str:page_key>/', views.legal_page),
     path('company-info/', views.company_info),
     path('contact/', views.contact_submit),
     path('how-to-get/', views.how_to_get),

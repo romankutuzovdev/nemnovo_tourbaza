@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Service, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo, MapArea
+from .models import Service, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo, MapArea, HeroContent, LegalPage, AgenciesPage, AboutContent
 from .serializers import (
     ServiceListSerializer,
     ServiceDetailSerializer,
@@ -31,6 +31,10 @@ from .serializers import (
     how_to_get_cities_from_routes,
     CompanyInfoSerializer,
     MapAreaSerializer,
+    HeroContentSerializer,
+    LegalPageSerializer,
+    AgenciesPageSerializer,
+    AboutContentSerializer,
 )
 
 VALID_LOCALES = {'ru', 'be', 'en', 'pl', 'zh'}
@@ -39,6 +43,56 @@ VALID_LOCALES = {'ru', 'be', 'en', 'pl', 'zh'}
 def get_locale(request):
     loc = request.query_params.get('locale', 'ru')
     return loc if loc in VALID_LOCALES else 'ru'
+
+
+@api_view(['GET'])
+def legal_page(request, page_key):
+    """Содержимое юридической страницы по ключу: privacy или cookie-policy."""
+    locale = get_locale(request)
+    try:
+        page = LegalPage.objects.prefetch_related('translations').get(page_key=page_key)
+    except LegalPage.DoesNotExist:
+        return Response({'page_key': page_key, 'title': '', 'content': ''})
+    serializer = LegalPageSerializer(page, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def about_content(request):
+    """Контент блока «О нас»: заголовок и абзацы."""
+    locale = get_locale(request)
+    obj = AboutContent.objects.prefetch_related('translations').first()
+    if not obj:
+        return Response({'title': '', 'paragraphs': []})
+    serializer = AboutContentSerializer(obj, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def agencies_page(request):
+    """Контент страницы «Агентствам»."""
+    locale = get_locale(request)
+    obj = AgenciesPage.objects.prefetch_related('translations').first()
+    if not obj:
+        return Response({
+            'title': '', 'intro': '', 'why_title': '', 'why_items': [],
+            'how_title': '', 'how_intro': '', 'how_steps': [], 'how_outro': '',
+            'cta_title': '', 'contact1_label': '', 'contact1_phone': '',
+            'contact2_label': '', 'contact2_phone': '',
+        })
+    serializer = AgenciesPageSerializer(obj, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def hero_content(request):
+    """Контент главного блока (hero): картинка и переводы текстов."""
+    locale = get_locale(request)
+    obj = HeroContent.objects.prefetch_related('translations').first()
+    if not obj:
+        return Response({'image': None, 'image_url': '', 'badge': '', 'title1': '', 'title2': '', 'subtitle': ''})
+    serializer = HeroContentSerializer(obj, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -92,7 +146,7 @@ def service_list(request):
 def service_detail(request, slug):
     locale = get_locale(request)
     try:
-        service = Service.objects.prefetch_related('translations', 'images').get(slug=slug)
+        service = Service.objects.prefetch_related('translations', 'images', 'variants').get(slug=slug)
     except Service.DoesNotExist:
         return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
     serializer = ServiceDetailSerializer(service, context={'locale': locale, 'request': request})

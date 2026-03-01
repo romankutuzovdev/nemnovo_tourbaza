@@ -158,13 +158,13 @@ export function Footer() {
             <div className="flex flex-col gap-2 pt-2">
               <Link
                 href={`/${locale}/privacy`}
-                className="font-sans text-sm text-black/80 hover:text-black transition-colors underline underline-offset-2"
+                className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
               >
                 {t('footer.personalDataPolicy')}
               </Link>
               <Link
                 href={`/${locale}/cookie-policy`}
-                className="font-sans text-sm text-black/80 hover:text-black transition-colors underline underline-offset-2"
+                className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
               >
                 {t('footer.cookiePolicy')}
               </Link>

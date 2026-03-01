@@ -25,8 +25,11 @@ export type ServiceItem = {
   images: string[]
 }
 
+/** Вариант услуги (пункт выпадающего списка) */
+export type ServiceVariant = { name: string; description: string }
+
 /** Ответ /api/services/<slug>/?locale= */
-export type ServiceDetail = ServiceItem & { long_desc: string }
+export type ServiceDetail = ServiceItem & { long_desc: string; variants: ServiceVariant[] }
 
 /** Нормализует URL картинки: полный URL или относительный /media/... (если API на том же origin) */
 function toAbsoluteImageUrl(value: string): string {
@@ -363,6 +366,74 @@ export async function fetchMapAreas(locale: Locale): Promise<MapAreaItem[]> {
   const res = await apiFetch(`${getApiUrl()}/api/map-areas/?locale=${loc}`)
   if (!res?.ok) return []
   return res.json().catch(() => [])
+}
+
+/** Юридическая страница из /api/legal/<page_key>/?locale= */
+export type LegalPageContent = {
+  page_key: string
+  title: string
+  content: string
+}
+
+export async function fetchLegalPage(pageKey: string, locale: Locale): Promise<LegalPageContent | null> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/legal/${encodeURIComponent(pageKey)}/?locale=${loc}`)
+  if (!res?.ok) return null
+  return res.json().catch(() => null)
+}
+
+/** Блок «О нас» из /api/about-content/?locale= */
+export type AboutContent = {
+  title: string
+  paragraphs: string[]
+}
+
+export async function fetchAboutContent(locale: Locale): Promise<AboutContent | null> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/about-content/?locale=${loc}`)
+  if (!res?.ok) return null
+  return res.json().catch(() => null)
+}
+
+/** Страница «Агентствам» из /api/agencies-page/?locale= */
+export type AgenciesPageContent = {
+  title: string
+  intro: string
+  why_title: string
+  why_items: string[]
+  how_title: string
+  how_intro: string
+  how_steps: string[]
+  how_outro: string
+  cta_title: string
+  contact1_label: string
+  contact1_phone: string
+  contact2_label: string
+  contact2_phone: string
+}
+
+export async function fetchAgenciesPage(locale: Locale): Promise<AgenciesPageContent | null> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/agencies-page/?locale=${loc}`)
+  if (!res?.ok) return null
+  return res.json().catch(() => null)
+}
+
+/** Контент главного блока (GET /api/hero/?locale=) */
+export type HeroContent = {
+  image: string | null
+  image_url: string
+  badge: string
+  title1: string
+  title2: string
+  subtitle: string
+}
+
+export async function fetchHeroContent(locale: Locale): Promise<HeroContent | null> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/hero/?locale=${loc}`)
+  if (!res?.ok) return null
+  return res.json().catch(() => null)
 }
 
 /** Отправка формы контакта (заявка, претензия или обратная связь из горячего предложения). */

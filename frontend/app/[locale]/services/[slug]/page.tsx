@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { fetchServiceBySlug, fetchServices, getServiceImageSrc } from '@/lib/api'
 import { isValidLocale, type Locale } from '@/lib/i18n'
 import { ServiceImageSlider } from '@/components/ServiceImageSlider'
+import { ServiceVariantsDropdown } from '@/components/ServiceVariantsDropdown'
 import type { Metadata } from 'next'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
@@ -76,6 +77,8 @@ export default async function ServicePage({ params }: Props) {
           <p className="mt-8 font-sans text-xl text-black/80 leading-relaxed">
             {serviceShortDesc}
           </p>
+
+          <ServiceVariantsDropdown variants={service.variants ?? []} />
 
           <div className="mt-12 space-y-10">
             {blocks.map((block, i) => (

@@ -65,7 +65,6 @@ export default function ServicesPage() {
   const events = useEvents()
 
   const generalServices = services.filter((s) => s.category !== 'gazebo')
-  const gazebos = services.filter((s) => s.category === 'gazebo')
 
   return (
     <div className="min-h-screen bg-primary">
@@ -87,20 +86,6 @@ export default function ServicesPage() {
               <ServiceCard key={item.slug} item={item} locale={locale} moreLabel={t('servicesSection.more')} />
             ))}
           </div>
-
-          {/* Секция беседок */}
-          {gazebos.length > 0 && (
-            <div className="mt-16 md:mt-20 border-t border-secondary/30 pt-10 md:pt-12">
-              <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-medium text-white tracking-tight max-w-2xl mb-6 md:mb-8">
-                {t('servicesSection.gazebos')}
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-                {gazebos.map((item) => (
-                  <ServiceCard key={item.slug} item={item} locale={locale} moreLabel={t('servicesSection.more')} />
-                ))}
-              </div>
-            </div>
-          )}
 
           {events.length > 0 && (
             <div className="mt-16 md:mt-20 border-t border-secondary/30 pt-10 md:pt-12">
