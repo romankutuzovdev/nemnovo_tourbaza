@@ -4,7 +4,9 @@ const backendUrl = process.env.BACKEND_URL || 'http://127.0.0.1:8000'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  serverExternalPackages: ['@formatjs/intl-messageformat', '@formatjs/icu-messageformat-parser'],
+  experimental: {
+    serverComponentsExternalPackages: ['@formatjs/intl-messageformat', '@formatjs/icu-messageformat-parser'],
+  },
   async rewrites() {
     return [
       { source: '/api/:path*', destination: `${backendUrl}/api/:path*` },
