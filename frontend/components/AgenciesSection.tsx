@@ -42,7 +42,7 @@ export function AgenciesSection({ content }: Props) {
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight max-w-2xl">
           {title}
         </h2>
-        <p className="mt-4 font-sans text-black/80 max-w-xl">
+        <p className="mt-4 font-sans text-primary max-w-xl">
           {intro}
         </p>
         <hr className="mt-10 md:mt-12 mb-10 md:mb-14 border-t border-secondary/20" />
@@ -63,14 +63,14 @@ export function AgenciesSection({ content }: Props) {
         <hr className="my-10 md:my-14 border-t border-secondary/20" />
 
         {/* Как начать сотрудничество */}
-        <h2 className="font-serif text-2xl md:text-3xl font-medium text-black tracking-tight mb-4 md:mb-6">
+        <h2 className="font-serif text-2xl md:text-3xl font-medium text-primary tracking-tight mb-4 md:mb-6">
           {howTitle}
         </h2>
-        <p className="font-sans text-black/80 mb-4">{howIntro}</p>
-        <ol className="list-decimal list-inside font-sans text-black/80 space-y-2 mb-4">
+        <p className="font-sans text-primary mb-4">{howIntro}</p>
+        <ol className="list-decimal list-inside font-sans text-primary space-y-2 mb-4">
           {howSteps.map((step, i) => <li key={i}>{step}</li>)}
         </ol>
-        <p className="font-sans text-black/80">{howOutro}</p>
+        <p className="font-sans text-primary">{howOutro}</p>
 
         {/* CTA блок */}
         <div className="mt-14 md:mt-16 p-6 md:p-8 bg-secondary/10 border border-secondary/20">

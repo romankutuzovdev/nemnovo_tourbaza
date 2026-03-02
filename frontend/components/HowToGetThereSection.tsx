@@ -60,20 +60,20 @@ export function HowToGetThereSection() {
     <section id="how-to-get" className="pt-6 md:pt-8 pb-3 md:pb-4 bg-secondary/40 border-t border-secondary/10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
-          <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold text-black tracking-tight shrink-0">
+          <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold text-primary tracking-tight shrink-0">
             {t('howToGet.title')}
           </h2>
           {!data ? (
             <p className="font-sans text-sm text-black/60">Загрузка…</p>
           ) : (
             <div className="shrink-0 text-left sm:text-left lg:text-right max-w-full lg:max-w-md">
-              <p className="font-sans text-xs tracking-[0.15em] uppercase text-black/80 mb-1">{t('howToGet.addressLabel')}</p>
+              <p className="font-sans text-xs tracking-[0.15em] uppercase text-primary mb-1">{t('howToGet.addressLabel')}</p>
               <div className="flex items-start justify-start lg:justify-end gap-2">
-                <span className="font-sans text-sm font-semibold text-black leading-snug">{address}</span>
+                <span className="font-sans text-sm font-semibold text-primary leading-snug">{address}</span>
                 <button
                   type="button"
                   onClick={copyAddress}
-                  className="p-1.5 text-black/80/70 hover:text-black transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="p-1.5 text-primary/70 hover:text-primary transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   aria-label={t('howToGet.copy')}
                   title={t('howToGet.copy')}
                 >
@@ -83,7 +83,7 @@ export function HowToGetThereSection() {
                   </svg>
                 </button>
               </div>
-              <p className="font-sans text-xs text-black/80 mt-2">
+              <p className="font-sans text-xs text-primary mt-2">
                 GPS: {gpsDisplay}; {gpsDisplayNum}
               </p>
             </div>
@@ -97,7 +97,7 @@ export function HowToGetThereSection() {
                 href={mapsUrl(gpsLat, gpsLon, 'yandex')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-5 py-2.5 rounded-md border border-secondary/30 bg-white text-black font-sans text-sm font-medium tracking-wide hover:border-primary/30 transition-colors"
+                className="inline-flex items-center px-5 py-2.5 rounded-md border border-secondary/30 bg-white text-primary font-sans text-sm font-medium tracking-wide hover:border-primary/30 transition-colors"
               >
                 {t('howToGet.yandex')}
               </a>
@@ -105,7 +105,7 @@ export function HowToGetThereSection() {
                 href={mapsUrl(gpsLat, gpsLon, 'google')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-5 py-2.5 rounded-md border border-secondary/30 bg-white text-black font-sans text-sm font-medium tracking-wide hover:border-primary/30 transition-colors"
+                className="inline-flex items-center px-5 py-2.5 rounded-md border border-secondary/30 bg-white text-primary font-sans text-sm font-medium tracking-wide hover:border-primary/30 transition-colors"
               >
                 {t('howToGet.google')}
               </a>
@@ -176,7 +176,7 @@ export function HowToGetThereSection() {
             </div>
             </>
             ) : (
-              <p className="mt-6 font-sans text-black/70">{t('howToGet.empty')}</p>
+              <p className="mt-6 font-sans text-primary">{t('howToGet.empty')}</p>
             )}
           </>
         )}

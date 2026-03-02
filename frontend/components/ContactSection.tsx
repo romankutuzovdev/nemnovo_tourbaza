@@ -86,19 +86,19 @@ export function ContactSection() {
                 <IconPhone />
                 <div className="min-w-0 flex-1 space-y-4">
                   {/* Администратор турбазы */}
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-1 items-baseline">
-                    <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70">{t('footer.phone1Label')}</p>
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-0 items-baseline">
+                    <p className="font-sans text-[11px] font-semibold tracking-wide uppercase text-black/70 whitespace-nowrap">{t('footer.phone1Label')}</p>
                     <p className="font-sans text-[13px] text-black/70">{adminHours[0]}</p>
-                    <a href="tel:+375291792539" className="font-sans text-sm font-medium text-black hover:text-primary transition-colors">+375 29 179 25 39</a>
-                    <p className="font-sans text-[13px] text-black/70">{adminHours[1]}</p>
+                    <a href="tel:+375291792539" className="font-sans text-sm font-medium text-black hover:text-primary transition-colors -mt-1">+375 29 179 25 39</a>
+                    <p className="font-sans text-[13px] text-black/70 -mt-1">{adminHours[1]}</p>
                   </div>
                   <div className="border-t border-secondary/20" />
                   {/* Специалист по туризму */}
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-1 items-baseline">
-                    <p className="font-sans text-xs font-semibold tracking-wider uppercase text-black/70">{t('footer.phone2Label')}</p>
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-0 items-baseline">
+                    <p className="font-sans text-[11px] font-semibold tracking-wide uppercase text-black/70 whitespace-nowrap">{t('footer.phone2Label')}</p>
                     <p className="font-sans text-[13px] text-black/70">{specialistHours[0]}</p>
-                    <a href="tel:+375297801304" className="font-sans text-sm font-medium text-black hover:text-primary transition-colors">+375 29 780 13 04</a>
-                    <p className="font-sans text-[13px] text-black/70">{specialistHours[1]}</p>
+                    <a href="tel:+375297801304" className="font-sans text-sm font-medium text-black hover:text-primary transition-colors -mt-1">+375 29 780 13 04</a>
+                    <p className="font-sans text-[13px] text-black/70 -mt-1">{specialistHours[1]}</p>
                   </div>
                 </div>
               </div>
