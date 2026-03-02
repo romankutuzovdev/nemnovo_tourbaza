@@ -14,7 +14,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,87.229.34.7
 
 # CSRF: доверенные origins (схема обязательна: https:// или http://). Если заходите в админку по туннелю Cloudflare — добавьте в backend/.env текущий URL туннеля, например:
 # CSRF_TRUSTED_ORIGINS=https://ваш-поддомен.trycloudflare.com
-_default_origins = 'http://localhost:8000,http://127.0.0.1:8000'
+_default_origins = 'http://localhost:8000,http://127.0.0.1:8000,https://*.trycloudflare.com'
 _origins_env = os.environ.get('CSRF_TRUSTED_ORIGINS', _default_origins)
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in _origins_env.split(',') if o.strip()]
 
