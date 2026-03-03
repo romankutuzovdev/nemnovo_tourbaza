@@ -18,8 +18,8 @@ export function Hero({ content }: HeroProps) {
 
   const image = content?.image || null
   const badge = content?.badge || t('hero.badge')
-  const title1 = content?.title1 || t('hero.title1')
-  const title2 = content?.title2 || t('hero.title2')
+  const title1 = content ? (content.title1?.trim() || '') : t('hero.title1')
+  const title2 = content ? (content.title2?.trim() || '') : t('hero.title2')
   const subtitle = content?.subtitle || t('hero.subtitle')
 
   return (
@@ -42,11 +42,13 @@ export function Hero({ content }: HeroProps) {
         <p className="font-sans text-base md:text-lg tracking-[0.2em] uppercase text-black/80 mb-6 animate-fade-up" style={{ animationDelay: '0.1s', opacity: 0, animationFillMode: 'forwards' }}>
           {badge}
         </p>
-        <h1 className="font-serif-legacy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-black leading-[1.15] tracking-tight animate-fade-up" style={{ animationDelay: '0.25s', opacity: 0, animationFillMode: 'forwards' }}>
-          {title1}
-          <br />
-          <span className="text-black/90">{title2}</span>
-        </h1>
+        {(title1 || title2) && (
+          <h1 className="font-serif-legacy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-black leading-[1.15] tracking-tight animate-fade-up" style={{ animationDelay: '0.25s', opacity: 0, animationFillMode: 'forwards' }}>
+            {title1}
+            {title1 && title2 && <br />}
+            {title2 && <span className="text-black/90">{title2}</span>}
+          </h1>
+        )}
         <p className="mt-8 font-sans text-xl md:text-2xl text-black/80 max-w-2xl mx-auto leading-relaxed animate-fade-up" style={{ animationDelay: '0.45s', opacity: 0, animationFillMode: 'forwards' }}>
           {subtitle}
         </p>
