@@ -36,7 +36,7 @@ function ServiceCard({ item, locale, moreLabel }: { item: ServiceItem, locale: s
         ))}
         <span className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10" aria-hidden />
         <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 md:p-6 flex flex-col justify-end z-10">
-          <h2 className="font-serif text-xl sm:text-2xl font-medium text-white tracking-tight line-clamp-2">
+          <h2 className="font-serif text-lg sm:text-xl font-medium text-white tracking-tight line-clamp-2">
             {item.title}
           </h2>
           <p className="mt-1.5 font-sans text-sm text-white/90 leading-snug line-clamp-2">
