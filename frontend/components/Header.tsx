@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
 import { useAuth } from '@/contexts/AuthContext'
-import { locales, localeNames } from '@/lib/i18n'
+import { GoogleTranslateWidget } from './GoogleTranslateWidget'
 
 const SOCIAL_ICONS: Record<string, React.ReactNode> = {
   telegram: (
@@ -63,13 +63,19 @@ export function Header() {
   const t = useTranslations()
   const { isAuthenticated } = useAuth()
   const [open, setOpen] = useState(false)
-  const [langOpen, setLangOpen] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
   const moreRef = useRef<HTMLDivElement>(null)
 
   const pathForLocale = (loc: string) => `/${loc}${pathWithoutLocale(pathname ?? '', locale)}`
+
+  const handleSelectRussian = () => {
+    if (typeof document !== 'undefined') {
+      document.cookie = 'googtrans=; path=/; max-age=0'
+      window.location.href = pathForLocale('ru')
+    }
+  }
 
   useEffect(() => {
     setMounted(true)
@@ -242,33 +248,7 @@ export function Header() {
         {/* Свёрнутое меню (<1580px): лого + язык + гамбургер */}
         <div className="flex-1 min-w-0 flex min-[1580px]:hidden items-center justify-end">
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setLangOpen(!langOpen)}
-                  className="font-sans text-[10px] sm:text-xs text-black/80 px-1.5 sm:px-2 py-1 border-2 border-blue-900 rounded"
-                >
-                  {locale.toUpperCase()}
-                </button>
-                {langOpen && (
-                  <>
-                    <div className="fixed inset-0 z-10" aria-hidden onClick={() => setLangOpen(false)} />
-                    <ul className="absolute right-0 top-full mt-1 py-1 bg-white border border-secondary/20 rounded shadow-lg z-20 min-w-[120px]">
-                      {locales.map((loc) => (
-                        <li key={loc}>
-                          <Link
-                            href={pathForLocale(loc)}
-                            className={`block px-3 py-2 font-sans text-sm ${locale === loc ? 'text-black font-medium' : 'text-black/80'}`}
-                            onClick={() => setLangOpen(false)}
-                          >
-                            {localeNames[loc]}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-              </div>
+            <GoogleTranslateWidget variant="mobile" onSelectRussian={handleSelectRussian} russianPath={pathForLocale('ru')} />
               <button
                 type="button"
                 aria-label={t('nav.menuOpen')}
@@ -289,43 +269,7 @@ export function Header() {
           >
             {authLink.label}
           </Link>
-          <div className="relative">
-              <button
-                type="button"
-                onClick={() => setLangOpen(!langOpen)}
-                className="font-sans text-[10px] sm:text-xs lg:text-sm font-semibold tracking-wide text-black/80 hover:text-black px-1.5 sm:px-2 py-1 border-2 border-blue-900 rounded"
-                aria-expanded={langOpen}
-                aria-haspopup="true"
-              >
-                {localeNames[locale]}
-              </button>
-            {langOpen && (
-              <>
-                <div
-                  className="fixed inset-0 z-10"
-                  aria-hidden
-                  onClick={() => setLangOpen(false)}
-                />
-                <ul
-                  className="absolute right-0 top-full mt-1 py-1 bg-white border border-secondary/20 rounded shadow-lg z-20 min-w-[140px]"
-                  role="menu"
-                >
-                  {locales.map((loc) => (
-                    <li key={loc} role="none">
-                      <Link
-                        href={pathForLocale(loc)}
-                        role="menuitem"
-                        className={`block px-4 py-2 font-sans text-sm hover:bg-secondary/50 ${locale === loc ? 'text-black font-medium' : 'text-black/80'}`}
-                        onClick={() => setLangOpen(false)}
-                      >
-                        {localeNames[loc]}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
+          <GoogleTranslateWidget variant="desktop" onSelectRussian={handleSelectRussian} russianPath={pathForLocale('ru')} />
           <a
             href="https://nemnovotour.by/"
             target="_blank"
@@ -378,17 +322,8 @@ export function Header() {
             >
               {authLink.label}
             </Link>
-            <div className="pt-2 border-t border-secondary/10 flex flex-wrap gap-2">
-              {locales.map((loc) => (
-                <Link
-                  key={loc}
-                  href={pathForLocale(loc)}
-                  className={`font-sans text-sm px-3 py-1.5 rounded border ${locale === loc ? 'border-primary text-black' : 'border-secondary/30 text-black/80'}`}
-                  onClick={() => setOpen(false)}
-                >
-                  {localeNames[loc]}
-                </Link>
-              ))}
+            <div className="pt-2 border-t border-secondary/10">
+              <GoogleTranslateWidget variant="mobile" onSelectRussian={handleSelectRussian} russianPath={pathForLocale('ru')} />
             </div>
             <a
               href="https://nemnovotour.by/"
