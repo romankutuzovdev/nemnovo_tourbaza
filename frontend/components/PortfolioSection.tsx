@@ -21,8 +21,8 @@ export function PortfolioSection() {
   const portfolio = usePortfolio()
 
   return (
-    <section id="portfolio" className="pt-6 md:pt-8 pb-3 md:pb-4 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="portfolio" className="app-section bg-white">
+      <div className="app-container">
         <AnimateOnScroll variant="fade-up">
           <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight max-w-2xl">
             {t('portfolioSection.title')}

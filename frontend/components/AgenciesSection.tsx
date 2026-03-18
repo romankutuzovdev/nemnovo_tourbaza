@@ -37,8 +37,8 @@ export function AgenciesSection({ content }: Props) {
     phone.replace(/[^\d+]/g, '').replace(/^(\+?\d{3})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5')
 
   return (
-    <section id="agencies" className="pt-6 md:pt-8 pb-3 md:pb-4 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="agencies" className="app-section bg-white">
+      <div className="app-container">
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight max-w-2xl">
           {title}
         </h2>

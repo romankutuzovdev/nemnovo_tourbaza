@@ -68,8 +68,8 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-12 md:py-16 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="contact" className="app-section bg-white">
+      <div className="app-container">
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight">{t('contact.title')}</h2>
 
         <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">

@@ -55,15 +55,15 @@ export function ServicesSection() {
   const t = useTranslations()
   const services = useServices().filter(s => s.category !== 'gazebo')
   return (
-    <section id="services" className="scroll-mt-24 pt-12 md:pt-16 pb-6 md:pb-8 bg-primary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="services" className="scroll-mt-24 app-section bg-primary">
+      <div className="app-container">
         <h2 className="section-title-main text-white">{t('servicesSection.title')}</h2>
-        <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+        <div className="app-section-body grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {services.map((item) => (
             <ServiceCard key={item.slug} item={item} />
           ))}
         </div>
-        <div className="mt-10 text-center">
+        <div className="app-section-cta">
           <Link href="/services" className="inline-flex items-center px-6 py-3 border border-secondary/50 text-white font-sans text-sm tracking-wide hover:bg-white/10 transition-colors">
             {t('servicesSection.allServices')}
           </Link>

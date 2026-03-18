@@ -11,10 +11,10 @@ export function EventsSection() {
   const events = useEvents()
 
   return (
-    <section id="events" className="pt-12 md:pt-16 pb-6 md:pb-8 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="events" className="app-section bg-white">
+      <div className="app-container">
         <h2 className="section-title-main text-primary">{t('eventsSection.title')}</h2>
-        <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+        <div className="app-section-body grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
           {events.length === 0 ? null : events.map((item) => (
             <div key={item.slug} className="min-w-0">
               <Link
@@ -44,7 +44,7 @@ export function EventsSection() {
             </div>
           ))}
         </div>
-        <div className="mt-10 text-center">
+        <div className="app-section-cta">
           <Link href="/events" className="inline-flex items-center px-6 py-3 border border-primary text-primary font-sans text-sm tracking-wide hover:bg-primary/10 transition-colors">
             {t('eventsSection.allEvents')}
           </Link>

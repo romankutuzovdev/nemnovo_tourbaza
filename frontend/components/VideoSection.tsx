@@ -25,8 +25,8 @@ export function VideoSection({ videoUrl }: Props) {
   const embedUrl = videoUrl ? getEmbedUrl(videoUrl) : null
 
   return (
-    <section className="py-16 md:py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section className="app-section-lg bg-white">
+      <div className="app-container">
         <AnimateOnScroll variant="fade-up">
           <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight">
             Презентация турбазы

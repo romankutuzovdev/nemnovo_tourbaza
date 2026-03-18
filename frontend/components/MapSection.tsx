@@ -11,8 +11,8 @@ export function MapSection() {
   const locale = useLocale() as Locale
 
   return (
-    <section id="map" className="pt-12 md:pt-16 pb-6 md:pb-8 bg-secondary/30 border-t border-secondary/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="map" className="app-section bg-secondary/30 border-t border-secondary/10">
+      <div className="app-container">
         <h2 className="section-title-main text-primary mb-6">
           {t('howToGet.mapTitle') || 'Карта турбазы'}
         </h2>

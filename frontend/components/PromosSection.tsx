@@ -39,8 +39,8 @@ export function PromosSection() {
   if (promos.length === 0) return null
 
   return (
-    <section id="promos" className="pt-6 md:pt-8 pb-3 md:pb-4 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="promos" className="app-section bg-white">
+      <div className="app-container">
         <AnimateOnScroll variant="fade-up">
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <h2 className="section-title-main text-primary">
@@ -73,7 +73,7 @@ export function PromosSection() {
         <div
           ref={scrollRef}
           onScroll={updateArrows}
-          className="mt-8 sm:mt-12 flex gap-4 sm:gap-6 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-none py-1 -mx-1"
+          className="app-section-body flex gap-4 sm:gap-6 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-none py-1 -mx-1"
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {promos.map((p) => {

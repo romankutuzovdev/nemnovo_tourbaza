@@ -19,18 +19,18 @@ export function CertificateSection() {
   const imageSrc = content ? getCertificateImageSrc(content) : ''
 
   return (
-    <section id="certificate" className="py-12 md:py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="certificate" className="app-section bg-white">
+      <div className="app-container">
         <h2 className="section-title-main text-primary">
           {t('certificateSection.title')}
         </h2>
-        <div className="mt-8 flex justify-center">
+        <div className="app-section-body flex justify-center">
           <Link
             href="/gift-certificate"
             className="block max-w-md w-full group"
             aria-label={t('certificateSection.link')}
           >
-            <article className="rounded-lg overflow-hidden border border-secondary/20 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+            <article className="rounded-none overflow-hidden border border-secondary/20 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
               <div className="relative aspect-[16/10] w-full bg-secondary/10">
                 {imageSrc ? (
                   <Image
