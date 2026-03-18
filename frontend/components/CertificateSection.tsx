@@ -19,9 +19,9 @@ export function CertificateSection() {
   const imageSrc = content ? getCertificateImageSrc(content) : ''
 
   return (
-    <section id="certificate" className="app-section bg-white">
+    <section id="certificate" className="app-section bg-primary">
       <div className="app-container">
-        <h2 className="section-title-main text-primary">
+        <h2 className="section-title-main text-white">
           {t('certificateSection.title')}
         </h2>
         <div className="app-section-body flex justify-center">
@@ -30,8 +30,8 @@ export function CertificateSection() {
             className="block max-w-md w-full group"
             aria-label={t('certificateSection.link')}
           >
-            <article className="rounded-none overflow-hidden border border-secondary/20 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
-              <div className="relative aspect-[16/10] w-full bg-secondary/10">
+            <article className="rounded-none overflow-hidden border border-white/15 bg-white shadow-sm hover:shadow-lg hover:border-white/30 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full bg-secondary/20">
                 {imageSrc ? (
                   <Image
                     src={imageSrc}
@@ -42,7 +42,7 @@ export function CertificateSection() {
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="font-serif text-4xl text-secondary/40">🎁</span>
+                    <span className="font-serif text-4xl text-primary/50">🎁</span>
                   </div>
                 )}
               </div>
