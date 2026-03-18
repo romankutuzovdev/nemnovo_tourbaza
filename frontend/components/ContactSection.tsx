@@ -72,7 +72,7 @@ export function ContactSection() {
       <div className="app-container">
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight">{t('contact.title')}</h2>
 
-        <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
+        <div className="app-section-body grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
           {/* Контактная информация: адрес и время работы в карточках */}
           <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5 min-w-0">
             <div className="flex flex-col gap-4 sm:col-span-2">

@@ -33,7 +33,7 @@ export function VideoSection({ videoUrl }: Props) {
           </h2>
         </AnimateOnScroll>
         <AnimateOnScroll variant="scale" delay={80}>
-          <div className="mt-10 aspect-video bg-secondary/50 border border-secondary/10 rounded-sm overflow-hidden transition-all duration-300 hover:border-secondary/20 hover:shadow-lg">
+          <div className="app-section-body aspect-video bg-secondary/50 border border-secondary/10 rounded-sm overflow-hidden transition-all duration-300 hover:border-secondary/20 hover:shadow-lg">
             {embedUrl ? (
               <iframe
                 src={embedUrl}

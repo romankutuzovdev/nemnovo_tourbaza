@@ -28,7 +28,7 @@ export function PortfolioSection() {
             {t('portfolioSection.title')}
           </h2>
         </AnimateOnScroll>
-        <div className="mt-12 grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="app-section-body grid sm:grid-cols-2 md:grid-cols-3 gap-6">
           {portfolio.map((item, i) => {
             const src = getPortfolioImageSrc(item)
             return (

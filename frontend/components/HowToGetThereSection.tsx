@@ -90,7 +90,7 @@ export function HowToGetThereSection() {
 
         {data && (
           <>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="app-section-body flex flex-wrap gap-3">
               <a
                 href={mapsUrl(gpsLat, gpsLon, 'yandex')}
                 target="_blank"

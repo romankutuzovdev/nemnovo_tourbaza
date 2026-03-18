@@ -73,7 +73,7 @@ export function PartnersSection() {
         {partners.length === 0 ? (
           <div className="mt-10 font-sans text-sm text-black/60">{t('loading')}</div>
         ) : (
-          <div className="mt-12">
+          <div className="app-section-body">
             <div className="relative">
               <div
                 ref={scrollRef}
