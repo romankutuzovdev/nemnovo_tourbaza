@@ -14,7 +14,7 @@ export default function EventsPage() {
     <div className="min-h-screen bg-primary">
       <header className="pt-52 md:pt-40 pb-6 md:pb-8 max-w-6xl mx-auto px-4 sm:px-6">
         <Link
-          href={`/${locale}`}
+          href="/"
           className="inline-flex items-center gap-2 font-sans text-sm text-white/80 hover:text-white transition-colors mb-4"
         >
           ← {t('nav.home')}
