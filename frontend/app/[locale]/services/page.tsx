@@ -68,19 +68,19 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-primary">
-      <header className="pt-44 md:pt-32 pb-6 md:pb-8 max-w-6xl mx-auto px-4 sm:px-6">
+      <header className="pt-52 md:pt-40 pb-6 md:pb-8 max-w-6xl mx-auto px-4 sm:px-6">
         <Link
           href={`/${locale}`}
-          className="lg:hidden inline-flex items-center gap-2 font-sans text-sm text-white/80 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 font-sans text-sm text-white/80 hover:text-white transition-colors mb-4"
         >
           ← {t('nav.home')}
         </Link>
+        <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight max-w-2xl">
+          {t('servicesSection.title')}
+        </h1>
       </header>
-      <section className="pt-6 md:pt-8 pb-3 md:pb-4">
+      <section className="pt-6 md:pt-10 pb-16 md:pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight max-w-2xl mb-8 md:mb-10">
-            {t('servicesSection.title')}
-          </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
             {generalServices.map((item) => (
               <ServiceCard key={item.slug} item={item} locale={locale} moreLabel={t('servicesSection.more')} />

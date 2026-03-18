@@ -6,8 +6,8 @@ import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
 
 export const PAGE_CONTAINER = 'max-w-6xl mx-auto px-4 sm:px-6'
-// На мобильных отступ больше (хедер выше), на десктопе — меньше. pb единый под заголовок страницы.
-export const PAGE_TOP = 'pt-40 md:pt-24 pb-6 md:pb-8'
+// Отступы под высокий фиксированный хедер (верхняя полоса + меню).
+export const PAGE_TOP = 'pt-52 md:pt-40 pb-6 md:pb-8'
 
 /** Сегмент пути → ключ перевода (nav.* или footer.legal.*) */
 const SEGMENT_TO_KEY: Record<string, string> = {
@@ -43,6 +43,8 @@ type PageLayoutProps = {
   simpleHomeLink?: boolean
   /** Больше верхнего отступа, чтобы ссылка «назад» не заходила под хедер */
   moreTopPadding?: boolean
+  /** Цветовая схема для навигации (фон страницы) */
+  variant?: 'light' | 'dark'
 }
 
 function pathSegments(pathname: string, locale: string): string[] {
@@ -53,7 +55,7 @@ function pathSegments(pathname: string, locale: string): string[] {
   return path ? path.split('/').filter(Boolean) : []
 }
 
-export function PageLayout({ children, badge, title, description, titlePrimary, headerClassName, hideBreadcrumbs, simpleHomeLink, moreTopPadding }: PageLayoutProps) {
+export function PageLayout({ children, badge, title, description, titlePrimary, headerClassName, hideBreadcrumbs, simpleHomeLink, moreTopPadding, variant = 'light' }: PageLayoutProps) {
   const locale = useLocale()
   const pathname = usePathname() ?? ''
   const t = useTranslations()
@@ -70,8 +72,16 @@ export function PageLayout({ children, badge, title, description, titlePrimary, 
   }
 
   const headerSpacing = simpleHomeLink
-    ? (moreTopPadding ? 'pt-44 md:pt-32 pb-6 md:pb-8' : 'pt-40 md:pt-24 pb-6 md:pb-8')
+    ? (moreTopPadding ? 'pt-52 md:pt-40 pb-6 md:pb-8' : PAGE_TOP)
     : undefined
+
+  const homeLinkClassName = variant === 'dark'
+    ? 'inline-flex items-center gap-2 font-sans text-sm text-white/80 hover:text-white transition-colors mb-4'
+    : 'inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4'
+
+  const crumbsClassName = variant === 'dark'
+    ? 'flex flex-wrap items-center gap-1.5 text-sm text-white/70'
+    : 'flex flex-wrap items-center gap-1.5 text-sm text-black/70'
 
   return (
     <div className="min-h-screen">
@@ -79,28 +89,24 @@ export function PageLayout({ children, badge, title, description, titlePrimary, 
         <nav className={simpleHomeLink ? undefined : 'flex flex-col gap-3 md:gap-4'} aria-label={hideBreadcrumbs ? undefined : 'Breadcrumb'}>
           <Link
             href={`/${locale}`}
-            className={
-              simpleHomeLink
-                ? 'lg:hidden inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors'
-                : 'lg:hidden self-start inline-flex items-center gap-2 font-sans text-sm font-medium px-3 py-2 rounded-lg border border-secondary/30 text-black/80 hover:text-black hover:border-secondary/50 hover:bg-secondary/5 transition-colors'
-            }
+            className={homeLinkClassName}
           >
             <span aria-hidden>←</span>
             {t('nav.home')}
           </Link>
           {!hideBreadcrumbs && (
-            <ol className="flex flex-wrap items-center gap-1.5 text-sm text-black/70">
+            <ol className={crumbsClassName}>
               {breadcrumbs.map((crumb, i) => (
                 <li key={crumb.href} className="flex items-center gap-1.5">
-                  {i > 0 && <span className="text-secondary/50" aria-hidden>/</span>}
+                  {i > 0 && <span className={variant === 'dark' ? 'text-white/30' : 'text-secondary/50'} aria-hidden>/</span>}
                   {i === breadcrumbs.length - 1 ? (
-                    <span className="font-medium text-black" aria-current="page">
+                    <span className={variant === 'dark' ? 'font-medium text-white' : 'font-medium text-black'} aria-current="page">
                       {crumb.label}
                     </span>
                   ) : (
                     <Link
                       href={crumb.href}
-                      className="hover:text-black transition-colors"
+                      className={variant === 'dark' ? 'hover:text-white transition-colors' : 'hover:text-black transition-colors'}
                     >
                       {crumb.label}
                     </Link>
@@ -113,14 +119,14 @@ export function PageLayout({ children, badge, title, description, titlePrimary, 
         {title != null && (
           <h1
             className={`font-serif text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight max-w-2xl ${
-              titlePrimary ? 'text-primary' : 'text-black'
+              titlePrimary ? 'text-primary' : (variant === 'dark' ? 'text-white' : 'text-black')
             }`}
           >
             {title}
           </h1>
         )}
         {description != null && (
-          <p className="mt-4 font-sans text-black/80 max-w-xl">{description}</p>
+          <p className={`mt-4 font-sans max-w-xl ${variant === 'dark' ? 'text-white/80' : 'text-black/80'}`}>{description}</p>
         )}
       </header>
       {children}

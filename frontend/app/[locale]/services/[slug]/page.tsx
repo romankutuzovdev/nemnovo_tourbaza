@@ -55,8 +55,14 @@ export default async function ServicePage({ params }: Props) {
   const images = service.images && service.images.length > 0 ? service.images : (imageSrc ? [imageSrc] : [])
 
   return (
-    <div className="pt-48 md:pt-40 pb-12 md:pb-16 min-h-screen bg-white">
+    <div className="pt-56 md:pt-44 pb-12 md:pb-16 min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <Link
+          href={`/${locale}`}
+          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
+        >
+          ← {t('nav.home')}
+        </Link>
         <Link
           href={`/${locale}/services`}
           className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-10"

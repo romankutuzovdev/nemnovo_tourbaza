@@ -26,8 +26,14 @@ export default async function PortfolioItemPage({ params }: Props) {
   const images = item.images || []
 
   return (
-    <div className="pt-32 pb-16 md:pb-16 min-h-screen bg-white">
+    <div className="pt-44 md:pt-32 pb-16 md:pb-16 min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <Link
+          href={`/${locale}`}
+          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
+        >
+          ← {t('nav.home')}
+        </Link>
         <Link
           href={`/${locale}/portfolio`}
           className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-10"
