@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Service, ServiceImage, ServiceVariant, ServiceTranslation,
+    Service, ServiceDocument, ServiceQuestion, ServiceQuestionnaireSubmission, ServiceImage, ServiceVariant, ServiceTranslation,
     Event, EventTranslation,
     News, NewsTranslation,
     Promo, PromoTranslation,
@@ -13,6 +13,7 @@ from .models import (
     MapArea,
     HeroContent, HeroContentTranslation,
     LegalPage, LegalPageTranslation,
+    CertificateContent, CertificateContentTranslation,
     AgenciesPage, AgenciesPageTranslation,
     AboutContent, AboutContentTranslation,
 )
@@ -35,12 +36,57 @@ class ServiceVariantInline(admin.TabularInline):
     fields = ['name', 'description', 'order']
 
 
+class ServiceDocumentInline(admin.TabularInline):
+    model = ServiceDocument
+    extra = 1
+    fields = ['name', 'file', 'order']
+
+
+class ServiceQuestionInline(admin.TabularInline):
+    model = ServiceQuestion
+    extra = 1
+    fields = ['text', 'order']
+
+
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ['slug', 'category', 'order']
-    list_filter = ['category']
-    list_editable = ['category', 'order']
-    inlines = [ServiceTranslationInline, ServiceImageInline, ServiceVariantInline]
+    list_display = ['slug', 'parent', 'category', 'order', 'needs_questionnaire', 'is_active']
+    list_filter = ['category', 'is_active', 'needs_questionnaire', 'parent']
+    list_editable = ['category', 'order', 'needs_questionnaire', 'is_active']
+    list_select_related = ['parent']
+    raw_id_fields = ['parent']
+    inlines = [ServiceTranslationInline, ServiceImageInline, ServiceVariantInline, ServiceDocumentInline, ServiceQuestionInline]
+    actions = ['make_active', 'make_inactive']
+    fieldsets = [
+        (None, {
+            'fields': ['slug', 'parent', 'image', 'image_url', 'category', 'order'],
+        }),
+        ('Статус', {
+            'fields': ['is_active'],
+            'description': 'Активные услуги отображаются на сайте. Неактивные скрыты.',
+        }),
+        ('Анкета', {
+            'fields': ['needs_questionnaire'],
+        }),
+    ]
+
+    @admin.action(description='Сделать активными')
+    def make_active(self, request, queryset):
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f'{updated} услуг(и) сделано активными.')
+
+    @admin.action(description='Сделать неактивными')
+    def make_inactive(self, request, queryset):
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f'{updated} услуг(и) сделано неактивными.')
+
+
+@admin.register(ServiceQuestionnaireSubmission)
+class ServiceQuestionnaireSubmissionAdmin(admin.ModelAdmin):
+    list_display = ['service', 'name', 'email', 'created_at']
+    list_filter = ['service', 'created_at']
+    search_fields = ['name', 'email', 'message']
+    readonly_fields = ['service', 'name', 'email', 'phone', 'message', 'answers', 'created_at']
 
 
 class EventTranslationInline(admin.TabularInline):
@@ -247,6 +293,17 @@ class LegalPageAdmin(admin.ModelAdmin):
     inlines = [LegalPageTranslationInline]
 
 
+class CertificateContentTranslationInline(admin.StackedInline):
+    model = CertificateContentTranslation
+    extra = 0
+
+
+@admin.register(CertificateContent)
+class CertificateContentAdmin(admin.ModelAdmin):
+    list_display = ['__str__']
+    inlines = [CertificateContentTranslationInline]
+
+
 class HeroContentTranslationInline(admin.TabularInline):
     model = HeroContentTranslation
     extra = 0
@@ -276,7 +333,8 @@ class AboutContentTranslationInline(admin.StackedInline):
 
 @admin.register(AboutContent)
 class AboutContentAdmin(admin.ModelAdmin):
-    list_display = ['__str__']
+    list_display = ['place', 'video_url']
+    fields = ['place', 'video_url']
     inlines = [AboutContentTranslationInline]
 
 
@@ -286,6 +344,7 @@ class CompanyInfoAdmin(admin.ModelAdmin):
     fields = [
         'company_name', 'legal_address', 'office_address',
         'unp', 'okpo', 'trade_register', 'services_register', 'contact_email',
+        'bank_account', 'bank_name', 'bank_bic',
         'destination_address', 'destination_gps_lat', 'destination_gps_lon',
     ]
 

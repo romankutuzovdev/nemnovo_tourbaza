@@ -137,6 +137,11 @@
     "prevPartner": "上一位",
     "nextPartner": "下一位"
   },
+  "certificateSection": {
+    "title": "礼品券",
+    "link": "了解礼品券详情",
+    "more": "了解更多"
+  },
   "contact": {
     "badge": "联系方式",
     "title": "联系我们",
@@ -167,21 +172,29 @@
     "privacy": "隐私政策",
     "personalDataPolicy": "个人数据处理政策",
     "cookiePolicy": "Cookie政策",
+    "publicOffer": "公开报价",
+    "giftCertificate": "礼品券",
     "copyright": "Nemnovo",
     "workingHours": "营业时间",
     "workingHoursValue": "周三至周日 8:00–22:00\n周一、周二 休息",
     "phone": "电话",
     "phoneValue": "+375 29 123 45 67",
-    "phone1Label": "营地管理员",
-    "phone2Label": "旅游专员",
+    "phone1Label": "营地\n管理员",
+    "phone1Hours": "周三至周六 08:00–22:00，\n周一、周二 休息",
+    "phone2Label": "旅游\n专员",
+    "phone2Hours": "周一至周五 09:00–17:00，\n周六、周日 休息",
     "adminHours": "周三至周六 08:00–22:00\n周一、周二 休息",
     "specialistHours": "周一至周五 09:00–17:00\n周六、周日 休息",
     "legalAddressLabel": "注册地址：",
     "officeAddressLabel": "办公地址：",
     "addressLabel": "地址",
+    "emailLabel": "电子邮件",
     "requisites": "公司信息",
     "unpLabel": "УНП",
-    "okpoLabel": "ОКПО"
+    "okpoLabel": "ОКПО",
+    "bankAccountLabel": "账号",
+    "bankInLabel": "开户行",
+    "bankBicLabel": "BIC"
   },
   "cookie": {
     "text": "我们使用 cookies 用于网站与统计。继续即表示您同意",
@@ -195,6 +208,7 @@
     "yandex": "YANDEX 地图",
     "google": "GOOGLE 地图",
     "copy": "复制地址",
+    "copyCoordinates": "复制坐标",
     "mapTitle": "基地地图",
     "mapHint": "点击对象以放大图像"
   },
@@ -224,7 +238,8 @@
     "button": "下载活动照片",
     "pinnedBadge": "置顶",
     "photos": "张照片",
-    "backToPortfolio": "作品集"
+    "backToPortfolio": "作品集",
+    "close": "关闭"
   },
   "agencies": {
     "badge": "合作伙伴",

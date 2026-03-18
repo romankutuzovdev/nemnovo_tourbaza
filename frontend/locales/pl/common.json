@@ -137,6 +137,11 @@
     "prevPartner": "Poprzedni partner",
     "nextPartner": "Następny partner"
   },
+  "certificateSection": {
+    "title": "Certyfikat podarunkowy",
+    "link": "Więcej o certyfikacie",
+    "more": "Więcej"
+  },
   "newsletterSection": {
     "title": "Newsletter",
     "subtitle": "Bądź na bieżąco z ofertami i nowościami. Można włączyć powiadomienia SMS.",
@@ -174,21 +179,29 @@
     "privacy": "Polityka prywatności",
     "personalDataPolicy": "Polityka przetwarzania danych osobowych",
     "cookiePolicy": "Polityka dotycząca plików cookie",
+    "publicOffer": "Oferta publiczna",
+    "giftCertificate": "Certyfikat podarunkowy",
     "copyright": "Nemnovo",
     "workingHours": "Godziny pracy",
     "workingHoursValue": "ŚR–ND 8:00–22:00\nPN, WT — ZAMKNIĘTE",
     "phone": "Telefon",
     "phoneValue": "+375 29 123 45 67",
-    "phone1Label": "Administrator bazy",
-    "phone2Label": "Specjalista ds. turystyki",
+    "phone1Label": "Administrator\nbazy",
+    "phone1Hours": "ŚR–SB 08:00–22:00,\nPN, WT — ZAMKNIĘTE",
+    "phone2Label": "Specjalista\nds. turystyki",
+    "phone2Hours": "PN–PT 09:00–17:00,\nSB, ND — ZAMKNIĘTE",
     "adminHours": "ŚR–SB 08:00–22:00\nPN, WT — ZAMKNIĘTE",
     "specialistHours": "PN–PT 09:00–17:00\nSB, ND — ZAMKNIĘTE",
     "legalAddressLabel": "Adres rejestrowy:",
     "officeAddressLabel": "Adres biura:",
     "addressLabel": "Adres",
+    "emailLabel": "E-mail",
     "requisites": "Dane firmy",
     "unpLabel": "UNP",
-    "okpoLabel": "OKPO"
+    "okpoLabel": "OKPO",
+    "bankAccountLabel": "nr rach.",
+    "bankInLabel": "w",
+    "bankBicLabel": "BIC"
   },
   "cookie": {
     "text": "Używamy plików cookies. Kontynuując, zgadzasz się na",
@@ -202,6 +215,7 @@
     "yandex": "YANDEX MAPY",
     "google": "GOOGLE MAPS",
     "copy": "Kopiuj adres",
+    "copyCoordinates": "Kopiuj współrzędne",
     "mapTitle": "Mapa bazy turystycznej",
     "mapHint": "Kliknij obiekt, aby powiększyć zdjęcie"
   },
@@ -231,7 +245,8 @@
     "button": "Pobierz zdjęcia z wydarzenia",
     "pinnedBadge": "Przypięte",
     "photos": "zdjęć",
-    "backToPortfolio": "Portfolio"
+    "backToPortfolio": "Portfolio",
+    "close": "Zamknij"
   },
   "agencies": {
     "badge": "Dla partnerów",

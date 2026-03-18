@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { useLocale } from '@/contexts/LocaleContext'
 
 export const PAGE_CONTAINER = 'max-w-6xl mx-auto px-4 sm:px-6'
 // На мобильных отступ больше (хедер выше), на десктопе — меньше. pb единый под заголовок страницы.
@@ -45,25 +44,21 @@ type PageLayoutProps = {
   moreTopPadding?: boolean
 }
 
-function pathSegments(pathname: string, locale: string): string[] {
-  const prefix = `/${locale}`
-  const path = pathname === prefix || pathname.startsWith(prefix + '/')
-    ? pathname.slice(prefix.length) || ''
-    : ''
+function pathSegments(pathname: string): string[] {
+  const path = pathname?.replace(/^\/+|\/+$/g, '') || ''
   return path ? path.split('/').filter(Boolean) : []
 }
 
 export function PageLayout({ children, badge, title, description, titlePrimary, headerClassName, hideBreadcrumbs, simpleHomeLink, moreTopPadding }: PageLayoutProps) {
-  const locale = useLocale()
   const pathname = usePathname() ?? ''
   const t = useTranslations()
-  const segments = pathSegments(pathname, locale)
+  const segments = pathSegments(pathname)
 
   const breadcrumbs: { href: string; label: string }[] = []
-  let acc = `/${locale}`
-  breadcrumbs.push({ href: acc, label: t('nav.home') })
+  let acc = ''
+  breadcrumbs.push({ href: acc || '/', label: t('nav.home') })
   for (let i = 0; i < segments.length; i++) {
-    acc += `/${segments[i]}`
+    acc = acc ? `${acc}/${segments[i]}` : `/${segments[i]}`
     const key = SEGMENT_TO_KEY[segments[i]]
     const label = key ? t(key) : (i === segments.length - 1 && title ? title : segments[i])
     breadcrumbs.push({ href: acc, label })
@@ -78,7 +73,7 @@ export function PageLayout({ children, badge, title, description, titlePrimary, 
       <header className={`${headerSpacing ?? PAGE_TOP} ${PAGE_CONTAINER} ${headerClassName ?? ''}`}>
         <nav className={simpleHomeLink ? undefined : 'flex flex-col gap-3 md:gap-4'} aria-label={hideBreadcrumbs ? undefined : 'Breadcrumb'}>
           <Link
-            href={`/${locale}`}
+            href="/"
             className={
               simpleHomeLink
                 ? 'lg:hidden inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors'

@@ -28,8 +28,21 @@ export type ServiceItem = {
 /** Вариант услуги (пункт выпадающего списка) */
 export type ServiceVariant = { name: string; description: string }
 
-/** Ответ /api/services/<slug>/?locale= */
-export type ServiceDetail = ServiceItem & { long_desc: string; variants: ServiceVariant[] }
+/** Документ услуги для скачивания */
+export type ServiceDocument = { name: string; url: string }
+
+/** Вопрос анкеты услуги */
+export type ServiceQuestion = { id: number; text: string }
+
+/** Ответ /api/services/<slug>/?locale= — children есть у разделов */
+export type ServiceDetail = ServiceItem & {
+  long_desc: string
+  variants: ServiceVariant[]
+  children?: ServiceItem[]
+  documents?: ServiceDocument[]
+  needs_questionnaire?: boolean
+  questions?: ServiceQuestion[]
+}
 
 /** Нормализует URL картинки: полный URL или относительный /media/... (если API на том же origin) */
 function toAbsoluteImageUrl(value: string): string {
@@ -39,6 +52,15 @@ function toAbsoluteImageUrl(value: string): string {
   const base = getApiUrl()
   if (base === '') return mediaPath
   return `${base}${mediaPath}`
+}
+
+/** Преобразует относительный /media/ URL в абсолютный для запросов к бэкенду */
+export function toAbsoluteMediaUrl(value: string): string {
+  if (value.startsWith('http://') || value.startsWith('https://')) return value
+  const path = value.startsWith('/') ? value : `/${value}`
+  const base = getApiUrl()
+  if (base === '') return path
+  return `${base}${path}`
 }
 
 /** URL картинки услуги: приоритет у загруженного image, иначе image_url */
@@ -338,6 +360,9 @@ export type CompanyInfo = {
   trade_register: string
   services_register: string
   contact_email: string
+  bank_account?: string
+  bank_name?: string
+  bank_bic?: string
 }
 
 export async function fetchCompanyInfo(): Promise<CompanyInfo | null> {
@@ -368,6 +393,27 @@ export async function fetchMapAreas(locale: Locale): Promise<MapAreaItem[]> {
   return res.json().catch(() => [])
 }
 
+/** Подарочный сертификат (GET /api/certificate/?locale=) */
+export type CertificateContent = {
+  image: string | null
+  image_url: string
+  title: string
+  content: string
+}
+
+export async function fetchCertificateContent(locale: Locale): Promise<CertificateContent | null> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/certificate/?locale=${loc}`)
+  if (!res?.ok) return null
+  return res.json().catch(() => null)
+}
+
+/** URL картинки сертификата */
+export function getCertificateImageSrc(item: { image: string | null; image_url: string }): string {
+  if (item.image) return toAbsoluteImageUrl(item.image)
+  return item.image_url || ''
+}
+
 /** Юридическая страница из /api/legal/<page_key>/?locale= */
 export type LegalPageContent = {
   page_key: string
@@ -382,15 +428,21 @@ export async function fetchLegalPage(pageKey: string, locale: Locale): Promise<L
   return res.json().catch(() => null)
 }
 
-/** Блок «О нас» из /api/about-content/?locale= */
+/** Блок «О нас» из /api/about-content/?locale=&place= */
 export type AboutContent = {
   title: string
   paragraphs: string[]
+  video_url?: string | null
 }
 
-export async function fetchAboutContent(locale: Locale): Promise<AboutContent | null> {
+export type AboutPlace = 'main' | 'about'
+
+export async function fetchAboutContent(
+  locale: Locale,
+  place: AboutPlace = 'main'
+): Promise<AboutContent | null> {
   const loc = LOCALES.includes(locale) ? locale : 'ru'
-  const res = await apiFetch(`${getApiUrl()}/api/about-content/?locale=${loc}`)
+  const res = await apiFetch(`${getApiUrl()}/api/about-content/?locale=${loc}&place=${place}`)
   if (!res?.ok) return null
   return res.json().catch(() => null)
 }
@@ -447,6 +499,22 @@ export async function sendContactForm(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ type, ...payload }),
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) return { error: (data as { error?: string }).error || `Ошибка ${res.status}` }
+  if ((data as { ok?: boolean }).ok) return { ok: true }
+  return { error: (data as { error?: string }).error || 'Неизвестная ошибка' }
+}
+
+/** Отправка анкеты по услуге. */
+export async function sendServiceQuestionnaire(
+  slug: string,
+  payload: { name: string; email: string; phone?: string; message?: string; answers: Record<string, string> }
+): Promise<{ ok: true } | { error: string }> {
+  const res = await fetch(`${getApiUrl()}/api/services/${encodeURIComponent(slug)}/questionnaire/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
   })
   const data = await res.json().catch(() => ({}))
   if (!res.ok) return { error: (data as { error?: string }).error || `Ошибка ${res.status}` }

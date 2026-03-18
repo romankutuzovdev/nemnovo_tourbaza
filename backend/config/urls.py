@@ -12,6 +12,7 @@ def serve_media(request, path):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('api/auth/', include('accounts.urls')),
     path('api/', include('content.urls')),
 ]

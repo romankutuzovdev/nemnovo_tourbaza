@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { AnimateOnScroll } from './AnimateOnScroll'
 import { useTranslations } from 'next-intl'
-import { useLocale, usePortfolio } from '@/contexts/LocaleContext'
+import { usePortfolio } from '@/contexts/LocaleContext'
 import { getPortfolioImageSrc } from '@/lib/api'
 
 /** Формат даты DD.MM.YYYY одинаково на сервере и клиенте (без hydration mismatch). */
@@ -18,7 +18,6 @@ function formatEventDate(isoDate: string): string {
 
 export function PortfolioSection() {
   const t = useTranslations()
-  const locale = useLocale()
   const portfolio = usePortfolio()
 
   return (
@@ -34,7 +33,7 @@ export function PortfolioSection() {
             const src = getPortfolioImageSrc(item)
             return (
               <AnimateOnScroll key={item.slug} variant="fade-up" delay={i * 100}>
-                <Link href={`/${locale}/portfolio/${item.slug}`} className="block">
+                <Link href={`/portfolio/${item.slug}`} className="block">
                   <article className="rounded-sm overflow-hidden border border-secondary/10 transition-all duration-300 hover:border-secondary/20 hover:shadow-md">
                     {src ? (
                       <div className="relative aspect-[4/3] bg-secondary/30">

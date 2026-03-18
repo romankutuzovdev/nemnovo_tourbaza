@@ -3,12 +3,10 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { useLocale } from '@/contexts/LocaleContext'
 
 const COOKIE_CONSENT_KEY = 'nemnovo-cookie-consent'
 
 export function CookieBanner() {
-  const locale = useLocale()
   const t = useTranslations()
   const [visible, setVisible] = useState(false)
 
@@ -34,7 +32,7 @@ export function CookieBanner() {
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <p className="font-sans text-sm text-black/80">
           {t('cookie.text')}{' '}
-          <Link href={`/${locale}/privacy`} className="text-black underline hover:no-underline">
+          <Link href="/privacy" className="text-black underline hover:no-underline">
             {t('cookie.link')}
           </Link>
           .

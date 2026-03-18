@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { useLocale } from '@/contexts/LocaleContext'
 import { ContactFormModal } from '@/components/ContactFormModal'
 import type { HeroContent } from '@/lib/api'
 
@@ -13,7 +12,6 @@ interface HeroProps {
 
 export function Hero({ content }: HeroProps) {
   const t = useTranslations()
-  const locale = useLocale()
   const [modalOpen, setModalOpen] = useState(false)
 
   const image = content?.image || null
@@ -28,7 +26,12 @@ export function Hero({ content }: HeroProps) {
       style={image ? { backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' } : {}}
     >
       {image && (
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/70 via-white/85 to-secondary/60" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 18%, rgba(60,60,60,0.35) 30%, rgba(60,60,60,0.5) 50%, rgba(60,60,60,0.35) 70%, rgba(255,255,255,0) 82%, rgba(255,255,255,0.35) 100%)',
+          }}
+        />
       )}
       <div
         className="absolute inset-0 opacity-[0.03]"
@@ -39,17 +42,17 @@ export function Hero({ content }: HeroProps) {
         }}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center text-center relative w-full">
-        <p className="font-sans text-base md:text-lg tracking-[0.2em] uppercase text-black/80 mb-6 animate-fade-up" style={{ animationDelay: '0.1s', opacity: 0, animationFillMode: 'forwards' }}>
+        <p className="font-sans text-base md:text-lg tracking-[0.2em] uppercase text-white/90 mb-6 animate-fade-up" style={{ animationDelay: '0.1s', opacity: 0, animationFillMode: 'forwards' }}>
           {badge}
         </p>
         {(title1 || title2) && (
-          <h1 className="font-serif-legacy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-black leading-[1.15] tracking-tight animate-fade-up" style={{ animationDelay: '0.25s', opacity: 0, animationFillMode: 'forwards' }}>
+          <h1 className="font-serif-legacy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-white leading-[1.15] tracking-tight animate-fade-up" style={{ animationDelay: '0.25s', opacity: 0, animationFillMode: 'forwards' }}>
             {title1}
             {title1 && title2 && <br />}
-            {title2 && <span className="text-black/90">{title2}</span>}
+            {title2 && <span className="text-white/95">{title2}</span>}
           </h1>
         )}
-        <p className="mt-8 font-sans text-xl md:text-2xl text-black/80 max-w-2xl mx-auto leading-relaxed animate-fade-up" style={{ animationDelay: '0.45s', opacity: 0, animationFillMode: 'forwards' }}>
+        <p className="mt-8 font-sans text-xl md:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed animate-fade-up" style={{ animationDelay: '0.45s', opacity: 0, animationFillMode: 'forwards' }}>
           {subtitle}
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.6s', opacity: 0, animationFillMode: 'forwards' }}>
@@ -59,7 +62,7 @@ export function Hero({ content }: HeroProps) {
           <button
             type="button"
             onClick={() => setModalOpen(true)}
-            className="inline-flex items-center justify-center px-8 py-4 border border-secondary/30 text-black font-sans text-sm tracking-wide hover:border-secondary/50 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+            className="inline-flex items-center justify-center px-8 py-4 border-[3px] border-white/50 text-white font-sans text-sm tracking-wide hover:border-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
           >
             {t('hero.cta2')}
           </button>

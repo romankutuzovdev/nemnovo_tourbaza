@@ -12,9 +12,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Service, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo, MapArea, HeroContent, LegalPage, AgenciesPage, AboutContent
+from django.db.models import Prefetch
+from .models import Service, ServiceQuestionnaireSubmission, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo, MapArea, HeroContent, LegalPage, CertificateContent, AgenciesPage, AboutContent
 from .serializers import (
     ServiceListSerializer,
+    ServiceTreeSerializer,
     ServiceDetailSerializer,
     EventListSerializer,
     EventDetailSerializer,
@@ -33,6 +35,7 @@ from .serializers import (
     MapAreaSerializer,
     HeroContentSerializer,
     LegalPageSerializer,
+    CertificateContentSerializer,
     AgenciesPageSerializer,
     AboutContentSerializer,
 )
@@ -47,7 +50,7 @@ def get_locale(request):
 
 @api_view(['GET'])
 def legal_page(request, page_key):
-    """Содержимое юридической страницы по ключу: privacy или cookie-policy."""
+    """Содержимое юридической страницы по ключу: privacy, cookie-policy, public-offer, gift-certificate."""
     locale = get_locale(request)
     try:
         page = LegalPage.objects.prefetch_related('translations').get(page_key=page_key)
@@ -59,9 +62,12 @@ def legal_page(request, page_key):
 
 @api_view(['GET'])
 def about_content(request):
-    """Контент блока «О нас»: заголовок и абзацы."""
+    """Контент блока «О нас»: заголовок и абзацы. place=main — для главной, place=about — для страницы «О нас»."""
     locale = get_locale(request)
-    obj = AboutContent.objects.prefetch_related('translations').first()
+    place = request.query_params.get('place', 'main')
+    if place not in ('main', 'about'):
+        place = 'main'
+    obj = AboutContent.objects.filter(place=place).prefetch_related('translations').first()
     if not obj:
         return Response({'title': '', 'paragraphs': []})
     serializer = AboutContentSerializer(obj, context={'locale': locale, 'request': request})
@@ -92,6 +98,17 @@ def hero_content(request):
     if not obj:
         return Response({'image': None, 'image_url': '', 'badge': '', 'title1': '', 'title2': '', 'subtitle': ''})
     serializer = HeroContentSerializer(obj, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def certificate_content(request):
+    """Контент подарочного сертификата: картинка, заголовок, описание."""
+    locale = get_locale(request)
+    obj = CertificateContent.objects.prefetch_related('translations').first()
+    if not obj:
+        return Response({'image': None, 'image_url': '', 'title': '', 'content': ''})
+    serializer = CertificateContentSerializer(obj, context={'locale': locale, 'request': request})
     return Response(serializer.data)
 
 
@@ -137,8 +154,16 @@ def how_to_get(request):
 @api_view(['GET'])
 def service_list(request):
     locale = get_locale(request)
-    qs = Service.objects.prefetch_related('translations', 'images').all()
-    serializer = ServiceListSerializer(qs, many=True, context={'locale': locale, 'request': request})
+    use_tree = request.query_params.get('tree') == '1'
+    if use_tree:
+        child_qs = Service.objects.filter(is_active=True).prefetch_related('translations', 'images')
+        qs = Service.objects.filter(is_active=True, parent__isnull=True).prefetch_related(
+            Prefetch('children', queryset=child_qs.order_by('order', 'id'))
+        )
+        serializer = ServiceTreeSerializer(qs, many=True, context={'locale': locale, 'request': request})
+    else:
+        qs = Service.objects.filter(is_active=True).prefetch_related('translations', 'images')
+        serializer = ServiceListSerializer(qs, many=True, context={'locale': locale, 'request': request})
     return Response(serializer.data)
 
 
@@ -146,7 +171,11 @@ def service_list(request):
 def service_detail(request, slug):
     locale = get_locale(request)
     try:
-        service = Service.objects.prefetch_related('translations', 'images', 'variants').get(slug=slug)
+        service = Service.objects.prefetch_related(
+            'translations', 'images', 'variants',
+            'children', 'children__translations', 'children__images',
+            'documents', 'questions',
+        ).get(slug=slug, is_active=True)
     except Service.DoesNotExist:
         return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
     serializer = ServiceDetailSerializer(service, context={'locale': locale, 'request': request})
@@ -252,6 +281,68 @@ def portfolio_detail(request, slug):
         return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
     serializer = PortfolioItemDetailSerializer(item, context={'locale': locale, 'request': request})
     return Response(serializer.data)
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def service_questionnaire_submit(request, slug):
+    """Принимает анкету по услуге: name, email, phone?, message?, answers {question_id: answer}."""
+    try:
+        data = json.loads(request.body) if request.body else {}
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    try:
+        service = Service.objects.get(slug=slug, is_active=True)
+    except Service.DoesNotExist:
+        return JsonResponse({'error': 'Service not found'}, status=404)
+    if not service.needs_questionnaire:
+        return JsonResponse({'error': 'Questionnaire not required for this service'}, status=400)
+    name = (data.get('name') or '').strip()
+    email = (data.get('email') or '').strip()
+    if not name or not email:
+        return JsonResponse({'error': 'name and email required'}, status=400)
+    phone = (data.get('phone') or '').strip()
+    message = (data.get('message') or '').strip()
+    answers = data.get('answers') or {}
+    if not isinstance(answers, dict):
+        answers = {}
+    valid_question_ids = set(service.questions.values_list('id', flat=True))
+    filtered_answers = {str(k): str(v).strip() for k, v in answers.items() if str(k) in (str(i) for i in valid_question_ids) and v}
+    ServiceQuestionnaireSubmission.objects.create(
+        service=service,
+        name=name,
+        email=email,
+        phone=phone,
+        message=message,
+        answers=filtered_answers,
+    )
+    to_email = getattr(settings, 'CONTACT_TEST_EMAIL', None) or 'office@nemnovotour.by'
+    try:
+        info = CompanyInfo.objects.first()
+        if info and info.contact_email:
+            to_email = info.contact_email
+    except Exception:
+        pass
+    lines = [f'Услуга: {service.slug}', f'Имя: {name}', f'Email: {email}', f'Телефон: {phone}']
+    if message:
+        lines.append(f'\nСообщение:\n{message}')
+    if filtered_answers:
+        lines.append('\nОтветы на вопросы анкеты:')
+        for q in service.questions.all().order_by('order'):
+            ans = filtered_answers.get(str(q.id), '—')
+            lines.append(f'  • {q.text}: {ans}')
+    body = '\n'.join(lines)
+    try:
+        send_mail(
+            subject=f'[Анкета] {service.slug} — {name}',
+            message=body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[to_email],
+            fail_silently=False,
+        )
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'ok': True})
 
 
 @csrf_exempt

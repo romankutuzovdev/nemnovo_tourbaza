@@ -33,13 +33,9 @@ const buttonClass = {
 
 type Props = {
   variant?: Variant
-  /** При выборе русского — переход на /ru/... вместо cookie+reload */
-  onSelectRussian?: () => void
-  /** URL русской версии; при выборе другого языка сначала переход сюда (контент должен быть на русском для Google Translate) */
-  russianPath?: string
 }
 
-export function GoogleTranslateWidget({ variant = 'desktop', onSelectRussian, russianPath }: Props) {
+export function GoogleTranslateWidget({ variant = 'desktop' }: Props) {
   const [ready, setReady] = useState(false)
   const [open, setOpen] = useState(false)
   const [current, setCurrent] = useState('ru')
@@ -106,20 +102,11 @@ export function GoogleTranslateWidget({ variant = 'desktop', onSelectRussian, ru
     setCurrent(googleCode)
 
     if (code === 'ru') {
-      if (onSelectRussian) {
-        onSelectRussian()
-        return
-      }
       document.cookie = 'googtrans=; path=/; max-age=0'
-      location.reload()
-      return
-    }
-    document.cookie = `googtrans=/ru/${googleCode}; path=/; max-age=31536000`
-    if (russianPath && typeof window !== 'undefined' && !window.location.pathname.startsWith('/ru')) {
-      window.location.href = russianPath
     } else {
-      location.reload()
+      document.cookie = `googtrans=/ru/${googleCode}; path=/; max-age=31536000`
     }
+    location.reload()
   }
 
   return (

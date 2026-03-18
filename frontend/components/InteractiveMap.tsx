@@ -320,7 +320,7 @@ export function InteractiveMap({ className = '', locale = 'ru' }: Props) {
               <div className="flex items-center justify-between gap-3">
                 {activeArea.area.service_slug && (
                   <Link
-                    href={`/${locale}/services/${activeArea.area.service_slug}`}
+                    href={`/services/${activeArea.area.service_slug}`}
                     className="font-sans text-sm font-semibold text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-lg transition-colors"
                     onClick={() => setActiveArea(null)}
                   >

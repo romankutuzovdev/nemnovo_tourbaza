@@ -3,11 +3,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { useLocale, useEvents } from '@/contexts/LocaleContext'
+import { useEvents } from '@/contexts/LocaleContext'
 import { getEventImageSrc } from '@/lib/api'
 
 export function EventsSection() {
-  const locale = useLocale()
   const t = useTranslations()
   const events = useEvents()
 
@@ -19,7 +18,7 @@ export function EventsSection() {
           {events.length === 0 ? null : events.map((item) => (
             <div key={item.slug} className="min-w-0">
               <Link
-                href={`/${locale}/events/${item.slug}`}
+                href={`/events/${item.slug}`}
                 className="group relative block aspect-[16/6] w-full rounded-lg overflow-hidden border border-emerald-800/50 bg-emerald-900/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-950"
               >
                 {getEventImageSrc(item) ? (
@@ -46,7 +45,7 @@ export function EventsSection() {
           ))}
         </div>
         <div className="mt-10 text-center">
-          <Link href={`/${locale}/events`} className="inline-flex items-center px-6 py-3 border border-black text-black font-sans text-sm tracking-wide hover:bg-black/10 transition-colors">
+          <Link href="/events" className="inline-flex items-center px-6 py-3 border border-primary text-primary font-sans text-sm tracking-wide hover:bg-primary/10 transition-colors">
             {t('eventsSection.allEvents')}
           </Link>
         </div>

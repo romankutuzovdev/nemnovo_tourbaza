@@ -70,7 +70,10 @@
     "title": "Услуги",
     "allServices": "Все услуги",
     "more": "Подробнее →",
-    "gazebos": "Беседки"
+    "gazebos": "Беседки",
+    "documents": "Документы",
+    "questionnaire": "Анкета / Заявка",
+    "inSection": "В этом разделе"
   },
   "eventsSection": {
     "badge": "Мероприятия",
@@ -137,6 +140,11 @@
     "prevPartner": "Предыдущий партнёр",
     "nextPartner": "Следующий партнёр"
   },
+  "certificateSection": {
+    "title": "Подарочный сертификат",
+    "link": "Подробнее о сертификате",
+    "more": "Подробнее"
+  },
   "contact": {
     "badge": "Контакты",
     "title": "Контакты",
@@ -144,10 +152,14 @@
     "complaintIntro": "Оставить отзыв",
     "formMain": "Заявка на бронирование / вопрос",
     "formComplaint": "Гостевая книга",
+    "name": "Имя",
     "nameLabel": "Имя",
     "namePlaceholder": "Как к вам обращаться",
+    "email": "Email",
     "emailLabel": "Email",
     "emailPlaceholder": "email@example.com",
+    "phone": "Телефон",
+    "phonePlaceholder": "+375 29 123 45 67",
     "messageLabel": "Сообщение",
     "messagePlaceholder": "Даты, количество гостей, пожелания",
     "complaintMessageLabel": "Текст",
@@ -166,21 +178,29 @@
     "privacy": "Политика конфиденциальности",
     "personalDataPolicy": "Политика обработки персональных данных",
     "cookiePolicy": "Политика в отношении обработки cookie",
+    "publicOffer": "Публичная оферта",
+    "giftCertificate": "Подарочный сертификат",
     "copyright": "Немново",
     "workingHours": "Время работы",
     "workingHoursValue": "СР–ВС 08:00–22:00\nПН, ВТ — Выходной",
     "phone": "Телефон",
     "phoneValue": "+375 29 123 45 67",
-    "phone1Label": "Администратор турбазы",
-    "phone2Label": "Специалист по туризму",
+    "phone1Label": "Администратор\nтурбазы",
+    "phone1Hours": "СР–СБ 08:00–22:00,\nПН, ВТ — Выходной",
+    "phone2Label": "Специалист\nпо туризму",
+    "phone2Hours": "ПН–ПТ 09:00–17:00,\nСБ, ВС — Выходной",
     "adminHours": "СР–СБ 08:00–22:00\nПН, ВТ — Выходной",
     "specialistHours": "ПН–ПТ 09:00–17:00\nСБ, ВС — Выходной",
     "legalAddressLabel": "Юридический адрес:",
     "officeAddressLabel": "Адрес офиса:",
     "addressLabel": "Адрес",
+    "emailLabel": "Электронная почта",
     "requisites": "Реквизиты",
     "unpLabel": "УНП",
-    "okpoLabel": "ОКПО"
+    "okpoLabel": "ОКПО",
+    "bankAccountLabel": "р/с",
+    "bankInLabel": "в",
+    "bankBicLabel": "БИК"
   },
   "cookie": {
     "text": "Мы используем cookies для работы сайта и аналитики. Продолжая, вы соглашаетесь с",
@@ -194,6 +214,7 @@
     "yandex": "ЯНДЕКС КАРТЫ",
     "google": "GOOGLE КАРТЫ",
     "copy": "Скопировать адрес",
+    "copyCoordinates": "Скопировать координаты",
     "mapTitle": "Карта турбазы",
     "mapHint": "Нажмите на объект, чтобы увеличить изображение"
   },
@@ -223,7 +244,8 @@
     "button": "Скачать фотографии с мероприятия",
     "pinnedBadge": "Закреплено",
     "photos": "фото",
-    "backToPortfolio": "Портфолио"
+    "backToPortfolio": "Портфолио",
+    "close": "Закрыть"
   },
   "agencies": {
     "badge": "Партнёрам",

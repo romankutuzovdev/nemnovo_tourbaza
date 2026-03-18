@@ -4,13 +4,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef, useState, useCallback, useEffect } from 'react'
 import { AnimateOnScroll } from './AnimateOnScroll'
-import { useLocale, usePromos } from '@/contexts/LocaleContext'
+import { usePromos } from '@/contexts/LocaleContext'
 import { useTranslations } from 'next-intl'
 import { getPromoImageSrc } from '@/lib/api'
 
 export function PromosSection() {
   const t = useTranslations()
-  const locale = useLocale()
   const promos = usePromos()
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
@@ -82,7 +81,7 @@ export function PromosSection() {
             return (
               <Link
                 key={p.slug}
-                href={`/${locale}/promos/${p.slug}`}
+                href={`/promos/${p.slug}`}
                 className="block group shrink-0 w-[min(100%,320px)] sm:w-[min(100%,360px)] md:w-[min(100%,380px)]"
                 style={{ scrollSnapAlign: 'start' }}
                 aria-label={p.title}

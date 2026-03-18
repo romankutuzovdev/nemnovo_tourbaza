@@ -52,9 +52,9 @@ export function HowToGetThereSection() {
     if (blocks.length && !openBlockId) setOpenBlockId(blocks[0].transport_type)
   }, [blocks, openBlockId])
 
-  const copyAddress = useCallback(() => {
-    navigator.clipboard.writeText(`${address}\nGPS: ${gpsDisplay}; ${gpsDisplayNum}`)
-  }, [address, gpsDisplay, gpsDisplayNum])
+  const copyCoordinates = useCallback(() => {
+    navigator.clipboard.writeText(gpsDisplay)
+  }, [gpsDisplay])
 
   return (
     <section id="how-to-get" className="pt-6 md:pt-8 pb-3 md:pb-4 bg-secondary/40 border-t border-secondary/10">
@@ -68,24 +68,22 @@ export function HowToGetThereSection() {
           ) : (
             <div className="shrink-0 text-left sm:text-left lg:text-right max-w-full lg:max-w-md">
               <p className="font-sans text-xs tracking-[0.15em] uppercase text-primary mb-1">{t('howToGet.addressLabel')}</p>
-              <div className="flex items-start justify-start lg:justify-end gap-2">
-                <span className="font-sans text-sm font-semibold text-primary leading-snug">{address}</span>
+              <span className="font-sans text-sm font-semibold text-primary leading-snug">{address}</span>
+              <div className="font-sans text-xs text-primary mt-2 flex items-center justify-end gap-2 flex-wrap">
+                <span>GPS: {gpsDisplay}; {gpsDisplayNum}</span>
                 <button
                   type="button"
-                  onClick={copyAddress}
-                  className="p-1.5 text-primary/70 hover:text-primary transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  aria-label={t('howToGet.copy')}
-                  title={t('howToGet.copy')}
+                  onClick={copyCoordinates}
+                  className="p-1 text-primary/70 hover:text-primary transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  aria-label={t('howToGet.copyCoordinates')}
+                  title={t('howToGet.copyCoordinates')}
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                   </svg>
                 </button>
               </div>
-              <p className="font-sans text-xs text-primary mt-2">
-                GPS: {gpsDisplay}; {gpsDisplayNum}
-              </p>
             </div>
           )}
         </div>

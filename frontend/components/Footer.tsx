@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { useLocale } from '@/contexts/LocaleContext'
 import { fetchCompanyInfo, type CompanyInfo } from '@/lib/api'
 
 const SOCIAL_ICONS: Record<string, React.ReactNode> = {
@@ -60,10 +59,12 @@ const defaultCompany: CompanyInfo = {
   trade_register: 'Дата и номер регистрации в торговом реестре Республики Беларусь: 03.04.2025 г. №746010',
   services_register: 'Дата и номер регистрации в реестре бытовых услуг Республики Беларусь: 27.03.2025 г. №100797',
   contact_email: 'office@nemnovotour.by',
+  bank_account: 'BY20 MTBK 3012 0001 0933 0012 6296',
+  bank_name: 'ЗАО «МТБанк»',
+  bank_bic: 'MTBKBY22',
 }
 
 export function Footer() {
-  const locale = useLocale()
   const t = useTranslations()
   const [company, setCompany] = useState<CompanyInfo | null>(null)
 
@@ -82,7 +83,7 @@ export function Footer() {
           {/* Колонка 1: лого, подпись, соцсети */}
           <div className="flex flex-col">
             <Link
-              href={`/${locale}`}
+              href="/"
               className="inline-flex items-center gap-3 font-serif-legacy text-2xl font-medium text-black transition-opacity duration-200 hover:opacity-80 w-fit"
             >
               <Image
@@ -121,11 +122,20 @@ export function Footer() {
               </div>
               <div>
                 <p className="font-medium text-black mb-1">{t('footer.phone2Label')}</p>
-                <a href="tel:+375297801304" className="hover:text-black transition-colors">+375 29 780 13 04</a>
+                <div className="flex flex-col gap-1">
+                  <a href="tel:+375297801304" className="hover:text-black transition-colors">+375 29 780 13 04</a>
+                  <a href="tel:+375296011637" className="hover:text-black transition-colors">+375 29 601 16 37</a>
+                  <a href="tel:+375152490729" className="hover:text-black transition-colors">+375 15 249 07 29</a>
+                </div>
+              </div>
+              <div>
+                <a href={`mailto:${info.contact_email}`} className="text-black/80 hover:text-black transition-colors">
+                  {info.contact_email}
+                </a>
               </div>
             </div>
             <Link
-              href={`/${locale}/how-to-get`}
+              href="/how-to-get"
               className="mt-4 inline-flex items-center justify-center px-5 py-2.5 rounded-lg border border-secondary/30 text-black font-sans text-sm font-medium hover:border-primary/50 hover:bg-primary/5 transition-colors w-fit"
             >
               {t('footer.howToGet')}
@@ -142,31 +152,53 @@ export function Footer() {
             {info.office_address && (
               <p><span className="text-black/70">{t('footer.officeAddressLabel')}</span> {info.office_address}</p>
             )}
-            {(info.unp || info.okpo) && (
-              <p>
-                {info.unp && <>{t('footer.unpLabel')} {info.unp}</>}
-                {info.unp && info.okpo && ', '}
-                {info.okpo && <>{t('footer.okpoLabel')} {info.okpo}</>}
-              </p>
+            {info.unp && (
+              <p>{t('footer.unpLabel')} {info.unp}</p>
+            )}
+            {info.okpo && (
+              <p>{t('footer.okpoLabel')} {info.okpo}</p>
+            )}
+            {(info.bank_account || info.bank_name || info.bank_bic) && (
+              <div className="space-y-1">
+                {info.bank_account && (
+                  <p>{t('footer.bankAccountLabel')} {info.bank_account}</p>
+                )}
+                {(info.bank_name || info.bank_bic) && (
+                  <p>
+                    {info.bank_name && <>{t('footer.bankInLabel')} {info.bank_name}</>}
+                    {info.bank_name && info.bank_bic && ', '}
+                    {info.bank_bic && <>{t('footer.bankBicLabel')} {info.bank_bic}</>}
+                  </p>
+                )}
+              </div>
             )}
             {info.state_registration && <p>{info.state_registration}</p>}
             {info.trade_register && <p>{info.trade_register}</p>}
             {info.services_register && <p>{info.services_register}</p>}
-            <a href={`mailto:${info.contact_email}`} className="inline-block text-black/80 hover:text-black transition-colors">
-              {info.contact_email}
-            </a>
             <div className="flex flex-col gap-2 pt-2">
               <Link
-                href={`/${locale}/privacy`}
+                href="/privacy"
                 className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
               >
                 {t('footer.personalDataPolicy')}
               </Link>
               <Link
-                href={`/${locale}/cookie-policy`}
+                href="/cookie-policy"
                 className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
               >
                 {t('footer.cookiePolicy')}
+              </Link>
+              <Link
+                href="/public-offer"
+                className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
+              >
+                {t('footer.publicOffer')}
+              </Link>
+              <Link
+                href="/gift-certificate"
+                className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
+              >
+                {t('footer.giftCertificate')}
               </Link>
             </div>
           </div>

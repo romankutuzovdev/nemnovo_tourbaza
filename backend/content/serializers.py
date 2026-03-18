@@ -14,6 +14,7 @@ from .models import (
     MapArea,
     HeroContent,
     LegalPage,
+    CertificateContent,
     AgenciesPage,
     AboutContent,
 )
@@ -105,18 +106,34 @@ class ServiceListSerializer(serializers.ModelSerializer):
         return _service_image_urls(obj, self.context.get('request'))
 
 
+class ServiceTreeSerializer(ServiceListSerializer):
+    """Иерархический список услуг с вложенными children."""
+    children = serializers.SerializerMethodField()
+
+    class Meta(ServiceListSerializer.Meta):
+        fields = ['slug', 'image', 'image_url', 'order', 'category', 'title', 'short_desc', 'images', 'children']
+
+    def get_children(self, obj):
+        children = obj.children.filter(is_active=True).order_by('order', 'id')
+        return ServiceTreeSerializer(children, many=True, context=self.context).data
+
+
 class ServiceDetailSerializer(serializers.ModelSerializer):
-    """Одна услуга с полным переводом для локали."""
+    """Одна услуга с полным переводом для локали. При наличии потомков — children. documents — для скачивания."""
     title = serializers.SerializerMethodField()
     short_desc = serializers.SerializerMethodField()
     long_desc = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
     variants = serializers.SerializerMethodField()
+    children = serializers.SerializerMethodField()
+    documents = serializers.SerializerMethodField()
+    needs_questionnaire = serializers.BooleanField(read_only=True)
+    questions = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
-        fields = ['slug', 'image', 'image_url', 'order', 'category', 'title', 'short_desc', 'long_desc', 'images', 'variants']
+        fields = ['slug', 'image', 'image_url', 'order', 'category', 'title', 'short_desc', 'long_desc', 'images', 'variants', 'children', 'documents', 'needs_questionnaire', 'questions']
 
     def _get_locale(self):
         return self.context.get('locale', 'ru')
@@ -147,6 +164,35 @@ class ServiceDetailSerializer(serializers.ModelSerializer):
 
     def get_variants(self, obj):
         return [{'name': v.name, 'description': v.description} for v in obj.variants.all()]
+
+    def get_children(self, obj):
+        children = obj.children.filter(is_active=True).order_by('order', 'id')
+        return ServiceListSerializer(children, many=True, context=self.context).data
+
+    def get_documents(self, obj):
+        docs = getattr(obj, 'documents', None)
+        if docs is None:
+            return []
+        docs = list(docs.all().order_by('order', 'id'))
+        request = self.context.get('request')
+        result = []
+        for d in docs:
+            if not d.file or not getattr(d.file, 'name', None):
+                continue
+            url = _build_media_url(request, d.file)
+            if url:
+                result.append({'name': d.name or d.file.name, 'url': url})
+        return result
+
+    def get_questions(self, obj):
+        try:
+            qs = getattr(obj, 'questions', None)
+            if qs is None:
+                return []
+            questions = list(qs.all().order_by('order', 'id'))
+            return [{'id': q.id, 'text': q.text} for q in questions]
+        except Exception:
+            return []
 
 
 def _locale_translation(queryset, locale):
@@ -472,6 +518,7 @@ class CompanyInfoSerializer(serializers.ModelSerializer):
         fields = [
             'company_name', 'legal_address', 'office_address',
             'unp', 'okpo', 'state_registration', 'trade_register', 'services_register', 'contact_email',
+            'bank_account', 'bank_name', 'bank_bic',
         ]
 
 
@@ -490,6 +537,35 @@ class LegalPageSerializer(serializers.ModelSerializer):
 
     def get_content(self, obj):
         t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
+        return t.content if t else ''
+
+
+class CertificateContentSerializer(serializers.ModelSerializer):
+    """Подарочный сертификат: картинка и переводы title/content."""
+    image = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
+    content = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CertificateContent
+        fields = ['image', 'image_url', 'title', 'content']
+
+    def _get_translation(self, obj):
+        locale = self.context.get('locale', 'ru')
+        t = obj.translations.filter(locale=locale).first()
+        return t or obj.translations.filter(locale='ru').first()
+
+    def get_image(self, obj):
+        if obj.image:
+            return _build_media_url(self.context.get('request'), obj.image)
+        return obj.image_url or None
+
+    def get_title(self, obj):
+        t = self._get_translation(obj)
+        return t.title if t else ''
+
+    def get_content(self, obj):
+        t = self._get_translation(obj)
         return t.content if t else ''
 
 
@@ -643,13 +719,13 @@ class AgenciesPageSerializer(serializers.ModelSerializer):
 
 
 class AboutContentSerializer(serializers.ModelSerializer):
-    """Блок «О нас»: заголовок и абзацы для заданной локали."""
+    """Блок «О нас»: заголовок, абзацы и ссылка на видео для заданной локали."""
     title = serializers.SerializerMethodField()
     paragraphs = serializers.SerializerMethodField()
 
     class Meta:
         model = AboutContent
-        fields = ['title', 'paragraphs']
+        fields = ['title', 'paragraphs', 'video_url']
 
     def get_title(self, obj):
         t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))

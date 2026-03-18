@@ -4,11 +4,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useLocale, useServices } from '@/contexts/LocaleContext'
+import { useServices } from '@/contexts/LocaleContext'
 import { getServiceImageSrc } from '@/lib/api'
 import type { ServiceItem } from '@/lib/api'
 
-function ServiceCard({ item, locale }: { item: ServiceItem; locale: string }) {
+function ServiceCard({ item }: { item: ServiceItem }) {
   const t = useTranslations()
   const images = item.images && item.images.length > 0 ? item.images : [getServiceImageSrc(item)].filter(Boolean) as string[]
   const [idx, setIdx] = useState(0)
@@ -22,7 +22,7 @@ function ServiceCard({ item, locale }: { item: ServiceItem; locale: string }) {
   return (
     <div className="min-w-0">
       <Link
-        href={`/${locale}/services/${item.slug}`}
+        href={`/services/${item.slug}`}
         className="group relative block aspect-square w-full rounded-lg overflow-hidden border border-secondary/30 bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
       >
         <Image
@@ -52,7 +52,6 @@ function ServiceCard({ item, locale }: { item: ServiceItem; locale: string }) {
 }
 
 export function ServicesSection() {
-  const locale = useLocale()
   const t = useTranslations()
   const services = useServices().filter(s => s.category !== 'gazebo')
   return (
@@ -61,11 +60,11 @@ export function ServicesSection() {
         <h2 className="section-title-main text-white">{t('servicesSection.title')}</h2>
         <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {services.map((item) => (
-            <ServiceCard key={item.slug} item={item} locale={locale} />
+            <ServiceCard key={item.slug} item={item} />
           ))}
         </div>
         <div className="mt-10 text-center">
-          <Link href={`/${locale}/services`} className="inline-flex items-center px-6 py-3 border border-secondary/50 text-white font-sans text-sm tracking-wide hover:bg-white/10 transition-colors">
+          <Link href="/services" className="inline-flex items-center px-6 py-3 border border-secondary/50 text-white font-sans text-sm tracking-wide hover:bg-white/10 transition-colors">
             {t('servicesSection.allServices')}
           </Link>
         </div>

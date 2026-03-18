@@ -1,4 +1,5 @@
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 
 LOCALE_CHOICES = [
     ('ru', 'Русский'),
@@ -16,11 +17,26 @@ SERVICE_CATEGORY_CHOICES = [
 
 
 class Service(models.Model):
-    """Услуга: slug и изображение общие, тексты — по локалям в ServiceTranslation."""
+    """Услуга: slug и изображение общие, тексты — по локалям в ServiceTranslation. Поддерживает иерархию через parent."""
+    parent = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name='children',
+        verbose_name='Родительский раздел',
+        help_text='Оставьте пустым для корневого раздела. Разделы могут содержать подразделы (children).',
+    )
     slug = models.SlugField(max_length=120, unique=True)
     image = models.ImageField(upload_to='services/', blank=True, null=True)
     image_url = models.URLField(blank=True, help_text='Если нет загрузки файла')
     order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField('Активно', default=True)
+    needs_questionnaire = models.BooleanField(
+        'Нужна анкета',
+        default=False,
+        help_text='Если отмечено, на странице услуги будет форма с вопросами анкеты.',
+    )
     category = models.CharField(
         'Категория',
         max_length=20,
@@ -36,6 +52,60 @@ class Service(models.Model):
 
     def __str__(self):
         return self.slug
+
+
+class ServiceQuestion(models.Model):
+    """Вопрос анкеты для услуги."""
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='questions')
+    text = models.CharField('Текст вопроса', max_length=500)
+    order = models.PositiveIntegerField('Порядок', default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'Вопрос анкеты'
+        verbose_name_plural = 'Вопросы анкеты'
+
+    def __str__(self):
+        return self.text[:50] + ('…' if len(self.text) > 50 else '')
+
+
+class ServiceDocument(models.Model):
+    """Документ к услуге: файл и подпись (название) для скачивания."""
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='documents')
+    name = models.CharField('Название документа', max_length=200)
+    file = models.FileField('Файл', upload_to='services/documents/')
+    order = models.PositiveIntegerField('Порядок', default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'Документ услуги'
+        verbose_name_plural = 'Документы услуг'
+
+    def __str__(self):
+        return f'{self.service.slug}: {self.name}'
+
+
+class ServiceQuestionnaireSubmission(models.Model):
+    """Отправленная анкета по услуге."""
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='questionnaire_submissions')
+    name = models.CharField('Имя', max_length=200)
+    email = models.EmailField('Email')
+    phone = models.CharField('Телефон', max_length=50, blank=True)
+    message = models.TextField('Сообщение', blank=True)
+    answers = models.JSONField(
+        'Ответы',
+        default=dict,
+        help_text='Словарь {id_вопроса: ответ}',
+    )
+    created_at = models.DateTimeField('Дата отправки', auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Отправка анкеты'
+        verbose_name_plural = 'Отправки анкет'
+
+    def __str__(self):
+        return f'{self.service.slug} — {self.name} ({self.created_at:%d.%m.%Y %H:%M})'
 
 
 class ServiceImage(models.Model):
@@ -73,8 +143,11 @@ class ServiceTranslation(models.Model):
     locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
     title = models.CharField(max_length=200)
     short_desc = models.TextField(blank=True)
-    long_desc = models.TextField(
-        help_text='Блоки: строка-заголовок (без буллета), ниже строки с «• » — пункты списка. Новая строка без «• » начинает следующий блок.'
+    long_desc = CKEditor5Field(
+        'Подробное описание',
+        blank=True,
+        config_name='default',
+        help_text='Редактор с форматированием: заголовки, списки, жирный текст и т.д.',
     )
 
     class Meta:
@@ -417,6 +490,9 @@ class HotOfferTranslation(models.Model):
 LEGAL_PAGE_CHOICES = [
     ('privacy', 'Политика обработки персональных данных'),
     ('cookie-policy', 'Политика в отношении обработки cookie'),
+    ('public-offer', 'Публичная оферта'),
+    ('gift-certificate', 'Подарочный сертификат'),
+    ('payment', 'Условия оплаты'),
 ]
 
 
@@ -441,9 +517,11 @@ class LegalPageTranslation(models.Model):
     page = models.ForeignKey(LegalPage, on_delete=models.CASCADE, related_name='translations')
     locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
     title = models.CharField('Заголовок', max_length=300)
-    content = models.TextField(
+    content = CKEditor5Field(
         'Содержание',
-        help_text='Абзацы разделяются пустой строкой (двойной перевод строки \\n\\n).',
+        blank=True,
+        config_name='default',
+        help_text='Редактор с форматированием: заголовки, списки, жирный текст и т.д.',
     )
 
     class Meta:
@@ -454,6 +532,37 @@ class LegalPageTranslation(models.Model):
 
     def __str__(self):
         return f'{self.page} ({self.locale})'
+
+
+class CertificateContent(models.Model):
+    """Подарочный сертификат: картинка для главной и страница с описанием из БД."""
+    image = models.ImageField(upload_to='certificate/', blank=True, null=True)
+    image_url = models.URLField(blank=True, help_text='URL картинки, если не загружаете файл')
+
+    class Meta:
+        verbose_name = 'Подарочный сертификат'
+        verbose_name_plural = 'Подарочный сертификат'
+
+    def __str__(self):
+        return 'Сертификат'
+
+
+class CertificateContentTranslation(models.Model):
+    certificate = models.ForeignKey(CertificateContent, on_delete=models.CASCADE, related_name='translations')
+    locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
+    title = models.CharField('Заголовок', max_length=300, blank=True)
+    content = CKEditor5Field(
+        'Описание',
+        blank=True,
+        config_name='default',
+    )
+
+    class Meta:
+        unique_together = [('certificate', 'locale')]
+        ordering = ['certificate', 'locale']
+
+    def __str__(self):
+        return f'Сертификат ({self.locale})'
 
 
 class AgenciesPage(models.Model):
@@ -502,15 +611,34 @@ class AgenciesPageTranslation(models.Model):
         return f'Агентствам ({self.locale})'
 
 
+ABOUT_PLACE_CHOICES = [
+    ('main', 'Главная страница'),
+    ('about', 'Страница «О нас»'),
+]
+
+
 class AboutContent(models.Model):
-    """Блок «О нас» / микропрезентация. Синглтон — одна запись."""
+    """Блок «О нас»: одинаковые блоки на главной и на странице «О нас», но с разным текстом."""
+    place = models.CharField(
+        'Где показывать',
+        max_length=20,
+        choices=ABOUT_PLACE_CHOICES,
+        unique=True,
+        default='main',
+    )
+    video_url = models.URLField(
+        'Ссылка на видео',
+        blank=True,
+        help_text='Ссылка на видео (YouTube, Vimeo). Используется в блоке «Презентация турбазы» на странице «О нас».',
+    )
 
     class Meta:
         verbose_name = 'Блок «О нас»'
         verbose_name_plural = 'Блок «О нас»'
+        ordering = ['place']
 
     def __str__(self):
-        return 'О нас'
+        return self.get_place_display()
 
 
 class AboutContentTranslation(models.Model):
@@ -575,6 +703,9 @@ class CompanyInfo(models.Model):
     trade_register = models.CharField('Регистрация в торговом реестре', max_length=200, blank=True)
     services_register = models.CharField('Регистрация в реестре бытовых услуг', max_length=200, blank=True)
     contact_email = models.EmailField('Email для контакта', blank=True, default='office@nemnovotour.by')
+    bank_account = models.CharField('Расчётный счёт (р/с)', max_length=50, blank=True)
+    bank_name = models.CharField('Банк', max_length=100, blank=True)
+    bank_bic = models.CharField('БИК', max_length=20, blank=True)
     destination_address = models.TextField('Адрес назначения (как добраться)', blank=True)
     destination_gps_lat = models.FloatField('GPS широта', null=True, blank=True)
     destination_gps_lon = models.FloatField('GPS долгота', null=True, blank=True)

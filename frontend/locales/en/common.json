@@ -137,6 +137,11 @@
     "prevPartner": "Previous partner",
     "nextPartner": "Next partner"
   },
+  "certificateSection": {
+    "title": "Gift certificate",
+    "link": "More about the certificate",
+    "more": "Learn more"
+  },
   "contact": {
     "badge": "Contact",
     "title": "Get in touch",
@@ -167,21 +172,29 @@
     "privacy": "Privacy policy",
     "personalDataPolicy": "Personal data processing policy",
     "cookiePolicy": "Cookie policy",
+    "publicOffer": "Public offer",
+    "giftCertificate": "Gift certificate",
     "copyright": "Nemnovo",
     "workingHours": "Working hours",
     "workingHoursValue": "WED–SUN 8:00–22:00\nMON, TUE — CLOSED",
     "phone": "Phone",
     "phoneValue": "+375 29 123 45 67",
-    "phone1Label": "Camp administrator",
-    "phone2Label": "Tourism specialist",
+    "phone1Label": "Camp\nadministrator",
+    "phone1Hours": "WED–SAT 08:00–22:00,\nMON, TUE — OFF",
+    "phone2Label": "Tourism\nspecialist",
+    "phone2Hours": "MON–FRI 09:00–17:00,\nSAT, SUN — OFF",
     "adminHours": "WED–SAT 08:00–22:00\nMON, TUE — OFF",
     "specialistHours": "MON–FRI 09:00–17:00\nSAT, SUN — OFF",
     "legalAddressLabel": "Legal address:",
     "officeAddressLabel": "Office address:",
     "addressLabel": "Address",
+    "emailLabel": "Email",
     "requisites": "Company details",
     "unpLabel": "UNP",
-    "okpoLabel": "OKPO"
+    "okpoLabel": "OKPO",
+    "bankAccountLabel": "a/c",
+    "bankInLabel": "in",
+    "bankBicLabel": "BIC"
   },
   "cookie": {
     "text": "We use cookies for the site and analytics. By continuing, you agree to our",
@@ -195,6 +208,7 @@
     "yandex": "YANDEX MAPS",
     "google": "GOOGLE MAPS",
     "copy": "Copy address",
+    "copyCoordinates": "Copy coordinates",
     "mapTitle": "Tour base map",
     "mapHint": "Tap an object to enlarge the image"
   },
@@ -224,7 +238,8 @@
     "button": "Download event photos",
     "pinnedBadge": "Pinned",
     "photos": "photos",
-    "backToPortfolio": "Portfolio"
+    "backToPortfolio": "Portfolio",
+    "close": "Close"
   },
   "agencies": {
     "badge": "Partners",

@@ -2,10 +2,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
-import { useLocale } from '@/contexts/LocaleContext'
 import { useAuth } from '@/contexts/AuthContext'
 import { GoogleTranslateWidget } from './GoogleTranslateWidget'
 
@@ -48,18 +46,7 @@ const SOCIAL_LINKS: { href: string; label: string; icon: keyof typeof SOCIAL_ICO
 
 const SCROLL_THRESHOLD = 60
 
-/** Текущий путь без сегмента локали (например, /services/foo). */
-function pathWithoutLocale(pathname: string, locale: string): string {
-  const prefix = `/${locale}`
-  if (pathname === prefix || pathname.startsWith(prefix + '/')) {
-    return pathname.slice(prefix.length) || '/'
-  }
-  return '/'
-}
-
 export function Header() {
-  const locale = useLocale()
-  const pathname = usePathname()
   const t = useTranslations()
   const { isAuthenticated } = useAuth()
   const [open, setOpen] = useState(false)
@@ -67,15 +54,6 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
   const moreRef = useRef<HTMLDivElement>(null)
-
-  const pathForLocale = (loc: string) => `/${loc}${pathWithoutLocale(pathname ?? '', locale)}`
-
-  const handleSelectRussian = () => {
-    if (typeof document !== 'undefined') {
-      document.cookie = 'googtrans=; path=/; max-age=0'
-      window.location.href = pathForLocale('ru')
-    }
-  }
 
   useEffect(() => {
     setMounted(true)
@@ -100,24 +78,24 @@ export function Header() {
   }, [moreOpen])
 
   const nav = [
-    { href: `/${locale}/about`, label: t('nav.about') },
-    { href: `/${locale}/services`, label: t('nav.services') },
-    { href: `/${locale}/portfolio`, label: t('nav.portfolio') },
-    { href: `/${locale}/promos`, label: t('nav.promos') },
-    { href: `/${locale}/how-to-get`, label: t('nav.howToGet') },
-    { href: `/${locale}/contact`, label: t('nav.contact') },
+    { href: '/about', label: t('nav.about') },
+    { href: '/services', label: t('nav.services') },
+    { href: '/portfolio', label: t('nav.portfolio') },
+    { href: '/promos', label: t('nav.promos') },
+    { href: '/how-to-get', label: t('nav.howToGet') },
+    { href: '/contact', label: t('nav.contact') },
   ]
 
   const moreNav = [
-    { href: `/${locale}/news`, label: t('nav.news') },
-    { href: `/${locale}/reviews`, label: t('nav.reviews') },
-    { href: `/${locale}/agencies`, label: t('nav.agencies') },
-    { href: `/${locale}/payment`, label: t('nav.payment') },
+    { href: '/news', label: t('nav.news') },
+    { href: '/reviews', label: t('nav.reviews') },
+    { href: '/agencies', label: t('nav.agencies') },
+    { href: '/payment', label: t('nav.payment') },
   ]
 
   const authLink = isAuthenticated
-    ? { href: `/${locale}/cabinet`, label: t('nav.cabinet') }
-    : { href: `/${locale}/login`, label: t('nav.login') }
+    ? { href: '/cabinet', label: t('nav.cabinet') }
+    : { href: '/login', label: t('nav.login') }
 
   const socialLinksNoMax = SOCIAL_LINKS.filter(({ icon }) => icon !== 'max')
 
@@ -168,7 +146,7 @@ export function Header() {
         {/* Слева: лого + Немново */}
         <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 shrink-0 min-w-0 border-b border-secondary/10 md:border-b-0 pr-2 sm:pr-3 md:pr-4 lg:pr-5 h-full">
           <Link
-            href={`/${locale}`}
+            href="/"
             className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-3 font-serif-legacy text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold text-primary tracking-tight shrink-0 min-w-0"
           >
             <Image
@@ -248,7 +226,7 @@ export function Header() {
         {/* Свёрнутое меню (<1580px): лого + язык + гамбургер */}
         <div className="flex-1 min-w-0 flex min-[1580px]:hidden items-center justify-end">
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-            <GoogleTranslateWidget variant="mobile" onSelectRussian={handleSelectRussian} russianPath={pathForLocale('ru')} />
+            <GoogleTranslateWidget variant="mobile" />
               <button
                 type="button"
                 aria-label={t('nav.menuOpen')}
@@ -269,7 +247,7 @@ export function Header() {
           >
             {authLink.label}
           </Link>
-          <GoogleTranslateWidget variant="desktop" onSelectRussian={handleSelectRussian} russianPath={pathForLocale('ru')} />
+          <GoogleTranslateWidget variant="desktop" />
           <a
             href="https://nemnovotour.by/"
             target="_blank"
@@ -323,7 +301,7 @@ export function Header() {
               {authLink.label}
             </Link>
             <div className="pt-2 border-t border-secondary/10">
-              <GoogleTranslateWidget variant="mobile" onSelectRussian={handleSelectRussian} russianPath={pathForLocale('ru')} />
+              <GoogleTranslateWidget variant="mobile" />
             </div>
             <a
               href="https://nemnovotour.by/"

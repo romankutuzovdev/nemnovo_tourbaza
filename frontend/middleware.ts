@@ -1,17 +1,16 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const LOCALES = ['ru', 'be', 'en', 'pl', 'zh']
-
+/** Редирект /ru и /ru/* на корень (без локали) */
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const firstSegment = pathname.split('/').filter(Boolean)[0]
-  const isLocale = firstSegment && LOCALES.includes(firstSegment)
-  if (isLocale) return NextResponse.next()
-  if (pathname === '/' || pathname === '') {
-    return NextResponse.redirect(new URL('/ru', request.url))
+  if (pathname === '/ru' || pathname === '/ru/') {
+    return NextResponse.redirect(new URL('/', request.url))
   }
-  return NextResponse.redirect(new URL(`/ru${pathname}`, request.url))
+  if (pathname.startsWith('/ru/')) {
+    return NextResponse.redirect(new URL(pathname.slice(3) || '/', request.url))
+  }
+  return NextResponse.next()
 }
 
 export const config = {

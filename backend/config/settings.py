@@ -28,9 +28,31 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_filters',
+    'django_ckeditor_5',
     'content',
     'accounts',
 ]
+
+# CKEditor 5 — для описания услуг
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'bulletedList', 'numberedList', '|',
+            'outdent', 'indent', '|',
+            'blockQuote', 'link', 'insertImage', '|',
+            'sourceEditing',
+        ],
+        'heading': {
+            'options': [
+                {'model': 'paragraph', 'title': 'Абзац', 'class': 'ck-heading_paragraph'},
+                {'model': 'heading2', 'view': 'h2', 'title': 'Заголовок 2', 'class': 'ck-heading_heading2'},
+                {'model': 'heading3', 'view': 'h3', 'title': 'Заголовок 3', 'class': 'ck-heading_heading3'},
+            ]
+        },
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
