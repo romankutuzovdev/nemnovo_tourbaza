@@ -692,6 +692,37 @@ class HeroContentTranslation(models.Model):
         return f'Hero ({self.locale})'
 
 
+class ReviewsStatsContent(models.Model):
+    """Контент блока статистики перед отзывами на главной странице."""
+
+    class Meta:
+        verbose_name = 'Блок статистики отзывов'
+        verbose_name_plural = 'Блок статистики отзывов'
+
+    def __str__(self):
+        return 'Статистика отзывов'
+
+
+class ReviewsStatsContentTranslation(models.Model):
+    content = models.ForeignKey(ReviewsStatsContent, on_delete=models.CASCADE, related_name='translations')
+    locale = models.CharField(max_length=5, choices=LOCALE_CHOICES)
+    distance_value = models.CharField('Значение 1', max_length=50, blank=True)
+    distance_label = models.CharField('Подпись 1', max_length=200, blank=True)
+    stat1_value = models.CharField('Значение 2', max_length=50, blank=True)
+    stat1_label = models.CharField('Подпись 2', max_length=200, blank=True)
+    stat2_value = models.CharField('Значение 3', max_length=50, blank=True)
+    stat2_label = models.CharField('Подпись 3', max_length=200, blank=True)
+
+    class Meta:
+        unique_together = [('content', 'locale')]
+        ordering = ['content', 'locale']
+        verbose_name = 'Перевод блока статистики отзывов'
+        verbose_name_plural = 'Переводы блока статистики отзывов'
+
+    def __str__(self):
+        return f'Статистика отзывов ({self.locale})'
+
+
 class CompanyInfo(models.Model):
     """Одна запись — контактные/юридические данные для футера и страниц (редактируются в админке)."""
     company_name = models.CharField('Название', max_length=200, default='ООО «Немново Тур»')

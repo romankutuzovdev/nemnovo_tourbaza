@@ -60,6 +60,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <AuthProvider>
           <LocaleSetter locale={LOCALE} />
           <Header />
+          {/* Spacer под фиксированный хедер (как в tourfirma_nemnovo) */}
+          <div className="shrink-0 header-spacer h-[6.25rem] sm:h-[6.75rem] md:h-[7rem] lg:h-[7.75rem]" aria-hidden />
           <main className="flex-1">{children}</main>
           <Footer />
           <CookieBanner />

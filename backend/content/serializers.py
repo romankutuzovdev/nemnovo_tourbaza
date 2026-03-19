@@ -13,6 +13,7 @@ from .models import (
     CompanyInfo,
     MapArea,
     HeroContent,
+    ReviewsStatsContent,
     LegalPage,
     CertificateContent,
     AgenciesPage,
@@ -601,6 +602,47 @@ class HeroContentSerializer(serializers.ModelSerializer):
     def get_subtitle(self, obj):
         t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
         return t.subtitle if t else ''
+
+
+class ReviewsStatsContentSerializer(serializers.ModelSerializer):
+    """Блок статистики отзывов: 3 значения и подписи для заданной локали."""
+    distance_value = serializers.SerializerMethodField()
+    distance_label = serializers.SerializerMethodField()
+    stat1_value = serializers.SerializerMethodField()
+    stat1_label = serializers.SerializerMethodField()
+    stat2_value = serializers.SerializerMethodField()
+    stat2_label = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ReviewsStatsContent
+        fields = ['distance_value', 'distance_label', 'stat1_value', 'stat1_label', 'stat2_value', 'stat2_label']
+
+    def _t(self, obj):
+        return _locale_translation(obj.translations, self.context.get('locale', 'ru'))
+
+    def get_distance_value(self, obj):
+        t = self._t(obj)
+        return t.distance_value if t else ''
+
+    def get_distance_label(self, obj):
+        t = self._t(obj)
+        return t.distance_label if t else ''
+
+    def get_stat1_value(self, obj):
+        t = self._t(obj)
+        return t.stat1_value if t else ''
+
+    def get_stat1_label(self, obj):
+        t = self._t(obj)
+        return t.stat1_label if t else ''
+
+    def get_stat2_value(self, obj):
+        t = self._t(obj)
+        return t.stat2_value if t else ''
+
+    def get_stat2_label(self, obj):
+        t = self._t(obj)
+        return t.stat2_label if t else ''
 
 
 class MapAreaSerializer(serializers.ModelSerializer):

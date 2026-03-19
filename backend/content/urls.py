@@ -5,6 +5,7 @@ urlpatterns = [
     path('about-content/', views.about_content),
     path('agencies-page/', views.agencies_page),
     path('hero/', views.hero_content),
+    path('reviews-stats/', views.reviews_stats_content),
     path('certificate/', views.certificate_content),
     path('legal/<str:page_key>/', views.legal_page),
     path('company-info/', views.company_info),

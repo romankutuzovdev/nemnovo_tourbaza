@@ -7,19 +7,20 @@ import { PromosSection } from '@/components/PromosSection'
 import { CertificateSection } from '@/components/CertificateSection'
 import { PartnersSection } from '@/components/PartnersSection'
 import { MapSection } from '@/components/MapSection'
-import { fetchHeroContent, fetchAboutContent } from '@/lib/api'
+import { fetchHeroContent, fetchAboutContent, fetchReviewsStatsContent } from '@/lib/api'
 
 export default async function HomePage() {
-  const [heroContent, aboutContent] = await Promise.all([
+  const [heroContent, aboutContent, reviewsStatsContent] = await Promise.all([
     fetchHeroContent('ru'),
     fetchAboutContent('ru', 'main'),
+    fetchReviewsStatsContent('ru'),
   ])
 
   return (
     <>
       <Hero content={heroContent} />
       <AboutSection content={aboutContent} />
-      <ReviewsSection />
+      <ReviewsSection statsContent={reviewsStatsContent} />
       <PromosSection />
       <ServicesSection />
       <EventsSection />

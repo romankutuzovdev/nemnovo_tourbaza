@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from django.db.models import Prefetch
-from .models import Service, ServiceQuestionnaireSubmission, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo, MapArea, HeroContent, LegalPage, CertificateContent, AgenciesPage, AboutContent
+from .models import Service, ServiceQuestionnaireSubmission, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo, MapArea, HeroContent, ReviewsStatsContent, LegalPage, CertificateContent, AgenciesPage, AboutContent
 from .serializers import (
     ServiceListSerializer,
     ServiceTreeSerializer,
@@ -34,6 +34,7 @@ from .serializers import (
     CompanyInfoSerializer,
     MapAreaSerializer,
     HeroContentSerializer,
+    ReviewsStatsContentSerializer,
     LegalPageSerializer,
     CertificateContentSerializer,
     AgenciesPageSerializer,
@@ -98,6 +99,24 @@ def hero_content(request):
     if not obj:
         return Response({'image': None, 'image_url': '', 'badge': '', 'title1': '', 'title2': '', 'subtitle': ''})
     serializer = HeroContentSerializer(obj, context={'locale': locale, 'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def reviews_stats_content(request):
+    """Контент блока статистики перед отзывами на главной странице."""
+    locale = get_locale(request)
+    obj = ReviewsStatsContent.objects.prefetch_related('translations').first()
+    if not obj:
+        return Response({
+            'distance_value': '',
+            'distance_label': '',
+            'stat1_value': '',
+            'stat1_label': '',
+            'stat2_value': '',
+            'stat2_label': '',
+        })
+    serializer = ReviewsStatsContentSerializer(obj, context={'locale': locale, 'request': request})
     return Response(serializer.data)
 
 

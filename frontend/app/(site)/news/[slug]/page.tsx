@@ -38,16 +38,16 @@ export default async function NewsArticlePage({ params }: Props) {
   const imageSrc = getNewsImageSrc(newsItem)
 
   return (
-    <div className="pt-36 md:pt-24 pb-12 md:pb-16 min-h-screen bg-white">
+    <div className="pt-24 md:pt-20 pb-16 md:pb-16 min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <Link
           href="/news"
-          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-10"
+          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-4"
         >
           ← {t('common.allNews')}
         </Link>
 
-        <article className="pt-16">
+        <article className="pt-4">
           <div className="relative aspect-[16/10] md:aspect-[21/9] rounded-xl overflow-hidden bg-primary">
             {imageSrc ? (
               <Image
@@ -101,10 +101,10 @@ export default async function NewsArticlePage({ params }: Props) {
           )}
         </article>
 
-        <div className="mt-12">
+        <div className="mt-6">
           <Link
             href="/news"
-            className="inline-flex items-center font-sans text-sm text-black/80 hover:text-black"
+            className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black"
           >
             ← {t('common.allNews')}
           </Link>

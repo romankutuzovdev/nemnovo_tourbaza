@@ -141,16 +141,16 @@ export default async function ServicePage({ params }: Props) {
   }
 
   return (
-    <div className="pt-48 md:pt-40 pb-12 md:pb-16 min-h-screen bg-white">
+    <div className="pt-24 md:pt-20 pb-16 md:pb-16 min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <Link
           href="/services"
-          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-10"
+          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-4"
         >
           ← {t('common.allServices')}
         </Link>
 
-        <article className="pt-16">
+        <article className="pt-4">
           <div className="relative">
             <ServiceImageSlider images={images} title={serviceTitle} />
             <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 z-10 pointer-events-none">
@@ -160,7 +160,7 @@ export default async function ServicePage({ params }: Props) {
             </div>
           </div>
 
-          <p className="mt-8 font-sans text-xl text-black/80 leading-relaxed">
+          <p className="mt-8 font-sans text-sm text-black/90 leading-relaxed">
             {serviceShortDesc}
           </p>
 
@@ -241,14 +241,6 @@ export default async function ServicePage({ params }: Props) {
                 </div>
               )
             })}
-          </div>
-          <div className="mt-8">
-            <Link
-              href="/services"
-              className="inline-flex items-center font-sans text-sm text-black/80 hover:text-black"
-            >
-              {t('common.toServicesPage')}
-            </Link>
           </div>
         </div>
       </div>

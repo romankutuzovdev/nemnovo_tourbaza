@@ -16,8 +16,8 @@ export function Hero({ content }: HeroProps) {
 
   const image = content?.image || null
   const badge = content?.badge || t('hero.badge')
-  const title1 = content ? (content.title1?.trim() || '') : t('hero.title1')
-  const title2 = content ? (content.title2?.trim() || '') : t('hero.title2')
+  const title1 = content?.title1 || t('hero.title1')
+  const title2 = content?.title2 || t('hero.title2')
   const subtitle = content?.subtitle || t('hero.subtitle')
 
   return (
@@ -42,17 +42,15 @@ export function Hero({ content }: HeroProps) {
         }}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center text-center relative w-full">
-        <p className="font-sans text-base md:text-lg tracking-[0.2em] uppercase text-white/90 mb-6 animate-fade-up" style={{ animationDelay: '0.1s', opacity: 0, animationFillMode: 'forwards' }}>
+        <p className={`font-sans text-base md:text-lg tracking-[0.2em] uppercase mb-6 animate-fade-up ${image ? 'text-white/90' : 'text-black/80'}`} style={{ animationDelay: '0.1s', opacity: 0, animationFillMode: 'forwards' }}>
           {badge}
         </p>
-        {(title1 || title2) && (
-          <h1 className="font-serif-legacy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-white leading-[1.15] tracking-tight animate-fade-up" style={{ animationDelay: '0.25s', opacity: 0, animationFillMode: 'forwards' }}>
-            {title1}
-            {title1 && title2 && <br />}
-            {title2 && <span className="text-white/95">{title2}</span>}
-          </h1>
-        )}
-        <p className="mt-8 font-sans text-xl md:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed animate-fade-up" style={{ animationDelay: '0.45s', opacity: 0, animationFillMode: 'forwards' }}>
+        <h1 className={`font-serif-legacy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-[1.15] tracking-tight animate-fade-up ${image ? 'text-white' : 'text-black'}`} style={{ animationDelay: '0.25s', opacity: 0, animationFillMode: 'forwards' }}>
+          {title1}
+          <br />
+          <span className={image ? 'text-white' : 'text-black/90'}>{title2}</span>
+        </h1>
+        <p className={`mt-8 font-sans text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed animate-fade-up ${image ? 'text-white/90' : 'text-black/80'}`} style={{ animationDelay: '0.45s', opacity: 0, animationFillMode: 'forwards' }}>
           {subtitle}
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.6s', opacity: 0, animationFillMode: 'forwards' }}>
@@ -62,7 +60,7 @@ export function Hero({ content }: HeroProps) {
           <button
             type="button"
             onClick={() => setModalOpen(true)}
-            className="inline-flex items-center justify-center px-8 py-4 border-[3px] border-white/50 text-white font-sans text-sm tracking-wide hover:border-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+            className={`inline-flex items-center justify-center px-8 py-4 border-[3px] font-sans text-sm tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${image ? 'border-white/60 text-white hover:bg-white/20' : 'border-secondary/30 text-black hover:border-secondary/50'}`}
           >
             {t('hero.cta2')}
           </button>

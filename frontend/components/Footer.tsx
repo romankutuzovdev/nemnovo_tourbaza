@@ -75,6 +75,9 @@ export function Footer() {
   }, [])
 
   const info = company ?? defaultCompany
+  const bankAccount = info.bank_account || defaultCompany.bank_account
+  const bankName = info.bank_name || defaultCompany.bank_name
+  const bankBic = info.bank_bic || defaultCompany.bank_bic
 
   return (
     <footer className="bg-secondary/60 border-t border-secondary/10">
@@ -155,22 +158,22 @@ export function Footer() {
             {info.unp && (
               <p>{t('footer.unpLabel')} {info.unp}</p>
             )}
-            {info.okpo && (
-              <p>{t('footer.okpoLabel')} {info.okpo}</p>
-            )}
-            {(info.bank_account || info.bank_name || info.bank_bic) && (
+            {(bankAccount || bankName || bankBic) && (
               <div className="space-y-1">
-                {info.bank_account && (
-                  <p>{t('footer.bankAccountLabel')} {info.bank_account}</p>
+                {bankAccount && (
+                  <p>{t('footer.bankAccountLabel')} {bankAccount}</p>
                 )}
-                {(info.bank_name || info.bank_bic) && (
+                {(bankName || bankBic) && (
                   <p>
-                    {info.bank_name && <>{t('footer.bankInLabel')} {info.bank_name}</>}
-                    {info.bank_name && info.bank_bic && ', '}
-                    {info.bank_bic && <>{t('footer.bankBicLabel')} {info.bank_bic}</>}
+                    {bankName && <>{t('footer.bankInLabel')} {bankName}</>}
+                    {bankName && bankBic && ', '}
+                    {bankBic && <>{t('footer.bankBicLabel')} {bankBic}</>}
                   </p>
                 )}
               </div>
+            )}
+            {info.okpo && (
+              <p>{t('footer.okpoLabel')} {info.okpo}</p>
             )}
             {info.state_registration && <p>{info.state_registration}</p>}
             {info.trade_register && <p>{info.trade_register}</p>}

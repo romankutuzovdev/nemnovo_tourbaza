@@ -488,6 +488,23 @@ export async function fetchHeroContent(locale: Locale): Promise<HeroContent | nu
   return res.json().catch(() => null)
 }
 
+/** Контент блока статистики перед отзывами (GET /api/reviews-stats/?locale=) */
+export type ReviewsStatsContent = {
+  distance_value: string
+  distance_label: string
+  stat1_value: string
+  stat1_label: string
+  stat2_value: string
+  stat2_label: string
+}
+
+export async function fetchReviewsStatsContent(locale: Locale): Promise<ReviewsStatsContent | null> {
+  const loc = LOCALES.includes(locale) ? locale : 'ru'
+  const res = await apiFetch(`${getApiUrl()}/api/reviews-stats/?locale=${loc}`)
+  if (!res?.ok) return null
+  return res.json().catch(() => null)
+}
+
 /** Отправка формы контакта (заявка, претензия или обратная связь из горячего предложения). */
 export type ContactFormType = 'main' | 'complaint' | 'hot_offer'
 

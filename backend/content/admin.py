@@ -12,6 +12,7 @@ from .models import (
     CompanyInfo,
     MapArea,
     HeroContent, HeroContentTranslation,
+    ReviewsStatsContent, ReviewsStatsContentTranslation,
     LegalPage, LegalPageTranslation,
     CertificateContent, CertificateContentTranslation,
     AgenciesPage, AgenciesPageTranslation,
@@ -313,6 +314,17 @@ class HeroContentTranslationInline(admin.TabularInline):
 class HeroContentAdmin(admin.ModelAdmin):
     list_display = ['__str__']
     inlines = [HeroContentTranslationInline]
+
+
+class ReviewsStatsContentTranslationInline(admin.TabularInline):
+    model = ReviewsStatsContentTranslation
+    extra = 0
+
+
+@admin.register(ReviewsStatsContent)
+class ReviewsStatsContentAdmin(admin.ModelAdmin):
+    list_display = ['__str__']
+    inlines = [ReviewsStatsContentTranslationInline]
 
 
 class AgenciesPageTranslationInline(admin.StackedInline):

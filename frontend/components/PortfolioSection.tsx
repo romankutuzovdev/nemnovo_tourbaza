@@ -16,19 +16,23 @@ function formatEventDate(isoDate: string): string {
   return `${day}.${month}.${year}`
 }
 
-export function PortfolioSection() {
+type Props = { hideTitle?: boolean }
+
+export function PortfolioSection({ hideTitle }: Props = {}) {
   const t = useTranslations()
   const portfolio = usePortfolio()
 
   return (
-    <section id="portfolio" className="app-section bg-white">
-      <div className="app-container">
-        <AnimateOnScroll variant="fade-up">
-          <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight max-w-2xl">
-            {t('portfolioSection.title')}
-          </h2>
-        </AnimateOnScroll>
-        <div className="app-section-body grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <section id="portfolio" className="pt-6 md:pt-10 pb-16 md:pb-24 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        {!hideTitle && (
+          <AnimateOnScroll variant="fade-up">
+            <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight max-w-2xl">
+              {t('portfolioSection.title')}
+            </h2>
+          </AnimateOnScroll>
+        )}
+        <div className={`grid sm:grid-cols-2 md:grid-cols-3 gap-6 ${hideTitle ? '' : 'mt-12'}`}>
           {portfolio.map((item, i) => {
             const src = getPortfolioImageSrc(item)
             return (

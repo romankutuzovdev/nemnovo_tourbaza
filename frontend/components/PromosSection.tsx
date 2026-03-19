@@ -8,7 +8,9 @@ import { usePromos } from '@/contexts/LocaleContext'
 import { useTranslations } from 'next-intl'
 import { getPromoImageSrc } from '@/lib/api'
 
-export function PromosSection() {
+type Props = { hideTitle?: boolean }
+
+export function PromosSection({ hideTitle }: Props = {}) {
   const t = useTranslations()
   const promos = usePromos()
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -39,13 +41,15 @@ export function PromosSection() {
   if (promos.length === 0) return null
 
   return (
-    <section id="promos" className="app-section bg-white">
-      <div className="app-container">
+    <section id="promos" className="pt-6 md:pt-10 pb-16 md:pb-24 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
           <div className="flex items-center justify-between gap-4 flex-wrap">
-            <h2 className="section-title-main text-primary">
-              {t('promosSection.title')}
-            </h2>
+            {!hideTitle && (
+              <h2 className="section-title-main text-primary">
+                {t('promosSection.title')}
+              </h2>
+            )}
             {promos.length > 1 && (
               <div className="flex items-center gap-2" aria-hidden>
                 <button
@@ -73,7 +77,7 @@ export function PromosSection() {
         <div
           ref={scrollRef}
           onScroll={updateArrows}
-          className="app-section-body flex gap-4 sm:gap-6 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-none py-1 -mx-1"
+          className={`flex gap-4 sm:gap-6 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-none py-1 ${hideTitle ? 'mt-6 md:mt-8' : 'mt-8 sm:mt-12'}`}
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {promos.map((p) => {
