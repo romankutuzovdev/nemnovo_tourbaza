@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 
-export const PAGE_CONTAINER = 'max-w-6xl mx-auto px-4 sm:px-6'
+export const PAGE_CONTAINER = 'max-w-6xl mx-auto px-3 sm:px-6'
 // На мобильных отступ больше (хедер выше), на десктопе — меньше. pb единый под заголовок страницы.
-export const PAGE_TOP = 'pt-40 md:pt-24 pb-6 md:pb-8'
+export const PAGE_TOP = 'pt-32 md:pt-24 pb-6 md:pb-8'
 
 /** Сегмент пути → ключ перевода (nav.* или footer.legal.*) */
 const SEGMENT_TO_KEY: Record<string, string> = {
@@ -65,7 +65,7 @@ export function PageLayout({ children, badge, title, description, titlePrimary, 
   }
 
   const headerSpacing = simpleHomeLink
-    ? (moreTopPadding ? 'pt-44 md:pt-32 pb-6 md:pb-8' : 'pt-40 md:pt-24 pb-6 md:pb-8')
+    ? (moreTopPadding ? 'pt-36 md:pt-32 pb-6 md:pb-8' : 'pt-32 md:pt-24 pb-6 md:pb-8')
     : undefined
 
   return (

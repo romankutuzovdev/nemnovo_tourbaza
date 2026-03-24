@@ -68,7 +68,7 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="app-section bg-white">
+    <section id="contact" className="app-section bg-white pt-6 md:pt-8">
       <div className="app-container">
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight">{t('contact.title')}</h2>
 

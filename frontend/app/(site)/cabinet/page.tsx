@@ -22,7 +22,7 @@ export default function CabinetPage() {
   const [profileLoading, setProfileLoading] = useState(false)
   const [pwdLoading, setPwdLoading] = useState(false)
 
-  if (isLoading) return <div className="pt-24 pb-24 min-h-screen bg-white flex items-center justify-center">Загрузка…</div>
+  if (isLoading) return <div className="pt-20 pb-24 min-h-screen bg-white flex items-center justify-center">Загрузка…</div>
   if (!user) {
     router.replace('/login')
     return null
@@ -52,8 +52,8 @@ export default function CabinetPage() {
   }
 
   return (
-    <div className="pt-24 pb-24 min-h-screen bg-white">
-      <div className="max-w-2xl mx-auto px-6">
+    <div className="pt-20 pb-24 min-h-screen bg-white">
+      <div className="max-w-2xl mx-auto px-4">
         <div className="flex items-center justify-between mb-10">
           <Link href="/" className="font-sans text-sm text-black/80 hover:text-black">← {tNav('home')}</Link>
           <button type="button" onClick={logout} className="font-sans text-sm text-black/80 hover:text-black">

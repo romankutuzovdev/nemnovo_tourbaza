@@ -30,8 +30,8 @@ export default async function EventPage({ params }: Props) {
   const imageSrc = getEventImageSrc(event)
 
   return (
-    <div className="pt-24 md:pt-20 pb-16 md:pb-16 min-h-screen bg-white">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+    <div className="pt-20 md:pt-20 pb-16 md:pb-16 min-h-screen bg-white">
+      <div className="max-w-5xl mx-auto px-3 sm:px-6">
         <Link
           href="/events"
           className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-4"

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import type { MapAreaItem } from '@/lib/api'
-import { fetchMapAreas, getApiUrl } from '@/lib/api'
+import { fetchMapAreas, getApiUrl, toRelativeIfSameOrigin } from '@/lib/api'
 import type { Locale } from '@/lib/i18n'
 
 export type MapArea = {
@@ -58,7 +58,7 @@ type Props = {
 
 function toAbsoluteImageUrl(value: string): string {
   if (!value) return ''
-  if (value.startsWith('http://') || value.startsWith('https://')) return value
+  if (value.startsWith('http://') || value.startsWith('https://')) return toRelativeIfSameOrigin(value)
   const base = getApiUrl()
   return base ? `${base}${value}` : value
 }

@@ -10,13 +10,15 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-change-in-productio
 
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,87.229.34.70,.trycloudflare.com').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,87.229.34.70,.trycloudflare.com,.ngrok-free.app,.ngrok.io').split(',')
 
-# CSRF: доверенные origins (схема обязательна: https:// или http://). Если заходите в админку по туннелю Cloudflare — добавьте в backend/.env текущий URL туннеля, например:
-# CSRF_TRUSTED_ORIGINS=https://ваш-поддомен.trycloudflare.com
-_default_origins = 'http://localhost:8000,http://127.0.0.1:8000,https://*.trycloudflare.com'
+# CSRF: доверенные origins. Для ngrok добавьте в backend/.env: CSRF_TRUSTED_ORIGINS=https://ваш-хост.ngrok-free.app
+_default_origins = 'http://localhost:8000,http://127.0.0.1:8000,https://*.trycloudflare.com,https://c400-2a0f-cdc6-500-21c1-00-2.ngrok-free.app'
 _origins_env = os.environ.get('CSRF_TRUSTED_ORIGINS', _default_origins)
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in _origins_env.split(',') if o.strip()]
+
+# Отключить проверку CSRF при доступе через ngrok (для разработки)
+NGROK_CSRF_BYPASS = os.environ.get('NGROK_CSRF_BYPASS', '1') == '1'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -60,7 +62,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'config.ngrok_csrf.NgrokCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

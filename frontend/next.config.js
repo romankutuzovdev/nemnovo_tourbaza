@@ -23,6 +23,8 @@ const nextConfig = {
       { protocol: 'http', hostname: '87.229.34.70', pathname: '/**' },
       { protocol: 'https', hostname: 'submit-incredible-shaved-rental.trycloudflare.com', pathname: '/**' },
       { protocol: 'http', hostname: 'submit-incredible-shaved-rental.trycloudflare.com', pathname: '/**' },
+      { protocol: 'https', hostname: '**.ngrok-free.app', pathname: '/**' },
+      { protocol: 'https', hostname: '**.ngrok.io', pathname: '/**' },
     ],
   },
   webpack: (config, { dev }) => {

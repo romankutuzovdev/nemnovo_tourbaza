@@ -44,9 +44,21 @@ export type ServiceDetail = ServiceItem & {
   questions?: ServiceQuestion[]
 }
 
+/** При same-origin (ngrok): URL бэкенда (localhost:8000) преобразуем в относительный путь */
+export function toRelativeIfSameOrigin(value: string): string {
+  if (!value?.startsWith('http://') && !value?.startsWith('https://')) return value
+  const base = getApiUrl()
+  if (base !== '') return value
+  try {
+    const u = new URL(value)
+    if (u.hostname === '127.0.0.1' || u.hostname === 'localhost') return u.pathname
+  } catch {}
+  return value
+}
+
 /** Нормализует URL картинки: полный URL или относительный /media/... (если API на том же origin) */
 function toAbsoluteImageUrl(value: string): string {
-  if (value.startsWith('http://') || value.startsWith('https://')) return value
+  if (value.startsWith('http://') || value.startsWith('https://')) return toRelativeIfSameOrigin(value)
   const path = value.startsWith('/') ? value : `/${value}`
   const mediaPath = path.startsWith('/media') ? path : `/media/${path.replace(/^\//, '')}`
   const base = getApiUrl()
@@ -66,7 +78,7 @@ export function toAbsoluteMediaUrl(value: string): string {
 /** URL картинки услуги: приоритет у загруженного image, иначе image_url */
 export function getServiceImageSrc(item: { image: string | null; image_url: string }): string {
   if (item.image) return toAbsoluteImageUrl(item.image)
-  return item.image_url || ''
+  return toRelativeIfSameOrigin(item.image_url || '') || ''
 }
 
 /** Элемент из /api/events/?locale= */
@@ -102,13 +114,13 @@ export type NewsDetail = NewsItem & {
 /** URL картинки новости: приоритет у загруженного image, иначе image_url */
 export function getNewsImageSrc(item: { image: string | null; image_url: string }): string {
   if (item.image) return toAbsoluteImageUrl(item.image)
-  return item.image_url || ''
+  return toRelativeIfSameOrigin(item.image_url || '') || ''
 }
 
 /** URL картинки мероприятия: приоритет у загруженного image, иначе image_url */
 export function getEventImageSrc(item: { image: string | null; image_url: string }): string {
   if (item.image) return toAbsoluteImageUrl(item.image)
-  return item.image_url || ''
+  return toRelativeIfSameOrigin(item.image_url || '') || ''
 }
 
 /** Элемент из /api/promos/?locale= */
@@ -127,7 +139,7 @@ export type PromoDetail = PromoItem & { long_desc: string }
 /** URL картинки акции: приоритет у загруженного image, иначе image_url */
 export function getPromoImageSrc(item: { image: string | null; image_url: string }): string {
   if (item.image) return toAbsoluteImageUrl(item.image)
-  return item.image_url || ''
+  return toRelativeIfSameOrigin(item.image_url || '') || ''
 }
 
 /** Элемент из /api/hot-offers/?locale= (горячее предложение для попапа) */
@@ -177,7 +189,7 @@ export type PortfolioItemDetail = Omit<PortfolioItem, 'image_urls'> & { images: 
 /** URL главной картинки портфолио: приоритет у загруженного image, иначе image_url */
 export function getPortfolioImageSrc(item: { image: string | null; image_url: string }): string {
   if (item.image) return toAbsoluteImageUrl(item.image)
-  return item.image_url || ''
+  return toRelativeIfSameOrigin(item.image_url || '') || ''
 }
 
 const API_TIMEOUT = 15000 // 15 сек
@@ -411,7 +423,7 @@ export async function fetchCertificateContent(locale: Locale): Promise<Certifica
 /** URL картинки сертификата */
 export function getCertificateImageSrc(item: { image: string | null; image_url: string }): string {
   if (item.image) return toAbsoluteImageUrl(item.image)
-  return item.image_url || ''
+  return toRelativeIfSameOrigin(item.image_url || '') || ''
 }
 
 /** Юридическая страница из /api/legal/<page_key>/?locale= */
