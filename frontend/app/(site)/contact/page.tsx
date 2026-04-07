@@ -1,12 +1,25 @@
 'use client'
 
-import { PageLayout } from '@/components/PageLayout'
 import { ContactSection } from '@/components/ContactSection'
+import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export default function ContactPage() {
+  const t = useTranslations()
   return (
-    <PageLayout simpleHomeLink hideBreadcrumbs headerClassName="!pt-24 md:!pt-20 !pb-4 md:!pb-6">
-      <ContactSection />
-    </PageLayout>
+    <div className="min-h-screen bg-white">
+      <header className="pt-20 md:pt-20 pb-6 md:pb-8 max-w-6xl mx-auto px-3 sm:px-6">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
+        >
+          ← {t('nav.home')}
+        </Link>
+        <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-primary tracking-tight max-w-2xl">
+          {t('contact.title')}
+        </h1>
+      </header>
+      <ContactSection hideTitle />
+    </div>
   )
 }

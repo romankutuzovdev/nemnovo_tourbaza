@@ -39,7 +39,7 @@ const IconEmail = () => (
     <polyline points="22,6 12,13 2,6" />
   </svg>
 )
-export function ContactSection() {
+export function ContactSection({ hideTitle }: { hideTitle?: boolean } = {}) {
   const t = useTranslations()
   const [company, setCompany] = useState<CompanyInfo | null>(null)
   useEffect(() => {
@@ -70,7 +70,9 @@ export function ContactSection() {
   return (
     <section id="contact" className="app-section bg-white pt-6 md:pt-8">
       <div className="app-container">
-        <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight">{t('contact.title')}</h2>
+        {!hideTitle && (
+          <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight">{t('contact.title')}</h2>
+        )}
 
         <div className="app-section-body grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
           {/* Контактная информация: адрес и время работы в карточках */}

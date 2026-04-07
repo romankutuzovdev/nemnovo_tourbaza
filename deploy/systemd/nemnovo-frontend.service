@@ -1,0 +1,19 @@
+# Скопировать: sudo cp deploy/systemd/nemnovo-frontend.service /etc/systemd/system/
+# Путь проекта при деплое в /opt/nemnovo_tourbaza — при другом пути поправьте WorkingDirectory и ExecStart.
+
+[Unit]
+Description=Nemnovo Tour Frontend (Next.js)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/nemnovo_tourbaza/frontend
+Environment=NODE_ENV=production
+# SSR-запросы к Django; совпадает с nginx nemnovo-backend (127.0.0.1:8005)
+Environment=BACKEND_URL=http://127.0.0.1:8005
+ExecStart=/usr/bin/npm run start -- -p 3000
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

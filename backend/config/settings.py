@@ -106,6 +106,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Пусто — в JSON API пути вида /media/... (nginx отдаёт файлы с диска). Пример: https://nemnovo.by
+PUBLIC_MEDIA_BASE_URL = os.environ.get('PUBLIC_MEDIA_BASE_URL', '').strip().rstrip('/')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS: разрешить запросы с любых доменов

@@ -2,12 +2,9 @@
  * API авторизации: регистрация, логин, сброс пароля, кабинет.
  */
 
-const AUTH_STORAGE_KEY = 'nemnovo_auth'
+import { getApiUrl } from './api'
 
-function getApiUrl(): string {
-  const url = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
-  return url.replace(/\/$/, '')
-}
+const AUTH_STORAGE_KEY = 'nemnovo_auth'
 
 export type User = {
   id: number

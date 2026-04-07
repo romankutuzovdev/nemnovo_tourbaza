@@ -22,7 +22,9 @@ from .models import (
 
 
 def _build_media_url(request, image_field):
-    """Полный URL загруженного изображения. Путь всегда /media/ + name (name = news/file.png)."""
+    """URL картинки в /media/... Относительный путь — чтобы в браузере грузилось с того же хоста, что и сайт
+    (иначе при запросах API с Next SSR подставлялся http://127.0.0.1/...).
+    Опционально PUBLIC_MEDIA_BASE_URL в settings — полный префикс (CDN / канонический домен)."""
     if not image_field:
         return None
     name = (getattr(image_field, 'name', None) or '').strip().lstrip('/')
@@ -38,8 +40,11 @@ def _build_media_url(request, image_field):
         return None
     media = django_settings.MEDIA_URL.strip('/')
     path = '/' + media + '/' + name
-    if request:
-        return request.build_absolute_uri(path)
+    base = getattr(django_settings, 'PUBLIC_MEDIA_BASE_URL', '') or ''
+    if isinstance(base, str):
+        base = base.strip().rstrip('/')
+    if base:
+        return f'{base}{path}'
     return path
 
 

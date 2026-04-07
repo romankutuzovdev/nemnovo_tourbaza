@@ -139,7 +139,7 @@ export function Footer() {
             </div>
             <Link
               href="/how-to-get"
-              className="mt-4 inline-flex items-center justify-center px-5 py-2.5 rounded-lg border border-secondary/30 text-black font-sans text-sm font-medium hover:border-primary/50 hover:bg-primary/5 transition-colors w-fit"
+              className="mt-4 inline-flex items-center justify-center px-5 py-2.5 rounded-lg border-2 border-secondary/30 text-black font-sans text-sm font-medium hover:border-primary/50 hover:bg-primary/5 transition-colors w-fit"
             >
               {t('footer.howToGet')}
             </Link>
@@ -158,6 +158,9 @@ export function Footer() {
             {info.unp && (
               <p>{t('footer.unpLabel')} {info.unp}</p>
             )}
+            {info.okpo && (
+              <p>{t('footer.okpoLabel')} {info.okpo}</p>
+            )}
             {(bankAccount || bankName || bankBic) && (
               <div className="space-y-1">
                 {bankAccount && (
@@ -171,9 +174,6 @@ export function Footer() {
                   </p>
                 )}
               </div>
-            )}
-            {info.okpo && (
-              <p>{t('footer.okpoLabel')} {info.okpo}</p>
             )}
             {info.state_registration && <p>{info.state_registration}</p>}
             {info.trade_register && <p>{info.trade_register}</p>}

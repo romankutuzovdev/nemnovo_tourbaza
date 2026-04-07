@@ -31,6 +31,14 @@ fi
 echo "Применяем миграции..."
 python manage.py migrate --noinput
 
+# Сессии админки и SQLite WAL: www-data должен писать в каталог БД, не только в db.sqlite3
+if id www-data &>/dev/null; then
+  chown www-data:www-data "$BACKEND_DIR/db.sqlite3" 2>/dev/null || true
+  chown www-data:www-data "$BACKEND_DIR/db.sqlite3-wal" "$BACKEND_DIR/db.sqlite3-shm" 2>/dev/null || true
+  chgrp www-data "$BACKEND_DIR" 2>/dev/null || true
+  chmod g+rwx "$BACKEND_DIR" 2>/dev/null || true
+fi
+
 echo "Собираем статику..."
 python manage.py collectstatic --noinput --clear
 

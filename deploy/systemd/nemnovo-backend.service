@@ -1,0 +1,27 @@
+# Скопировать: sudo cp deploy/systemd/nemnovo-backend.service /etc/systemd/system/
+# Путь: /opt/nemnovo_tourbaza/backend
+# Права: sudo chown -R www-data:www-data /opt/nemnovo_tourbaza/backend/media (и при необходимости весь backend)
+
+[Unit]
+Description=Nemnovo Tour Django Backend (Gunicorn)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/nemnovo_tourbaza/backend
+Environment="PATH=/opt/nemnovo_tourbaza/backend/.venv/bin"
+ExecStart=/opt/nemnovo_tourbaza/backend/.venv/bin/gunicorn config.wsgi:application \
+    --bind 127.0.0.1:8000 \
+    --workers 2 \
+    --threads 2 \
+    --timeout 60 \
+    --access-logfile - \
+    --error-logfile -
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

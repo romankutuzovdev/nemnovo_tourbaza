@@ -49,7 +49,7 @@ def get_locale(request):
     return loc if loc in VALID_LOCALES else 'ru'
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def legal_page(request, page_key):
     """Содержимое юридической страницы по ключу: privacy, cookie-policy, public-offer, gift-certificate."""
     locale = get_locale(request)
@@ -61,7 +61,7 @@ def legal_page(request, page_key):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def about_content(request):
     """Контент блока «О нас»: заголовок и абзацы. place=main — для главной, place=about — для страницы «О нас»."""
     locale = get_locale(request)
@@ -75,7 +75,7 @@ def about_content(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def agencies_page(request):
     """Контент страницы «Агентствам»."""
     locale = get_locale(request)
@@ -91,7 +91,7 @@ def agencies_page(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def hero_content(request):
     """Контент главного блока (hero): картинка и переводы текстов."""
     locale = get_locale(request)
@@ -102,7 +102,7 @@ def hero_content(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def reviews_stats_content(request):
     """Контент блока статистики перед отзывами на главной странице."""
     locale = get_locale(request)
@@ -120,7 +120,7 @@ def reviews_stats_content(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def certificate_content(request):
     """Контент подарочного сертификата: картинка, заголовок, описание."""
     locale = get_locale(request)
@@ -131,7 +131,7 @@ def certificate_content(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def company_info(request):
     """Реквизиты компании для футера (одна запись)."""
     info = CompanyInfo.objects.first()
@@ -150,7 +150,7 @@ def company_info(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def how_to_get(request):
     """Как добраться: маршруты сгруппированы по городу; адрес и GPS из реквизитов."""
     locale = get_locale(request)
@@ -170,7 +170,7 @@ def how_to_get(request):
     return Response(payload)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def service_list(request):
     locale = get_locale(request)
     use_tree = request.query_params.get('tree') == '1'
@@ -186,7 +186,7 @@ def service_list(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def service_detail(request, slug):
     locale = get_locale(request)
     try:
@@ -201,7 +201,7 @@ def service_detail(request, slug):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def event_list(request):
     locale = get_locale(request)
     qs = Event.objects.all()
@@ -209,7 +209,7 @@ def event_list(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def event_detail(request, slug):
     locale = get_locale(request)
     try:
@@ -220,7 +220,7 @@ def event_detail(request, slug):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def news_list(request):
     locale = get_locale(request)
     qs = News.objects.filter(is_published=True)
@@ -228,7 +228,7 @@ def news_list(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def news_detail(request, slug):
     locale = get_locale(request)
     try:
@@ -239,7 +239,7 @@ def news_detail(request, slug):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def promo_list(request):
     locale = get_locale(request)
     qs = Promo.objects.filter(is_active=True)
@@ -247,7 +247,7 @@ def promo_list(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def promo_detail(request, slug):
     locale = get_locale(request)
     try:
@@ -258,7 +258,7 @@ def promo_detail(request, slug):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def hot_offer_list(request):
     """Список активных горячих предложений для попапа (по одному показывают через 5 сек)."""
     locale = get_locale(request)
@@ -267,7 +267,7 @@ def hot_offer_list(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def partner_list(request):
     """Список партнёров для блока «С кем мы сотрудничаем»."""
     qs = Partner.objects.all()
@@ -275,7 +275,7 @@ def partner_list(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def review_list(request):
     """Список опубликованных отзывов для главной (автор, текст, оценка 1–5)."""
     qs = Review.objects.filter(is_published=True)
@@ -283,7 +283,7 @@ def review_list(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def portfolio_list(request):
     locale = get_locale(request)
     qs = PortfolioItem.objects.all()
@@ -291,7 +291,7 @@ def portfolio_list(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def portfolio_detail(request, slug):
     locale = get_locale(request)
     try:
@@ -398,7 +398,7 @@ def contact_submit(request):
     return JsonResponse({'ok': True})
 
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 def map_area_list(request):
     """Активные области интерактивной карты с данными связанных услуг."""
     locale = get_locale(request)
