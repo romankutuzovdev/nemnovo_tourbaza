@@ -13,7 +13,7 @@ export function CookieBanner() {
   useEffect(() => {
     if (typeof window === 'undefined') return
     const consent = localStorage.getItem(COOKIE_CONSENT_KEY)
-    if (!consent) setVisible(true)
+    if (consent !== 'accepted') setVisible(true)
   }, [])
 
   const accept = () => {

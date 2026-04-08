@@ -1,7 +1,5 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { NextIntlClientProvider } from 'next-intl'
-import { setRequestLocale } from 'next-intl/server'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { CookieBanner } from '@/components/CookieBanner'
@@ -21,8 +19,6 @@ export const metadata: Metadata = {
 }
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  setRequestLocale(LOCALE)
-
   let initialServices: Awaited<ReturnType<typeof fetchServices>> = []
   let initialEvents: Awaited<ReturnType<typeof fetchEvents>> = []
   let initialNews: Awaited<ReturnType<typeof fetchNews>> = []
@@ -45,29 +41,25 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     // leave empty
   }
 
-  const messages = (await import(`@/locales/${LOCALE}/common.json`)).default
-
   return (
-    <NextIntlClientProvider key={LOCALE} locale={LOCALE} messages={messages}>
-      <LocaleProvider
-        locale={LOCALE}
-        initialServices={initialServices}
-        initialEvents={initialEvents}
-        initialNews={initialNews}
-        initialPromos={initialPromos}
-        initialPortfolio={initialPortfolio}
-      >
-        <AuthProvider>
-          <LocaleSetter locale={LOCALE} />
-          <Header />
-          {/* Spacer под фиксированный хедер (как в tourfirma_nemnovo) */}
-          <div className="shrink-0 header-spacer h-[6.25rem] sm:h-[6.75rem] md:h-[7rem] lg:h-[7.75rem]" aria-hidden />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <CookieBanner />
-          <HotOfferPopup />
-        </AuthProvider>
-      </LocaleProvider>
-    </NextIntlClientProvider>
+    <LocaleProvider
+      locale={LOCALE}
+      initialServices={initialServices}
+      initialEvents={initialEvents}
+      initialNews={initialNews}
+      initialPromos={initialPromos}
+      initialPortfolio={initialPortfolio}
+    >
+      <AuthProvider>
+        <LocaleSetter locale={LOCALE} />
+        <Header />
+        {/* Spacer под фиксированный хедер (как в tourfirma_nemnovo) */}
+        <div className="shrink-0 header-spacer h-[6.25rem] sm:h-[6.75rem] md:h-[7rem] lg:h-[7.75rem]" aria-hidden />
+        <main className="flex-1">{children}</main>
+        <Footer />
+        <CookieBanner />
+        <HotOfferPopup />
+      </AuthProvider>
+    </LocaleProvider>
   )
 }
