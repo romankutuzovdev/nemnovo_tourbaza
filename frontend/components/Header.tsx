@@ -47,7 +47,9 @@ const SOCIAL_LINKS: { href: string; label: string; icon: keyof typeof SOCIAL_ICO
 const SCROLL_THRESHOLD = 60
 
 export function Header() {
-  const t = useTranslations()
+  const tNav = useTranslations('nav')
+  const tFooter = useTranslations('footer')
+  const tHowToGet = useTranslations('howToGet')
   const { isAuthenticated } = useAuth()
   const [open, setOpen] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
@@ -78,24 +80,24 @@ export function Header() {
   }, [moreOpen])
 
   const nav = [
-    { href: '/about', label: t('nav.about') },
-    { href: '/services', label: t('nav.services') },
-    { href: '/portfolio', label: t('nav.portfolio') },
-    { href: '/promos', label: t('nav.promos') },
-    { href: '/how-to-get', label: t('nav.howToGet') },
-    { href: '/contact', label: t('nav.contact') },
+    { href: '/about', label: tNav('about') },
+    { href: '/services', label: tNav('services') },
+    { href: '/portfolio', label: tNav('portfolio') },
+    { href: '/promos', label: tNav('promos') },
+    { href: '/how-to-get', label: tNav('howToGet') },
+    { href: '/contact', label: tNav('contact') },
   ]
 
   const moreNav = [
-    { href: '/news', label: t('nav.news') },
-    { href: '/reviews', label: t('nav.reviews') },
-    { href: '/agencies', label: t('nav.agencies') },
-    { href: '/payment', label: t('nav.payment') },
+    { href: '/news', label: tNav('news') },
+    { href: '/reviews', label: tNav('reviews') },
+    { href: '/agencies', label: tNav('agencies') },
+    { href: '/payment', label: tNav('payment') },
   ]
 
   const authLink = isAuthenticated
-    ? { href: '/cabinet', label: t('nav.cabinet') }
-    : { href: '/login', label: t('nav.login') }
+    ? { href: '/cabinet', label: tNav('cabinet') }
+    : { href: '/login', label: tNav('login') }
 
   const socialLinksNoMax = SOCIAL_LINKS.filter(({ icon }) => icon !== 'max')
 
@@ -113,7 +115,7 @@ export function Header() {
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 min-w-0 shrink text-white/95 hover:text-white transition-colors"
-          title={t('howToGet.yandex')}
+          title={tHowToGet('yandex') || 'ЯНДЕКС КАРТЫ'}
         >
           <span className="shrink-0" aria-hidden>
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden>
@@ -121,7 +123,7 @@ export function Header() {
             </svg>
           </span>
           <span className="font-sans text-[10px] sm:text-xs leading-tight truncate max-w-[180px] sm:max-w-[240px] md:max-w-none">
-            {t('footer.addressShort')}
+            {tFooter('addressShort') || 'Республика Беларусь, Гродненская обл., Гродненский р-н, Сопоцкинский с/с, д. Немново, 15'}
           </span>
 
         </a>
@@ -151,12 +153,12 @@ export function Header() {
           >
             <Image
               src="/logo.png"
-              alt={t('footer.copyright')}
+              alt={tFooter('copyright') || 'Немново'}
               width={64}
               height={64}
               className="w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 object-contain shrink-0"
             />
-            <span className="truncate">{t('footer.copyright')}</span>
+            <span className="truncate">{tFooter('copyright') || 'Немново'}</span>
           </Link>
         </div>
         {/* Десктоп (≥1580px): все пункты меню в один ряд; уже — бургер */}
@@ -197,7 +199,7 @@ export function Header() {
               aria-expanded={moreOpen}
               aria-haspopup="true"
             >
-              {t('nav.more')}
+              {tNav('more')}
               <svg
                 viewBox="0 0 12 12"
                 fill="currentColor"
@@ -229,7 +231,7 @@ export function Header() {
             <GoogleTranslateWidget variant="mobile" />
               <button
                 type="button"
-                aria-label={t('nav.menuOpen')}
+                aria-label={tNav('menuOpen')}
                 className="p-2 text-black"
                 onClick={() => setOpen(!open)}
               >
@@ -254,7 +256,7 @@ export function Header() {
             rel="noopener noreferrer"
             className="font-sans text-[10px] sm:text-xs lg:text-sm font-bold tracking-wide text-primary hover:text-primary/80 transition-colors whitespace-nowrap"
           >
-            {t('nav.tourfirm')}
+            {tNav('tourfirm')}
           </a>
         </div>
       </div>
@@ -310,7 +312,7 @@ export function Header() {
               className="font-sans font-bold text-primary hover:text-primary/80"
               onClick={() => setOpen(false)}
             >
-              {t('nav.tourfirm')}
+              {tNav('tourfirm')}
             </a>
         </div>
       )}

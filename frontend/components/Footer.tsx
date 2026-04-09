@@ -65,7 +65,7 @@ const defaultCompany: CompanyInfo = {
 }
 
 export function Footer() {
-  const t = useTranslations()
+  const tFooter = useTranslations('footer')
   const [company, setCompany] = useState<CompanyInfo | null>(null)
 
   useEffect(() => {
@@ -91,15 +91,15 @@ export function Footer() {
             >
               <Image
                 src="/logo.png"
-                alt={t('footer.copyright')}
+                alt={tFooter('copyright')}
                 width={64}
                 height={64}
                 className="w-16 h-16 object-contain shrink-0"
               />
-              {t('footer.copyright')}
+              {tFooter('copyright')}
             </Link>
             <p className="mt-3 font-sans text-sm text-black/80 max-w-xs whitespace-pre-line">
-              {t('footer.slogan')}
+              {tFooter('slogan')}
             </p>
             <div className="flex gap-3 mt-6">
               {SOCIAL_LINKS.map(({ href, label, icon }) => (
@@ -111,20 +111,20 @@ export function Footer() {
           {/* Колонка 2: адрес, время работы, телефон */}
           <div className="font-sans text-sm text-black/80 space-y-4">
             <div>
-              <p className="font-medium text-black mb-1">{t('footer.addressLabel')}</p>
-              <p>{t('footer.address')}</p>
+              <p className="font-medium text-black mb-1">{tFooter('addressLabel')}</p>
+              <p>{tFooter('address')}</p>
             </div>
             <div>
-              <p className="font-medium text-black mb-1">{t('footer.workingHours')}</p>
-              <p className="whitespace-pre-line">{t('footer.workingHoursValue')}</p>
+              <p className="font-medium text-black mb-1">{tFooter('workingHours')}</p>
+              <p className="whitespace-pre-line">{tFooter('workingHoursValue')}</p>
             </div>
             <div className="space-y-3">
               <div>
-                <p className="font-medium text-black mb-1">{t('footer.phone1Label')}</p>
+                <p className="font-medium text-black mb-1">{tFooter('phone1Label')}</p>
                 <a href="tel:+375291792539" className="hover:text-black transition-colors">+375 29 179 25 39</a>
               </div>
               <div>
-                <p className="font-medium text-black mb-1">{t('footer.phone2Label')}</p>
+                <p className="font-medium text-black mb-1">{tFooter('phone2Label')}</p>
                 <div className="flex flex-col gap-1">
                   <a href="tel:+375297801304" className="hover:text-black transition-colors">+375 29 780 13 04</a>
                   <a href="tel:+375296011637" className="hover:text-black transition-colors">+375 29 601 16 37</a>
@@ -141,36 +141,36 @@ export function Footer() {
               href="/how-to-get"
               className="mt-4 inline-flex items-center justify-center px-5 py-2.5 rounded-lg border-2 border-secondary/30 text-black font-sans text-sm font-medium hover:border-primary/50 hover:bg-primary/5 transition-colors w-fit"
             >
-              {t('footer.howToGet')}
+              {tFooter('howToGet')}
             </Link>
           </div>
 
           {/* Колонка 3: реквизиты, кнопки политик */}
           <div className="font-sans text-sm text-black/80 space-y-4">
-            <p className="font-medium text-black">{t('footer.requisites')}</p>
+            <p className="font-medium text-black">{tFooter('requisites')}</p>
             <p className="font-medium text-black">{info.company_name}</p>
             {info.legal_address && (
-              <p><span className="text-black/70">{t('footer.legalAddressLabel')}</span> {info.legal_address}</p>
+              <p><span className="text-black/70">{tFooter('legalAddressLabel')}</span> {info.legal_address}</p>
             )}
             {info.office_address && (
-              <p><span className="text-black/70">{t('footer.officeAddressLabel')}</span> {info.office_address}</p>
+              <p><span className="text-black/70">{tFooter('officeAddressLabel')}</span> {info.office_address}</p>
             )}
             {info.unp && (
-              <p>{t('footer.unpLabel')} {info.unp}</p>
+              <p>{tFooter('unpLabel')} {info.unp}</p>
             )}
             {info.okpo && (
-              <p>{t('footer.okpoLabel')} {info.okpo}</p>
+              <p>{tFooter('okpoLabel')} {info.okpo}</p>
             )}
             {(bankAccount || bankName || bankBic) && (
               <div className="space-y-1">
                 {bankAccount && (
-                  <p>{t('footer.bankAccountLabel')} {bankAccount}</p>
+                  <p>{tFooter('bankAccountLabel')} {bankAccount}</p>
                 )}
                 {(bankName || bankBic) && (
                   <p>
-                    {bankName && <>{t('footer.bankInLabel')} {bankName}</>}
+                    {bankName && <>{tFooter('bankInLabel')} {bankName}</>}
                     {bankName && bankBic && ', '}
-                    {bankBic && <>{t('footer.bankBicLabel')} {bankBic}</>}
+                    {bankBic && <>{tFooter('bankBicLabel')} {bankBic}</>}
                   </p>
                 )}
               </div>
@@ -183,25 +183,25 @@ export function Footer() {
                 href="/privacy"
                 className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
               >
-                {t('footer.personalDataPolicy')}
+                {tFooter('personalDataPolicy')}
               </Link>
               <Link
                 href="/cookie-policy"
                 className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
               >
-                {t('footer.cookiePolicy')}
+                {tFooter('cookiePolicy')}
               </Link>
               <Link
                 href="/public-offer"
                 className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
               >
-                {t('footer.publicOffer')}
+                {tFooter('publicOffer')}
               </Link>
               <Link
                 href="/gift-certificate"
                 className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
               >
-                {t('footer.giftCertificate')}
+                {tFooter('giftCertificate')}
               </Link>
             </div>
           </div>
@@ -209,7 +209,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-secondary/10">
           <p className="font-sans text-xs text-black/80" suppressHydrationWarning>
-            © {new Date().getFullYear()} {t('footer.copyright')}
+            © {new Date().getFullYear()} {tFooter('copyright')}
           </p>
         </div>
       </div>

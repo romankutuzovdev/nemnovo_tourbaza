@@ -1,0 +1,36 @@
+const backendUrl = (process.env.BACKEND_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
+
+// next-intl: enable production config discovery
+const createNextIntlPlugin = require('next-intl/plugin')
+const withNextIntl = createNextIntlPlugin('./i18n/request.ts')
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  async rewrites() {
+    return [
+      { source: '/api/:path*', destination: `${backendUrl}/api/:path*` },
+      { source: '/media/:path*', destination: `${backendUrl}/media/:path*` },
+    ]
+  },
+  images: {
+    unoptimized: true,
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'picsum.photos', pathname: '/**' },
+      { protocol: 'http', hostname: '127.0.0.1', pathname: '/**' },
+      { protocol: 'http', hostname: 'localhost', pathname: '/**' },
+      { protocol: 'http', hostname: '87.229.34.70', pathname: '/**' },
+      { protocol: 'https', hostname: 'submit-incredible-shaved-rental.trycloudflare.com', pathname: '/**' },
+      { protocol: 'http', hostname: 'submit-incredible-shaved-rental.trycloudflare.com', pathname: '/**' },
+      { protocol: 'https', hostname: '**.ngrok-free.app', pathname: '/**' },
+      { protocol: 'https', hostname: '**.ngrok.io', pathname: '/**' },
+    ],
+  },
+  webpack: (config, { dev }) => {
+    if (dev) config.cache = false
+    return config
+  },
+}
+
+module.exports = withNextIntl(nextConfig)
+
