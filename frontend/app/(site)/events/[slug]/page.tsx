@@ -33,10 +33,10 @@ export default async function EventPage({ params }: Props) {
     <div className="pt-6 md:pt-8 pb-16 md:pb-16 min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-3 sm:px-6">
         <Link
-          href="/events"
+          href="/services"
           className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-4"
         >
-          ← {t('common.allEvents')}
+          ← {t('common.allServices')}
         </Link>
 
         <article className="pt-4">
@@ -123,10 +123,10 @@ export default async function EventPage({ params }: Props) {
           </div>
           <div className="mt-6">
             <Link
-              href="/events"
+              href="/services"
               className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black"
             >
-              ← {t('common.allEvents')}
+              ← {t('common.allServices')}
             </Link>
           </div>
         </div>

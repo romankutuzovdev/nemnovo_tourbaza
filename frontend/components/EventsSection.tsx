@@ -45,7 +45,7 @@ export function EventsSection() {
           ))}
         </div>
         <div className="app-section-cta">
-          <Link href="/events" className="inline-flex items-center px-6 py-3 border border-primary text-primary font-sans text-sm tracking-wide hover:bg-primary/10 transition-colors">
+          <Link href="/events" className="inline-flex items-center px-6 py-3 rounded-xl border border-primary text-primary font-sans text-sm tracking-wide hover:bg-primary/10 transition-colors">
             {t('eventsSection.allEvents')}
           </Link>
         </div>

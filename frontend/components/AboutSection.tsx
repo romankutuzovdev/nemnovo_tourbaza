@@ -3,9 +3,12 @@
 import { useTranslations } from 'next-intl'
 import type { AboutContent } from '@/lib/api'
 
-type Props = { content?: AboutContent | null }
+type Props = {
+  content?: AboutContent | null
+  hideTitle?: boolean
+}
 
-export function AboutSection({ content }: Props) {
+export function AboutSection({ content, hideTitle = false }: Props) {
   const t = useTranslations()
 
   const title = content?.title || t('about.title')
@@ -15,10 +18,12 @@ export function AboutSection({ content }: Props) {
 
   return (
     <section id="about" className="app-section bg-secondary/40 border-y border-secondary/10">
-      <div className="app-container">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-center">
           <div>
-            <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight">{title}</h2>
+            {!hideTitle && (
+              <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight">{title}</h2>
+            )}
           </div>
           <div className="font-sans text-primary leading-relaxed space-y-4">
             {paragraphs.map((p, i) => <p key={i}>{p}</p>)}

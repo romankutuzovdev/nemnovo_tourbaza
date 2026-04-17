@@ -12,12 +12,12 @@ export default function EventsPage() {
 
   return (
     <div className="min-h-screen bg-primary">
-      <header className="pt-6 md:pt-8 pb-6 md:pb-8 max-w-6xl mx-auto px-3 sm:px-6">
+      <header className="pt-6 md:pt-8 pb-3 md:pb-4 max-w-6xl mx-auto px-3 sm:px-6">
         <Link
-          href="/"
+          href="/services"
           className="inline-flex items-center gap-2 font-sans text-sm text-white/80 hover:text-white transition-colors mb-4"
         >
-          ← {t('nav.home')}
+          ← {t('common.allServices')}
         </Link>
         <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight max-w-2xl">
           {t('eventsSection.title')}

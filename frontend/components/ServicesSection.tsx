@@ -64,7 +64,7 @@ export function ServicesSection() {
           ))}
         </div>
         <div className="app-section-cta">
-          <Link href="/services" className="inline-flex items-center px-6 py-3 border border-secondary/50 text-white font-sans text-sm tracking-wide hover:bg-white/10 transition-colors">
+          <Link href="/services" className="inline-flex items-center px-6 py-3 rounded-xl border border-secondary/50 text-white font-sans text-sm tracking-wide hover:bg-white/10 transition-colors">
             {t('servicesSection.allServices')}
           </Link>
         </div>

@@ -41,10 +41,10 @@ export default async function NewsArticlePage({ params }: Props) {
     <div className="pt-6 md:pt-8 pb-16 md:pb-16 min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-3 sm:px-6">
         <Link
-          href="/news"
+          href="/"
           className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-4"
         >
-          ← {t('common.allNews')}
+          ← {t('nav.home')}
         </Link>
 
         <article className="pt-4">

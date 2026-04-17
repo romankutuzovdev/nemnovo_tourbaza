@@ -77,7 +77,7 @@ export function PromosSection({ hideTitle }: Props = {}) {
         <div
           ref={scrollRef}
           onScroll={updateArrows}
-          className={`flex gap-4 sm:gap-6 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-none py-1 ${hideTitle ? 'mt-6 md:mt-8' : 'mt-8 sm:mt-12'}`}
+          className={`flex gap-4 sm:gap-6 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-none py-1 ${hideTitle ? '' : 'mt-8 sm:mt-12'}`}
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {promos.map((p) => {

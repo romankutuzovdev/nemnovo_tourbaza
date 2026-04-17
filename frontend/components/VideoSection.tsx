@@ -26,7 +26,7 @@ export function VideoSection({ videoUrl }: Props) {
 
   return (
     <section className="app-section-lg bg-white">
-      <div className="app-container">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll variant="fade-up">
           <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight">
             Презентация турбазы

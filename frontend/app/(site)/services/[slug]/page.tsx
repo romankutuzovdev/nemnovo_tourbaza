@@ -37,14 +37,16 @@ export default async function ServicePage({ params }: Props) {
 
   if (hasChildren) {
     return (
-      <div className="pt-6 md:pt-8 pb-16 md:pb-16 min-h-screen bg-white">
-        <div className="max-w-6xl mx-auto px-3 sm:px-6">
-          <nav className="inline-flex items-center gap-2 font-sans text-sm text-black/80 mb-4" aria-label="Breadcrumb">
-            <Link href="/services" className="hover:text-black">← {t('common.allServices')}</Link>
-            <span aria-hidden>/</span>
-            <span className="text-black">{serviceTitle}</span>
-          </nav>
-
+      <div className="min-h-screen bg-white">
+        <header className="pt-6 md:pt-8 pb-3 md:pb-4 max-w-6xl mx-auto px-3 sm:px-6">
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
+          >
+            ← {t('common.allServices')}
+          </Link>
+        </header>
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 pb-16 md:pb-16">
           <article className="pt-4">
             <div className="relative aspect-[16/10] md:aspect-[21/9] rounded-xl overflow-hidden bg-primary">
               <Image
@@ -141,15 +143,16 @@ export default async function ServicePage({ params }: Props) {
   }
 
   return (
-    <div className="pt-6 md:pt-8 pb-16 md:pb-16 min-h-screen bg-white">
-      <div className="max-w-5xl mx-auto px-3 sm:px-6">
+    <div className="min-h-screen bg-white">
+      <header className="pt-6 md:pt-8 pb-3 md:pb-4 max-w-6xl mx-auto px-3 sm:px-6">
         <Link
           href="/services"
-          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-4"
+          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
         >
           ← {t('common.allServices')}
         </Link>
-
+      </header>
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 pb-16 md:pb-16">
         <article className="pt-4">
           <div className="relative">
             <ServiceImageSlider images={images} title={serviceTitle} />

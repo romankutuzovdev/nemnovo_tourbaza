@@ -28,10 +28,10 @@ export default async function PromoPage({ params }: Props) {
     <div className="pt-6 md:pt-8 pb-16 md:pb-16 min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-3 sm:px-6">
         <Link
-          href="/promos"
+          href="/"
           className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-4"
         >
-          ← {t('nav.promos')}
+          ← {t('nav.home')}
         </Link>
 
         <article className="mt-4 bg-secondary/30 border border-secondary/10 rounded-sm overflow-hidden">

@@ -62,7 +62,7 @@ export function Hero({ content }: HeroProps) {
           </p>
         )}
         <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.6s', opacity: 0, animationFillMode: 'forwards' }}>
-          <Link href="#services" className="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-sans text-sm tracking-wide hover:bg-primary/90 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
+          <Link href="#services" className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-primary text-white font-sans text-sm tracking-wide hover:bg-primary/90 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
             {tHero('cta1') || 'Услуги'}
           </Link>
           <button

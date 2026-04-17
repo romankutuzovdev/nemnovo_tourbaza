@@ -9,9 +9,12 @@ const CHECK_ICON = (
   </svg>
 )
 
-type Props = { content?: AgenciesPageContent | null }
+type Props = {
+  content?: AgenciesPageContent | null
+  hideTitle?: boolean
+}
 
-export function AgenciesSection({ content }: Props) {
+export function AgenciesSection({ content, hideTitle = false }: Props) {
   const t = useTranslations('agencies')
 
   const title = content?.title || t('title')
@@ -38,10 +41,12 @@ export function AgenciesSection({ content }: Props) {
 
   return (
     <section id="agencies" className="app-section bg-white">
-      <div className="app-container">
-        <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight max-w-2xl">
-          {title}
-        </h2>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        {!hideTitle && (
+          <h2 className="font-serif text-3xl md:text-4xl font-medium text-primary tracking-tight max-w-2xl">
+            {title}
+          </h2>
+        )}
         <p className="mt-4 font-sans text-primary max-w-xl">
           {intro}
         </p>

@@ -55,22 +55,17 @@ export default async function ServicePage({ params }: Props) {
   const images = service.images && service.images.length > 0 ? service.images : (imageSrc ? [imageSrc] : [])
 
   return (
-    <div className="pt-6 md:pt-8 pb-12 md:pb-16 min-h-screen bg-white">
-      <div className="max-w-5xl mx-auto px-3 sm:px-6">
-        <Link
-          href={`/${locale}`}
-          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
-        >
-          ← {t('nav.home')}
-        </Link>
+    <div className="min-h-screen bg-white">
+      <header className="pt-6 md:pt-8 pb-3 md:pb-4 max-w-6xl mx-auto px-3 sm:px-6">
         <Link
           href={`/${locale}/services`}
-          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-10"
+          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
         >
           ← {t('common.allServices')}
         </Link>
-
-        <article className="pt-16">
+      </header>
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 pb-12 md:pb-16">
+        <article className="pt-4">
           <div className="relative">
             <ServiceImageSlider images={images} title={serviceTitle} />
             <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 z-10 pointer-events-none">

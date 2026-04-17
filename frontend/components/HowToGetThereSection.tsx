@@ -58,8 +58,8 @@ export function HowToGetThereSection() {
 
   return (
     <section id="how-to-get" className="app-section bg-secondary/40 border-t border-secondary/10">
-      <div className="app-container">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="app-section-head flex-col gap-6 lg:flex-row lg:items-start lg:gap-12">
           <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold text-primary tracking-tight shrink-0">
             {t('howToGet.title')}
           </h2>

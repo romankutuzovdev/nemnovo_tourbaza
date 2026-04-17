@@ -27,10 +27,10 @@ export default async function PortfolioItemPage({ params }: Props) {
     <div className="pt-6 md:pt-8 pb-16 md:pb-16 min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-3 sm:px-6">
         <Link
-          href="/portfolio"
-          className="inline-flex items-center gap-2 font-sans text-sm text-primary hover:text-primary/80 mb-4"
+          href="/"
+          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
         >
-          ← {t('portfolioSection.backToPortfolio')}
+          ← {t('nav.home')}
         </Link>
 
         <div className="pt-4">

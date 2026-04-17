@@ -8,7 +8,7 @@ export default function ContactPage() {
   const t = useTranslations()
   return (
     <div className="min-h-screen bg-white">
-      <header className="pt-6 md:pt-8 pb-6 md:pb-8 app-container">
+      <header className="pt-6 md:pt-8 pb-3 md:pb-4 max-w-6xl mx-auto px-3 sm:px-6">
         <Link
           href="/"
           className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"

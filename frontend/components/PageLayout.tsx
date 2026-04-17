@@ -3,10 +3,11 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { isValidLocale } from '@/lib/i18n'
 
 export const PAGE_CONTAINER = 'max-w-6xl mx-auto px-3 sm:px-6'
 // На мобильных отступ больше (хедер выше), на десктопе — меньше. pb единый под заголовок страницы.
-export const PAGE_TOP = 'pt-6 md:pt-8 pb-6 md:pb-8'
+export const PAGE_TOP = 'pt-6 md:pt-8 pb-3 md:pb-4'
 
 /** Сегмент пути → ключ перевода (nav.* или footer.legal.*) */
 const SEGMENT_TO_KEY: Record<string, string> = {
@@ -54,10 +55,13 @@ export function PageLayout({ children, badge, title, description, titlePrimary, 
   const pathname = usePathname() ?? ''
   const t = useTranslations()
   const segments = pathSegments(pathname)
+  const firstSegment = segments[0]
+  const localePrefix = firstSegment && isValidLocale(firstSegment) ? `/${firstSegment}` : ''
+  const homeHref = localePrefix || '/'
 
   const breadcrumbs: { href: string; label: string }[] = []
   let acc = ''
-  breadcrumbs.push({ href: acc || '/', label: t('nav.home') })
+  breadcrumbs.push({ href: homeHref, label: t('nav.home') })
   for (let i = 0; i < segments.length; i++) {
     acc = acc ? `${acc}/${segments[i]}` : `/${segments[i]}`
     const key = SEGMENT_TO_KEY[segments[i]]
@@ -66,7 +70,7 @@ export function PageLayout({ children, badge, title, description, titlePrimary, 
   }
 
   const headerSpacing = simpleHomeLink
-    ? (moreTopPadding ? 'pt-10 md:pt-12 pb-6 md:pb-8' : 'pt-6 md:pt-8 pb-6 md:pb-8')
+    ? (moreTopPadding ? 'pt-10 md:pt-12 pb-3 md:pb-4' : 'pt-6 md:pt-8 pb-3 md:pb-4')
     : undefined
 
   return (
@@ -74,10 +78,10 @@ export function PageLayout({ children, badge, title, description, titlePrimary, 
       <header className={`${headerSpacing ?? PAGE_TOP} ${PAGE_CONTAINER} ${headerClassName ?? ''}`}>
         <nav className={simpleHomeLink ? undefined : 'flex flex-col gap-3 md:gap-4'} aria-label={hideBreadcrumbs ? undefined : 'Breadcrumb'}>
           <Link
-            href="/"
+            href={homeHref}
             className={
               simpleHomeLink
-                ? 'inline-flex items-center font-sans text-sm text-black/80 hover:text-black transition-colors'
+                ? 'inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4'
                 : 'lg:hidden self-start inline-flex items-center font-sans text-sm font-medium px-3 py-2 rounded-lg border border-secondary/30 text-black/80 hover:text-black hover:border-secondary/50 hover:bg-secondary/5 transition-colors'
             }
           >

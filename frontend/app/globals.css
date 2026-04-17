@@ -245,6 +245,19 @@ body {
   }
 }
 
+@layer base {
+  /* Единое скругление интерактивных элементов как в tourfirma_nemnovo */
+  button,
+  [type='button'],
+  [type='submit'],
+  [type='reset'],
+  input,
+  textarea,
+  select {
+    border-radius: 0.75rem;
+  }
+}
+
 /* Стили для HTML-контента услуг (CKEditor) */
 .service-content {
   font-family: var(--font-pt-serif), 'PT Serif', Georgia, 'Times New Roman', serif;

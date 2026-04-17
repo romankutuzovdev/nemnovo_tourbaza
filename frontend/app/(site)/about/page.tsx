@@ -5,9 +5,10 @@ import { fetchAboutContent } from '@/lib/api'
 
 export default async function AboutPage() {
   const content = await fetchAboutContent('ru', 'about')
+  const title = content?.title || 'О нас'
   return (
-    <PageLayout hideBreadcrumbs simpleHomeLink>
-      <AboutSection content={content} />
+    <PageLayout hideBreadcrumbs simpleHomeLink title={title} titlePrimary>
+      <AboutSection content={content} hideTitle />
       <VideoSection videoUrl={content?.video_url} />
     </PageLayout>
   )
