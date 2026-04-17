@@ -24,7 +24,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="pt-20 pb-24 min-h-screen bg-white">
+    <div className="pt-6 md:pt-8 pb-24 min-h-screen bg-white">
       <div className="max-w-md mx-auto px-4">
         <Link href="/login" className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-10">
           ← {t('backToLogin')}

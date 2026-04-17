@@ -152,6 +152,8 @@
     "formComplaint": "Прэтэнзіі і прапановы",
     "nameLabel": "Імя",
     "namePlaceholder": "Як да вас звяртацца",
+    "phoneLabel": "Тэлефон",
+    "phonePlaceholder": "+375 29 123 45 67",
     "emailLabel": "Email",
     "emailPlaceholder": "email@example.com",
     "messageLabel": "Паведамленне",

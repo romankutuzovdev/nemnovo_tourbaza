@@ -56,9 +56,11 @@ export function ContactSection({ hideTitle }: { hideTitle?: boolean } = {}) {
     setError(null)
     setLoading(true)
     const name = (form.querySelector('[name="name"]') as HTMLInputElement)?.value?.trim() ?? ''
+    const phone = (form.querySelector('[name="phone"]') as HTMLInputElement)?.value?.trim() ?? ''
     const email = (form.querySelector('[name="email"]') as HTMLInputElement)?.value?.trim() ?? ''
     const message = (form.querySelector('[name="message"]') as HTMLTextAreaElement)?.value?.trim() ?? ''
-    const result = await sendContactForm('main', { name, email, message })
+    const composedMessage = `Телефон: ${phone}\n\n${message}`
+    const result = await sendContactForm('main', { name, email, message: composedMessage })
     setLoading(false)
     if ('ok' in result && result.ok) {
       setSent(true)
@@ -162,16 +164,20 @@ export function ContactSection({ hideTitle }: { hideTitle?: boolean } = {}) {
                 <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleSubmit(e.currentTarget) }} action="#" method="post">
                   <input type="hidden" name="_to" value="office@nemnovotour.by" />
                   <div className="min-w-0">
-                    <label htmlFor="main-name" className="block font-sans text-sm text-primary mb-1 break-words">{t('contact.nameLabel')}</label>
-                    <input id="main-name" name="name" type="text" required className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/80/60 focus:outline-none focus:border-primary/50 rounded-lg" placeholder={t('contact.namePlaceholder')} />
+                    <label htmlFor="main-name" className="block font-sans text-sm text-primary mb-1 break-words">{t('contact.nameLabel')}*</label>
+                    <input id="main-name" name="name" type="text" required className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/60 focus:outline-none focus:border-primary/50 rounded-lg" placeholder={t('contact.namePlaceholder')} />
+                  </div>
+                  <div className="min-w-0">
+                    <label htmlFor="main-phone" className="block font-sans text-sm text-primary mb-1 break-words">{t('contact.phoneLabel')}*</label>
+                    <input id="main-phone" name="phone" type="tel" required className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/60 focus:outline-none focus:border-primary/50 rounded-lg" placeholder={t('contact.phonePlaceholder')} />
                   </div>
                   <div className="min-w-0">
                     <label htmlFor="main-email" className="block font-sans text-sm text-primary mb-1 break-words">{t('contact.emailLabel')}</label>
-                    <input id="main-email" name="email" type="email" required className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/80/60 focus:outline-none focus:border-primary/50 rounded-lg" placeholder={t('contact.emailPlaceholder')} />
+                    <input id="main-email" name="email" type="email" className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/60 focus:outline-none focus:border-primary/50 rounded-lg" placeholder={t('contact.emailPlaceholder')} />
                   </div>
                   <div className="min-w-0">
-                    <label htmlFor="main-msg" className="block font-sans text-sm text-primary mb-1 break-words">{t('contact.messageLabel')}</label>
-                    <textarea id="main-msg" name="message" rows={3} className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/80/60 focus:outline-none focus:border-primary/50 rounded-lg resize-none" placeholder={t('contact.messagePlaceholder')} />
+                    <label htmlFor="main-msg" className="block font-sans text-sm text-primary mb-1 break-words">{t('contact.messageLabel')}*</label>
+                    <textarea id="main-msg" name="message" rows={3} required className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/60 focus:outline-none focus:border-primary/50 rounded-lg resize-none" placeholder={t('contact.messagePlaceholder')} />
                   </div>
                   {error && <p className="font-sans text-sm text-red-600">{error}</p>}
                   <button type="submit" disabled={loading} className="px-6 py-3 bg-primary text-white font-sans text-sm tracking-wide rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-60">{loading ? t('contact.sending') : t('contact.send')}</button>

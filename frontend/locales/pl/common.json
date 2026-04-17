@@ -159,6 +159,8 @@
     "formComplaint": "Skargi i sugestie",
     "nameLabel": "Imię",
     "namePlaceholder": "Jak się do Pani/Pana zwracać",
+    "phoneLabel": "Telefon",
+    "phonePlaceholder": "+375 29 123 45 67",
     "emailLabel": "Email",
     "emailPlaceholder": "email@example.com",
     "messageLabel": "Wiadomość",

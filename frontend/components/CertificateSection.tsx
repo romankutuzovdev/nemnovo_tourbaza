@@ -31,7 +31,7 @@ export function CertificateSection() {
             aria-label={t('certificateSection.link')}
           >
             <article className="rounded-none overflow-hidden border border-white/15 bg-white shadow-sm hover:shadow-lg hover:border-white/30 transition-all duration-300">
-              <div className="relative aspect-[16/10] w-full bg-secondary/20">
+              <div className="relative aspect-[9/4] w-full bg-secondary/20">
                 {imageSrc ? (
                   <Image
                     src={imageSrc}

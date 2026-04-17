@@ -54,6 +54,7 @@ export function HotOfferPopup() {
   const countdown = useCountdown(offer?.valid_until ?? null)
 
   const [formName, setFormName] = useState('')
+  const [formPhone, setFormPhone] = useState('')
   const [formEmail, setFormEmail] = useState('')
   const [formMessage, setFormMessage] = useState('')
   const [formSending, setFormSending] = useState(false)
@@ -113,7 +114,7 @@ export function HotOfferPopup() {
     const result = await sendContactForm('hot_offer', {
       name: formName.trim(),
       email: formEmail.trim(),
-      message: formMessage.trim(),
+      message: `Телефон: ${formPhone.trim()}\n\n${formMessage.trim()}`,
     })
     setFormSending(false)
     if ('error' in result) {
@@ -122,6 +123,7 @@ export function HotOfferPopup() {
     }
     setFormSent(true)
     setFormName('')
+    setFormPhone('')
     setFormEmail('')
     setFormMessage('')
   }
@@ -211,7 +213,7 @@ export function HotOfferPopup() {
               <form onSubmit={handleSubmit} className="space-y-2 sm:space-y-2.5">
                 <div>
                   <label htmlFor="ho-name" className="block font-sans text-[10px] sm:text-xs text-black/70 mb-0.5">
-                    {tContact('nameLabel')}
+                    {tContact('nameLabel')}*
                   </label>
                   <input
                     id="ho-name"
@@ -219,6 +221,20 @@ export function HotOfferPopup() {
                     value={formName}
                     onChange={(e) => setFormName(e.target.value)}
                     placeholder={tContact('namePlaceholder')}
+                    className="w-full min-h-[40px] sm:min-h-[44px] px-2.5 py-1.5 sm:py-2 border border-black/20 font-sans text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="ho-phone" className="block font-sans text-[10px] sm:text-xs text-black/70 mb-0.5">
+                    {tContact('phoneLabel')}*
+                  </label>
+                  <input
+                    id="ho-phone"
+                    type="tel"
+                    value={formPhone}
+                    onChange={(e) => setFormPhone(e.target.value)}
+                    placeholder={tContact('phonePlaceholder')}
                     className="w-full min-h-[40px] sm:min-h-[44px] px-2.5 py-1.5 sm:py-2 border border-black/20 font-sans text-sm"
                     required
                   />
@@ -234,12 +250,11 @@ export function HotOfferPopup() {
                     onChange={(e) => setFormEmail(e.target.value)}
                     placeholder={tContact('emailPlaceholder')}
                     className="w-full min-h-[40px] sm:min-h-[44px] px-2.5 py-1.5 sm:py-2 border border-black/20 font-sans text-sm"
-                    required
                   />
                 </div>
                 <div>
                   <label htmlFor="ho-message" className="block font-sans text-[10px] sm:text-xs text-black/70 mb-0.5">
-                    {tContact('messageLabel')}
+                    {tContact('messageLabel')}*
                   </label>
                   <textarea
                     id="ho-message"

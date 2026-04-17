@@ -25,12 +25,7 @@ export function ServiceQuestionnaireForm({ serviceSlug, questions }: Props) {
     const email = (form.querySelector('[name="email"]') as HTMLInputElement)?.value?.trim() ?? ''
     const phone = (form.querySelector('[name="phone"]') as HTMLInputElement)?.value?.trim() ?? ''
     const message = (form.querySelector('[name="message"]') as HTMLTextAreaElement)?.value?.trim() ?? ''
-    const answers: Record<string, string> = {}
-    questions.forEach((q) => {
-      const val = (form.querySelector(`[name="q-${q.id}"]`) as HTMLInputElement | HTMLTextAreaElement)?.value?.trim() ?? ''
-      if (val) answers[String(q.id)] = val
-    })
-    const result = await sendServiceQuestionnaire(serviceSlug, { name, email, phone, message, answers })
+    const result = await sendServiceQuestionnaire(serviceSlug, { name, email, phone, message, answers: {} })
     setLoading(false)
     if ('ok' in result && result.ok) {
       setSent(true)
@@ -47,6 +42,8 @@ export function ServiceQuestionnaireForm({ serviceSlug, questions }: Props) {
     )
   }
 
+  void questions
+
   return (
     <div className="mt-12">
       <h2 className="font-serif text-xl md:text-2xl font-medium text-black/90 mb-6">
@@ -55,7 +52,7 @@ export function ServiceQuestionnaireForm({ serviceSlug, questions }: Props) {
       <form onSubmit={handleSubmit} className="max-w-xl space-y-4">
         <div>
           <label htmlFor="q-name" className="block font-sans text-sm font-medium text-black/80 mb-1">
-            {t('contact.name')} *
+            {t('contact.nameLabel')}*
           </label>
           <input
             id="q-name"
@@ -67,51 +64,39 @@ export function ServiceQuestionnaireForm({ serviceSlug, questions }: Props) {
           />
         </div>
         <div>
-          <label htmlFor="q-email" className="block font-sans text-sm font-medium text-black/80 mb-1">
-            {t('contact.email')} *
-          </label>
-          <input
-            id="q-email"
-            name="email"
-            type="email"
-            required
-            className="w-full px-4 py-3 border border-secondary/30 rounded-lg font-sans text-black focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
-            placeholder={t('contact.emailPlaceholder')}
-          />
-        </div>
-        <div>
           <label htmlFor="q-phone" className="block font-sans text-sm font-medium text-black/80 mb-1">
-            {t('contact.phone')}
+            {t('contact.phoneLabel')}*
           </label>
           <input
             id="q-phone"
             name="phone"
             type="tel"
+            required
             className="w-full px-4 py-3 border border-secondary/30 rounded-lg font-sans text-black focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
             placeholder={t('contact.phonePlaceholder')}
           />
         </div>
-        {questions.map((q) => (
-          <div key={q.id}>
-            <label htmlFor={`q-${q.id}`} className="block font-sans text-sm font-medium text-black/80 mb-1">
-              {q.text}
-            </label>
-            <textarea
-              id={`q-${q.id}`}
-              name={`q-${q.id}`}
-              rows={3}
-              className="w-full px-4 py-3 border border-secondary/30 rounded-lg font-sans text-black focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
-            />
-          </div>
-        ))}
+        <div>
+          <label htmlFor="q-email" className="block font-sans text-sm font-medium text-black/80 mb-1">
+            {t('contact.emailLabel')}
+          </label>
+          <input
+            id="q-email"
+            name="email"
+            type="email"
+            className="w-full px-4 py-3 border border-secondary/30 rounded-lg font-sans text-black focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+            placeholder={t('contact.emailPlaceholder')}
+          />
+        </div>
         <div>
           <label htmlFor="q-message" className="block font-sans text-sm font-medium text-black/80 mb-1">
-            {t('contact.messageLabel')}
+            {t('contact.messageLabel')}*
           </label>
           <textarea
             id="q-message"
             name="message"
             rows={4}
+            required
             className="w-full px-4 py-3 border border-secondary/30 rounded-lg font-sans text-black focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
             placeholder={t('contact.messagePlaceholder')}
           />

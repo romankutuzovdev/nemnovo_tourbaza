@@ -155,11 +155,20 @@ export function Footer() {
             {info.office_address && (
               <p><span className="text-black/70">{tFooter('officeAddressLabel')}</span> {info.office_address}</p>
             )}
-            {info.unp && (
-              <p>{tFooter('unpLabel')} {info.unp}</p>
-            )}
-            {info.okpo && (
-              <p>{tFooter('okpoLabel')} {info.okpo}</p>
+            {(info.unp || info.okpo) && (
+              <p>
+                {info.unp ? (
+                  <>
+                    {tFooter('unpLabel')} {info.unp}
+                  </>
+                ) : null}
+                {info.unp && info.okpo ? ', ' : null}
+                {info.okpo ? (
+                  <>
+                    {tFooter('okpoLabel')} {info.okpo}
+                  </>
+                ) : null}
+              </p>
             )}
             {(bankAccount || bankName || bankBic) && (
               <div className="space-y-1">
@@ -212,6 +221,16 @@ export function Footer() {
             © {new Date().getFullYear()} {tFooter('copyright')}
           </p>
         </div>
+      </div>
+      <div className="bg-black py-3 px-4 text-center">
+        <a
+          href="https://akramedia.by/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-sans text-sm text-white hover:text-white/80 transition-colors underline underline-offset-2"
+        >
+          Разработано AKRA MEDIA
+        </a>
       </div>
     </footer>
   )

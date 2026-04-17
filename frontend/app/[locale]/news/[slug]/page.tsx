@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { fetchNewsBySlug, getNewsImageSrc } from '@/lib/api'
+import { isValidLocale, type Locale } from '@/lib/i18n'
 import type { Metadata } from 'next'
 
-type Props = { params: Promise<{ slug: string }> }
+type Props = { params: Promise<{ locale: string; slug: string }> }
 
 function formatNewsDate(iso: string, short = false) {
   try {
@@ -22,16 +23,18 @@ function formatNewsDate(iso: string, short = false) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const news = await fetchNewsBySlug(slug, 'ru')
+  const { locale, slug } = await params
+  if (!isValidLocale(locale)) return { title: 'Немново' }
+  const news = await fetchNewsBySlug(slug, locale as Locale)
   if (!news) return { title: 'Новость не найдена' }
   return { title: `${news.title} — Немново`, description: news.short_desc }
 }
 
 export default async function NewsArticlePage({ params }: Props) {
-  const { slug } = await params
+  const { locale, slug } = await params
+  if (!isValidLocale(locale)) notFound()
 
-  const newsItem = await fetchNewsBySlug(slug, 'ru')
+  const newsItem = await fetchNewsBySlug(slug, locale as Locale)
   if (!newsItem) notFound()
 
   const t = await getTranslations()
@@ -41,7 +44,7 @@ export default async function NewsArticlePage({ params }: Props) {
     <div className="pt-6 md:pt-8 pb-16 md:pb-16 min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-3 sm:px-6">
         <Link
-          href="/news"
+          href={`/${locale}/news`}
           className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-4"
         >
           ← {t('common.allNews')}
@@ -61,10 +64,7 @@ export default async function NewsArticlePage({ params }: Props) {
             ) : (
               <div className="absolute inset-0 bg-primary/90" aria-hidden />
             )}
-            <span
-              className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
-              aria-hidden
-            />
+            <span className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" aria-hidden />
             <div className="absolute inset-x-0 bottom-0 min-h-[45%] sm:min-h-0 flex flex-col justify-end p-4 pt-8 pb-4 sm:p-6 md:p-10">
               <time className="font-sans text-xs text-white/80 mb-1.5 sm:mb-2 block shrink-0 whitespace-nowrap" dateTime={newsItem.created_at}>
                 <span className="sm:hidden">{formatNewsDate(newsItem.created_at, true)}</span>
@@ -76,40 +76,20 @@ export default async function NewsArticlePage({ params }: Props) {
             </div>
           </div>
 
-          <p className="mt-8 font-sans text-xl text-black/80 leading-relaxed">
-            {newsItem.short_desc}
-          </p>
+          {newsItem.short_desc && (
+            <p className="mt-8 font-sans text-xl text-black/80 leading-relaxed">
+              {newsItem.short_desc}
+            </p>
+          )}
 
           {newsItem.long_desc && (
-            <div className="mt-10 font-sans text-black/85 leading-relaxed whitespace-pre-line">
+            <div className="mt-8 font-sans text-black/80 leading-relaxed whitespace-pre-line break-words">
               {newsItem.long_desc}
             </div>
           )}
-
-          {newsItem.related_news && (
-            <div className="mt-10 pt-6 border-t border-black/10">
-              <p className="font-sans text-sm text-black/50 mb-1">{t('common.readAlso')}</p>
-              <a
-                href={newsItem.related_news.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-sans text-primary hover:underline"
-              >
-                {newsItem.related_news.title}
-              </a>
-            </div>
-          )}
         </article>
-
-        <div className="mt-6">
-          <Link
-            href="/news"
-            className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black"
-          >
-            ← {t('common.allNews')}
-          </Link>
-        </div>
       </div>
     </div>
   )
 }
+

@@ -152,6 +152,8 @@
     "formComplaint": "Complaints and suggestions",
     "nameLabel": "Name",
     "namePlaceholder": "How to address you",
+    "phoneLabel": "Phone",
+    "phonePlaceholder": "+375 29 123 45 67",
     "emailLabel": "Email",
     "emailPlaceholder": "email@example.com",
     "messageLabel": "Message",

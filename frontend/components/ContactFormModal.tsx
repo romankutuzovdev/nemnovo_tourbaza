@@ -7,9 +7,10 @@ import { sendContactForm } from '@/lib/api'
 type Props = {
   isOpen: boolean
   onClose: () => void
+  initialMessage?: string
 }
 
-export function ContactFormModal({ isOpen, onClose }: Props) {
+export function ContactFormModal({ isOpen, onClose, initialMessage }: Props) {
   const t = useTranslations('contact')
   const [sent, setSent] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -29,13 +30,22 @@ export function ContactFormModal({ isOpen, onClose }: Props) {
     }
   }, [isOpen, onClose])
 
+  useEffect(() => {
+    if (!isOpen) return
+    setSent(false)
+    setError(null)
+    setLoading(false)
+  }, [isOpen])
+
   async function handleSubmit(form: HTMLFormElement) {
     setError(null)
     setLoading(true)
     const name = (form.querySelector('[name="name"]') as HTMLInputElement)?.value?.trim() ?? ''
+    const phone = (form.querySelector('[name="phone"]') as HTMLInputElement)?.value?.trim() ?? ''
     const email = (form.querySelector('[name="email"]') as HTMLInputElement)?.value?.trim() ?? ''
     const message = (form.querySelector('[name="message"]') as HTMLInputElement)?.value?.trim() ?? ''
-    const result = await sendContactForm('main', { name, email, message })
+    const composedMessage = `Телефон: ${phone}\n\n${message}`
+    const result = await sendContactForm('main', { name, email, message: composedMessage })
     setLoading(false)
     if ('ok' in result && result.ok) {
       setSent(true)
@@ -87,7 +97,7 @@ export function ContactFormModal({ isOpen, onClose }: Props) {
               <input type="hidden" name="_to" value="office@nemnovotour.by" />
               <div>
                 <label htmlFor="modal-name" className="block font-sans text-sm text-black/80 mb-1">
-                  {t('nameLabel')}
+                  {t('nameLabel')}*
                 </label>
                 <input
                   id="modal-name"
@@ -99,6 +109,19 @@ export function ContactFormModal({ isOpen, onClose }: Props) {
                 />
               </div>
               <div>
+                <label htmlFor="modal-phone" className="block font-sans text-sm text-black/80 mb-1">
+                  {t('phoneLabel')}*
+                </label>
+                <input
+                  id="modal-phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/60 focus:outline-none focus:border-secondary/50"
+                  placeholder={t('phonePlaceholder')}
+                />
+              </div>
+              <div>
                 <label htmlFor="modal-email" className="block font-sans text-sm text-black/80 mb-1">
                   {t('emailLabel')}
                 </label>
@@ -106,21 +129,22 @@ export function ContactFormModal({ isOpen, onClose }: Props) {
                   id="modal-email"
                   name="email"
                   type="email"
-                  required
                   className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/60 focus:outline-none focus:border-secondary/50"
                   placeholder={t('emailPlaceholder')}
                 />
               </div>
               <div>
                 <label htmlFor="modal-msg" className="block font-sans text-sm text-black/80 mb-1">
-                  {t('messageLabel')}
+                  {t('messageLabel')}*
                 </label>
                 <textarea
                   id="modal-msg"
                   name="message"
                   rows={3}
+                  required
                   className="w-full px-4 py-3 bg-transparent border border-secondary/30 font-sans text-black placeholder:text-black/60 focus:outline-none focus:border-secondary/50 resize-none"
                   placeholder={t('messagePlaceholder')}
+                  defaultValue={initialMessage}
                 />
               </div>
               {error && <p className="font-sans text-sm text-red-600">{error}</p>}

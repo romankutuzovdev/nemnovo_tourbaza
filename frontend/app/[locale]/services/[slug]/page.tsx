@@ -55,7 +55,7 @@ export default async function ServicePage({ params }: Props) {
   const images = service.images && service.images.length > 0 ? service.images : (imageSrc ? [imageSrc] : [])
 
   return (
-    <div className="pt-40 md:pt-44 pb-12 md:pb-16 min-h-screen bg-white">
+    <div className="pt-6 md:pt-8 pb-12 md:pb-16 min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-3 sm:px-6">
         <Link
           href={`/${locale}`}

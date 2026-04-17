@@ -34,7 +34,7 @@ function ResetPasswordForm() {
 
   if (!uid || !token) {
     return (
-      <div className="pt-20 pb-24 min-h-screen bg-white">
+      <div className="pt-6 md:pt-8 pb-24 min-h-screen bg-white">
         <div className="max-w-md mx-auto px-4">
           <p className="font-sans text-black/80">Недействительная ссылка. Запросите сброс пароля заново.</p>
           <Link href="/forgot-password" className="mt-4 inline-block font-sans text-sm text-primary hover:underline">{t('forgotTitle')}</Link>
@@ -44,7 +44,7 @@ function ResetPasswordForm() {
   }
 
   return (
-    <div className="pt-20 pb-24 min-h-screen bg-white">
+    <div className="pt-6 md:pt-8 pb-24 min-h-screen bg-white">
       <div className="max-w-md mx-auto px-4">
         <Link href="/login" className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-10">
           ← {t('backToLogin')}
@@ -77,7 +77,7 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={<div className="pt-20 pb-24 min-h-screen bg-white"><div className="max-w-md mx-auto px-4">Загрузка…</div></div>}>
+    <Suspense fallback={<div className="pt-6 md:pt-8 pb-24 min-h-screen bg-white"><div className="max-w-md mx-auto px-4">Загрузка…</div></div>}>
       <ResetPasswordForm />
     </Suspense>
   )

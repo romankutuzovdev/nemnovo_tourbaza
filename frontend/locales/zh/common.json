@@ -152,6 +152,8 @@
     "formComplaint": "投诉与建议",
     "nameLabel": "姓名",
     "namePlaceholder": "如何称呼您",
+    "phoneLabel": "电话",
+    "phonePlaceholder": "+375 29 123 45 67",
     "emailLabel": "Email",
     "emailPlaceholder": "email@example.com",
     "messageLabel": "留言",
