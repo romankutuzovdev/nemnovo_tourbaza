@@ -246,7 +246,7 @@ body {
 }
 
 @layer base {
-  /* Единое скругление интерактивных элементов как в tourfirma_nemnovo */
+  /* Единое скругление интерактивных элементов как в tourfi rma_nemnovo */
   button,
   [type='button'],
   [type='submit'],
