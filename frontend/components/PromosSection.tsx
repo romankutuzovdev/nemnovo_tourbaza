@@ -40,9 +40,11 @@ export function PromosSection({ hideTitle }: Props = {}) {
 
   if (promos.length === 0) return null
 
+  const containerClass = hideTitle ? 'max-w-6xl mx-auto px-4 sm:px-6' : 'app-container'
+
   return (
     <section id="promos" className="pt-6 md:pt-10 pb-16 md:pb-24 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className={containerClass}>
         <AnimateOnScroll variant="fade-up">
           <div className="flex items-center justify-between gap-4 flex-wrap">
             {!hideTitle && (

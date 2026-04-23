@@ -336,13 +336,7 @@ def service_questionnaire_submit(request, slug):
         answers=filtered_answers,
     )
     to_email = getattr(settings, 'CONTACT_TEST_EMAIL', None) or 'office@nemnovotour.by'
-    try:
-        info = CompanyInfo.objects.first()
-        if info and info.contact_email:
-            to_email = info.contact_email
-    except Exception:
-        pass
-    lines = [f'Услуга: {service.slug}', f'Имя: {name}', f'Email: {email}', f'Телефон: {phone}']
+    lines = ['Это заявка с турбазы Немново.', f'Услуга: {service.slug}', f'Имя: {name}', f'Email: {email}', f'Телефон: {phone}']
     if message:
         lines.append(f'\nСообщение:\n{message}')
     if filtered_answers:
@@ -384,7 +378,7 @@ def contact_submit(request):
     subject_map = {'main': '[Заявка] Nemnovo Tour', 'complaint': '[Претензия/предложение] Nemnovo Tour', 'hot_offer': '[Горячее предложение] Nemnovo Tour'}
     subject = subject_map.get(form_type, '[Заявка] Nemnovo Tour')
     type_label = {'main': 'Заявка', 'complaint': 'Претензия/предложение', 'hot_offer': 'Горячее предложение'}.get(form_type, form_type)
-    body = f"Тип: {type_label}\nИмя: {name}\nEmail: {email}\n\nСообщение:\n{message}"
+    body = f"Это заявка с турбазы Немново.\nТип: {type_label}\nИмя: {name}\nEmail: {email}\n\nСообщение:\n{message}"
     try:
         send_mail(
             subject=subject,
