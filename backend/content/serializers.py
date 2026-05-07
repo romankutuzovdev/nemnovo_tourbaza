@@ -769,10 +769,11 @@ class AboutContentSerializer(serializers.ModelSerializer):
     """Блок «О нас»: заголовок, абзацы и ссылка на видео для заданной локали."""
     title = serializers.SerializerMethodField()
     paragraphs = serializers.SerializerMethodField()
+    presentation_pdf = serializers.SerializerMethodField()
 
     class Meta:
         model = AboutContent
-        fields = ['title', 'paragraphs', 'video_url']
+        fields = ['title', 'paragraphs', 'video_url', 'presentation_pdf']
 
     def get_title(self, obj):
         t = _locale_translation(obj.translations, self.context.get('locale', 'ru'))
@@ -783,3 +784,8 @@ class AboutContentSerializer(serializers.ModelSerializer):
         if not t or not t.paragraphs:
             return []
         return [p.strip() for p in t.paragraphs.split('\n\n') if p.strip()]
+
+    def get_presentation_pdf(self, obj):
+        if not obj.presentation_pdf:
+            return None
+        return _build_media_url(self.context.get('request'), obj.presentation_pdf)

@@ -60,11 +60,11 @@ export type ServiceDetail = ServiceItem & {
 /** При same-origin (ngrok): URL бэкенда (localhost:8000) преобразуем в относительный путь */
 export function toRelativeIfSameOrigin(value: string): string {
   if (!value?.startsWith('http://') && !value?.startsWith('https://')) return value
-  const base = getApiUrl()
-  if (base !== '') return value
   try {
     const u = new URL(value)
-    if (u.hostname === '127.0.0.1' || u.hostname === 'localhost') return u.pathname
+    if (u.hostname === '127.0.0.1' || u.hostname === 'localhost') {
+      return `${u.pathname}${u.search}${u.hash}`
+    }
   } catch {}
   return value
 }
@@ -85,6 +85,10 @@ export function toAbsoluteMediaUrl(value: string): string {
   const path = value.startsWith('/') ? value : `/${value}`
   const base = getApiUrl()
   if (base === '') return path
+  try {
+    const b = new URL(base)
+    if (b.hostname === '127.0.0.1' || b.hostname === 'localhost') return path
+  } catch {}
   return `${base}${path}`
 }
 
@@ -458,6 +462,7 @@ export type AboutContent = {
   title: string
   paragraphs: string[]
   video_url?: string | null
+  presentation_pdf?: string | null
 }
 
 export type AboutPlace = 'main' | 'about'

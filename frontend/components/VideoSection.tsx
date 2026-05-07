@@ -19,9 +19,12 @@ function getEmbedUrl(url: string): string | null {
   }
 }
 
-type Props = { videoUrl?: string | null }
+type Props = {
+  videoUrl?: string | null
+  presentationPdfUrl?: string | null
+}
 
-export function VideoSection({ videoUrl }: Props) {
+export function VideoSection({ videoUrl, presentationPdfUrl }: Props) {
   const embedUrl = videoUrl ? getEmbedUrl(videoUrl) : null
 
   return (
@@ -32,9 +35,9 @@ export function VideoSection({ videoUrl }: Props) {
             Презентация турбазы
           </h2>
         </AnimateOnScroll>
-        <AnimateOnScroll variant="scale" delay={80}>
-          <div className="app-section-body aspect-video bg-secondary/50 border border-secondary/10 rounded-sm overflow-hidden transition-all duration-300 hover:border-secondary/20 hover:shadow-lg">
-            {embedUrl ? (
+        {embedUrl && (
+          <AnimateOnScroll variant="scale" delay={80}>
+            <div className="app-section-body aspect-video bg-secondary/50 border border-secondary/10 rounded-sm overflow-hidden transition-all duration-300 hover:border-secondary/20 hover:shadow-lg">
               <iframe
                 src={embedUrl}
                 title="Презентация турбазы"
@@ -42,13 +45,26 @@ export function VideoSection({ videoUrl }: Props) {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <span className="font-sans text-sm text-black/80">Видео-презентация</span>
-              </div>
-            )}
+            </div>
+          </AnimateOnScroll>
+        )}
+        {presentationPdfUrl && (
+          <div className="mt-6">
+            <a
+              href={presentationPdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-sans text-sm text-primary hover:text-primary/80 transition-colors"
+            >
+              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+                <path d="M7 3h7l5 5v13H7z" />
+                <path d="M14 3v5h5" />
+                <path d="M9 12h6M9 16h6" />
+              </svg>
+              Скачать презентацию (PDF)
+            </a>
           </div>
-        </AnimateOnScroll>
+        )}
       </div>
     </section>
   )

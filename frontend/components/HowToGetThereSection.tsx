@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useCallback, useEffect } from 'react'
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useLocale } from '@/contexts/LocaleContext'
 import { fetchHowToGet, type HowToGetResponse, type HowToGetCityItem } from '@/lib/api'
@@ -23,7 +24,12 @@ const mapsUrl = (lat: number, lon: number, provider: 'yandex' | 'google') => {
   return `https://www.google.com/maps?q=${lat},${lon}`
 }
 
-export function HowToGetThereSection() {
+type Props = {
+  hideTitle?: boolean
+  showPageHeader?: boolean
+}
+
+export function HowToGetThereSection({ hideTitle = false, showPageHeader = false }: Props) {
   const t = useTranslations()
   const locale = useLocale()
   const [data, setData] = useState<HowToGetResponse | null>(null)
@@ -57,16 +63,33 @@ export function HowToGetThereSection() {
   }, [gpsDisplay])
 
   return (
-    <section id="how-to-get" className="app-section bg-secondary/40 border-t border-secondary/10">
+    <section id="how-to-get" className="pt-6 md:pt-8 pb-12 md:pb-16 bg-secondary/40 border-t border-secondary/10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="app-section-head flex-col gap-6 lg:flex-row lg:items-start lg:gap-12">
-          <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold text-primary tracking-tight shrink-0">
-            {t('howToGet.title')}
-          </h2>
+          {showPageHeader ? (
+            <div className="shrink-0">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
+              >
+                ← {t('nav.home')}
+              </Link>
+              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-primary tracking-tight max-w-2xl">
+                {t('nav.howToGet')}
+              </h1>
+            </div>
+          ) : null}
+          {!hideTitle ? (
+            <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold text-primary tracking-tight shrink-0">
+              {t('howToGet.title')}
+            </h2>
+          ) : (
+            !showPageHeader ? <div className="hidden lg:block flex-1" /> : null
+          )}
           {!data ? (
             <p className="font-sans text-sm text-black/60">Загрузка…</p>
           ) : (
-            <div className="shrink-0 text-left sm:text-left lg:text-right max-w-full lg:max-w-md">
+            <div className="shrink-0 text-left sm:text-left lg:text-right max-w-full lg:max-w-md lg:ml-auto">
               <p className="font-sans text-xs tracking-[0.15em] uppercase text-primary mb-1">{t('howToGet.addressLabel')}</p>
               <span className="font-sans text-sm font-semibold text-primary leading-snug">{address}</span>
               <div className="font-sans text-xs text-primary mt-2 flex items-center justify-end gap-2 flex-wrap">

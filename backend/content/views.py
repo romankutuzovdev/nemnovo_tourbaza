@@ -314,7 +314,8 @@ def service_questionnaire_submit(request, slug):
         service = Service.objects.get(slug=slug, is_active=True)
     except Service.DoesNotExist:
         return JsonResponse({'error': 'Service not found'}, status=404)
-    if not service.needs_questionnaire:
+    has_questions = service.questions.exists()
+    if not service.needs_questionnaire and not has_questions:
         return JsonResponse({'error': 'Questionnaire not required for this service'}, status=400)
     name = (data.get('name') or '').strip()
     email = (data.get('email') or '').strip()

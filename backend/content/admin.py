@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Max
 from .models import (
     Service, ServiceDocument, ServiceQuestion, ServiceQuestionnaireSubmission, ServiceImage, ServiceVariant, ServiceTranslation,
     Event, EventTranslation,
@@ -178,6 +179,21 @@ class HotOfferTranslationInline(admin.TabularInline):
 from django import forms
 
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def clean(self, data, initial=None):
+        single_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            files = [single_clean(item, initial) for item in data if item]
+            return files
+        if not data:
+            return []
+        return [single_clean(data, initial)]
+
+
 class HotOfferAdminForm(forms.ModelForm):
     """Форма с полем «До конца акции» в формате ч:мм:сс (например 1:59:00)."""
     time_until_end = forms.CharField(
@@ -232,11 +248,41 @@ class PortfolioItemImageInline(admin.TabularInline):
     extra = 1
 
 
+class PortfolioItemAdminForm(forms.ModelForm):
+    bulk_images = MultipleFileField(
+        label='Добавить много фото',
+        required=False,
+        widget=MultipleFileInput(attrs={'multiple': True}),
+        help_text='Можно выбрать сразу несколько файлов. Они добавятся в галерею при сохранении.',
+    )
+
+    class Meta:
+        model = PortfolioItem
+        fields = '__all__'
+
+
 @admin.register(PortfolioItem)
 class PortfolioItemAdmin(admin.ModelAdmin):
+    form = PortfolioItemAdminForm
     list_display = ['slug', 'event_date', 'order', 'is_pinned']
     list_filter = ['is_pinned']
+    fields = ['slug', 'image', 'image_url', 'image_urls', 'event_date', 'order', 'is_pinned', 'bulk_images']
     inlines = [PortfolioItemTranslationInline, PortfolioItemImageInline]
+
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        files = request.FILES.getlist('bulk_images')
+        if not files:
+            return
+        item = form.instance
+        next_order = (item.images.aggregate(Max('order')).get('order__max') or 0) + 1
+        for f in files:
+            PortfolioItemImage.objects.create(
+                portfolio_item=item,
+                image=f,
+                order=next_order,
+            )
+            next_order += 1
 
 
 @admin.register(Review)
@@ -345,8 +391,8 @@ class AboutContentTranslationInline(admin.StackedInline):
 
 @admin.register(AboutContent)
 class AboutContentAdmin(admin.ModelAdmin):
-    list_display = ['place', 'video_url']
-    fields = ['place', 'video_url']
+    list_display = ['place', 'video_url', 'presentation_pdf']
+    fields = ['place', 'video_url', 'presentation_pdf']
     inlines = [AboutContentTranslationInline]
 
 

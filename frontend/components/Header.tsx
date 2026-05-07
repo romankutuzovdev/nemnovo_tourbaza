@@ -93,6 +93,7 @@ export function Header() {
     { href: '/reviews', label: tNav('reviews') },
     { href: '/agencies', label: tNav('agencies') },
     { href: '/payment', label: tNav('payment') },
+    { href: '/gift-certificate', label: 'Сертификат' },
   ]
 
   const authLink = isAuthenticated

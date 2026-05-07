@@ -1,7 +1,6 @@
 'use client'
 
 import { Suspense } from 'react'
-import { PageLayout } from '@/components/PageLayout'
 import { HowToGetThereSection } from '@/components/HowToGetThereSection'
 import { InteractiveMap } from '@/components/InteractiveMap'
 import { useTranslations } from 'next-intl'
@@ -10,8 +9,8 @@ export default function HowToGetPage() {
   const t = useTranslations()
 
   return (
-    <PageLayout simpleHomeLink hideBreadcrumbs>
-      <HowToGetThereSection />
+    <div className="min-h-screen bg-white">
+      <HowToGetThereSection hideTitle showPageHeader />
       <section className="pt-6 md:pt-8 pb-3 md:pb-4 max-w-6xl mx-auto px-4 sm:px-6">
         <h2 className="font-serif text-3xl md:text-4xl font-medium text-black tracking-tight mb-4">
           {t('howToGet.mapTitle') || 'Карта турбазы'}
@@ -23,6 +22,6 @@ export default function HowToGetPage() {
           <InteractiveMap />
         </Suspense>
       </section>
-    </PageLayout>
+    </div>
   )
 }

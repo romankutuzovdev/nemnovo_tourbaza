@@ -493,6 +493,7 @@ LEGAL_PAGE_CHOICES = [
     ('public-offer', 'Публичная оферта'),
     ('gift-certificate', 'Подарочный сертификат'),
     ('payment', 'Условия оплаты'),
+    ('rental-agreement', 'Договор аренды'),
 ]
 
 
@@ -630,6 +631,13 @@ class AboutContent(models.Model):
         'Ссылка на видео',
         blank=True,
         help_text='Ссылка на видео (YouTube, Vimeo). Используется в блоке «Презентация турбазы» на странице «О нас».',
+    )
+    presentation_pdf = models.FileField(
+        'PDF презентации',
+        upload_to='about/presentation/',
+        blank=True,
+        null=True,
+        help_text='PDF-файл для кнопки скачивания под видео на странице «О нас».',
     )
 
     class Meta:

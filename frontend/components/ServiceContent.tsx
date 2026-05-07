@@ -11,6 +11,13 @@ function fixMediaUrls(html: string): string {
     .replace(/href="\/media\//g, `href="${apiUrl}/media/`)
 }
 
+function sanitizeServiceHtml(html: string): string {
+  // Удаляем inline-style/script, которые иногда попадают из копипаста и ломают верстку страницы.
+  return html
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, '')
+}
+
 function looksLikeHtml(text: string): boolean {
   if (!text || typeof text !== 'string') return false
   const trimmed = text.trim()
@@ -26,7 +33,7 @@ export function ServiceContent({ content, className = '' }: ServiceContentProps)
   if (!content?.trim()) return null
 
   if (looksLikeHtml(content)) {
-    const safeHtml = fixMediaUrls(content)
+    const safeHtml = fixMediaUrls(sanitizeServiceHtml(content))
     return (
       <div
         className={`service-content ${className}`.trim()}

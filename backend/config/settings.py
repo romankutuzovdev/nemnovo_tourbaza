@@ -10,10 +10,20 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-change-in-productio
 
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,87.229.34.70,.trycloudflare.com,.ngrok-free.app,.ngrok.io').split(',')
+_default_allowed_hosts = (
+    'localhost,127.0.0.1,87.229.34.70,91.149.179.14,'
+    'nemnovo.by,www.nemnovo.by,.trycloudflare.com,.ngrok-free.app,.ngrok.io'
+)
+_allowed_hosts_env = os.environ.get('ALLOWED_HOSTS', _default_allowed_hosts)
+ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts_env.split(',') if h.strip()]
 
 # CSRF: доверенные origins. Для ngrok добавьте в backend/.env: CSRF_TRUSTED_ORIGINS=https://ваш-хост.ngrok-free.app
-_default_origins = 'http://localhost:8000,http://127.0.0.1:8000,https://*.trycloudflare.com,https://c400-2a0f-cdc6-500-21c1-00-2.ngrok-free.app'
+_default_origins = (
+    'http://localhost:8000,http://127.0.0.1:8000,'
+    'http://91.149.179.14,https://91.149.179.14,'
+    'http://nemnovo.by,https://nemnovo.by,https://www.nemnovo.by,'
+    'https://*.trycloudflare.com,https://c400-2a0f-cdc6-500-21c1-00-2.ngrok-free.app'
+)
 _origins_env = os.environ.get('CSRF_TRUSTED_ORIGINS', _default_origins)
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in _origins_env.split(',') if o.strip()]
 

@@ -24,6 +24,7 @@ const SEGMENT_TO_KEY: Record<string, string> = {
   agencies: 'nav.agencies',
   'cookie-policy': 'footer.cookiePolicy',
   privacy: 'footer.privacy',
+  'rental-agreement': 'footer.rentalAgreement',
 }
 
 type PageLayoutProps = {

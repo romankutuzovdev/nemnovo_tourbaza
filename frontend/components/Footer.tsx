@@ -207,10 +207,10 @@ export function Footer() {
                 {tFooter('publicOffer')}
               </Link>
               <Link
-                href="/gift-certificate"
+                href="/rental-agreement"
                 className="font-sans text-sm text-primary hover:text-primary/80 transition-colors underline underline-offset-2"
               >
-                {tFooter('giftCertificate')}
+                {tFooter('rentalAgreement')}
               </Link>
             </div>
           </div>

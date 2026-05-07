@@ -59,9 +59,11 @@ export default async function ServicePage({ params }: Props) {
       <header className="pt-6 md:pt-8 pb-3 md:pb-4 max-w-6xl mx-auto px-3 sm:px-6">
         <Link
           href={`/${locale}/services`}
-          className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
+          translate="no"
+          className="notranslate inline-flex items-center gap-2 whitespace-nowrap font-sans text-sm text-black/80 hover:text-black transition-colors mb-4"
         >
-          ← {t('common.allServices')}
+          <span aria-hidden>←</span>
+          <span>{t('common.allServices')}</span>
         </Link>
       </header>
       <div className="max-w-6xl mx-auto px-3 sm:px-6 pb-12 md:pb-16">

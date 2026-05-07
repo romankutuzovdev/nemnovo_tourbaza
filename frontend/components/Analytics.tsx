@@ -3,8 +3,8 @@ import Script from 'next/script'
 const YM_ID = 108238763
 
 /** Временно выключено — поставьте `true`, чтобы включить счётчики. */
-const ENABLE_GOOGLE_ANALYTICS = false
-const ENABLE_YANDEX_METRIKA = false
+const ENABLE_GOOGLE_ANALYTICS = true
+const ENABLE_YANDEX_METRIKA = true
 
 /** GA4 + Яндекс.Метрика (по флагам выше). */
 export function Analytics() {
