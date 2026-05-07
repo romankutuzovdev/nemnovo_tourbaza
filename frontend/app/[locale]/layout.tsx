@@ -6,6 +6,7 @@ import { CookieBanner } from '@/components/CookieBanner'
 import { HotOfferPopup } from '@/components/HotOfferPopup'
 import { LocaleProvider } from '@/contexts/LocaleContext'
 import { AuthProvider } from '@/contexts/AuthContext'
+import { CartProvider } from '@/contexts/CartContext'
 import { LocaleSetter } from '@/components/LocaleSetter'
 import { fetchServices, fetchEvents, fetchNews, fetchPromos, fetchPortfolio } from '@/lib/api'
 import { isValidLocale, type Locale } from '@/lib/i18n'
@@ -55,13 +56,15 @@ export default async function LocaleLayout({ children, params }: Props) {
       initialPortfolio={initialPortfolio}
     >
       <AuthProvider>
-        <LocaleSetter locale={currentLocale} />
-        <Header />
-        <div className="shrink-0 header-spacer h-[6.25rem] sm:h-[6.75rem] md:h-[7rem] lg:h-[7.75rem]" aria-hidden />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <CookieBanner />
-        <HotOfferPopup />
+        <CartProvider>
+          <LocaleSetter locale={currentLocale} />
+          <Header />
+          <div className="shrink-0 header-spacer h-[6.25rem] sm:h-[6.75rem] md:h-[7rem] lg:h-[7.75rem]" aria-hidden />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <CookieBanner />
+          <HotOfferPopup />
+        </CartProvider>
       </AuthProvider>
     </LocaleProvider>
   )

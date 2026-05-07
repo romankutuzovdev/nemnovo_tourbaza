@@ -88,7 +88,17 @@ export async function login(payload: LoginPayload): Promise<{ ok: true; data: Au
   const data = await res.json().catch(() => ({}))
   if (!res.ok) {
     const msg = (data as { detail?: string }).detail
-    return { error: typeof msg === 'string' ? msg : 'Неверный логин или пароль' }
+    if (typeof msg === 'string') {
+      const normalized = msg.trim().toLowerCase()
+      if (
+        normalized.includes('no active account found with the given credentials') ||
+        normalized.includes('no active account found')
+      ) {
+        return { error: 'Неверный логин или пароль' }
+      }
+      return { error: msg }
+    }
+    return { error: 'Неверный логин или пароль' }
   }
   return { ok: true, data: data as AuthTokens }
 }

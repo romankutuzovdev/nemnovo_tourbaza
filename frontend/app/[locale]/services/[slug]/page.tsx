@@ -5,7 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { fetchServiceBySlug, fetchServices, getServiceImageSrc } from '@/lib/api'
 import { isValidLocale, type Locale } from '@/lib/i18n'
 import { ServiceImageSlider } from '@/components/ServiceImageSlider'
-import { ServiceVariantsDropdown } from '@/components/ServiceVariantsDropdown'
+import { ServicePurchasePanel } from '@/components/ServicePurchasePanel'
 import type { Metadata } from 'next'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
@@ -15,7 +15,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isValidLocale(locale)) return { title: 'Немново' }
   const service = await fetchServiceBySlug(slug, locale as Locale)
   if (!service) return { title: 'Услуга не найдена' }
-  return { title: `${service.title} — Немново`, description: service.short_desc }
+  return {
+    title: service.seo_title?.trim() || service.title,
+    description: service.seo_description?.trim() || service.short_desc,
+  }
 }
 
 function parseServiceItems(text: string): { section?: string; items: string[] }[] {
@@ -53,6 +56,7 @@ export default async function ServicePage({ params }: Props) {
   const serviceShortDesc = service.short_desc
   const imageSrc = getServiceImageSrc(service)
   const images = service.images && service.images.length > 0 ? service.images : (imageSrc ? [imageSrc] : [])
+  const price = service.price ? Number(service.price) : null
 
   return (
     <div className="min-h-screen bg-white">
@@ -81,7 +85,12 @@ export default async function ServicePage({ params }: Props) {
             {serviceShortDesc}
           </p>
 
-          <ServiceVariantsDropdown variants={service.variants ?? []} />
+          <ServicePurchasePanel
+            slug={service.slug}
+            title={serviceTitle}
+            basePrice={price}
+            variants={service.variants ?? []}
+          />
 
           <div className="mt-12 space-y-10">
             {blocks.map((block, i) => (

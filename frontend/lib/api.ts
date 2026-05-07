@@ -3,6 +3,7 @@
  */
 
 import type { Locale } from './i18n'
+import { authFetch } from './auth'
 
 const LOCALES: Locale[] = ['ru', 'be', 'en', 'pl', 'zh']
 
@@ -33,13 +34,15 @@ export type ServiceItem = {
   image_url: string
   order: number
   category: 'general' | 'gazebo'
+  price: string | null
+  has_variants?: boolean
   title: string
   short_desc: string
   images: string[]
 }
 
 /** Вариант услуги (пункт выпадающего списка) */
-export type ServiceVariant = { name: string; description: string }
+export type ServiceVariant = { name: string; description: string; price: string | null }
 
 /** Документ услуги для скачивания */
 export type ServiceDocument = { name: string; url: string }
@@ -50,11 +53,38 @@ export type ServiceQuestion = { id: number; text: string }
 /** Ответ /api/services/<slug>/?locale= — children есть у разделов */
 export type ServiceDetail = ServiceItem & {
   long_desc: string
+  seo_title?: string
+  seo_description?: string
   variants: ServiceVariant[]
   children?: ServiceItem[]
   documents?: ServiceDocument[]
   needs_questionnaire?: boolean
   questions?: ServiceQuestion[]
+}
+
+export type CartCheckoutItem = {
+  service_slug: string
+  variant_name?: string
+  quantity: number
+}
+
+export type ServiceOrder = {
+  id: number
+  customer_name: string
+  customer_email: string
+  customer_phone: string
+  comment: string
+  status: 'new' | 'in_progress' | 'done' | 'cancelled'
+  total_amount: string
+  created_at: string
+  items: Array<{
+    service_slug: string
+    service_title: string
+    variant_name: string
+    quantity: number
+    unit_price: string
+    line_total: string
+  }>
 }
 
 /** При same-origin (ngrok): URL бэкенда (localhost:8000) преобразуем в относительный путь */
@@ -76,6 +106,10 @@ function toAbsoluteImageUrl(value: string): string {
   const mediaPath = path.startsWith('/media') ? path : `/media/${path.replace(/^\//, '')}`
   const base = getApiUrl()
   if (base === '') return mediaPath
+  try {
+    const b = new URL(base)
+    if (b.hostname === '127.0.0.1' || b.hostname === 'localhost') return mediaPath
+  } catch {}
   return `${base}${mediaPath}`
 }
 
@@ -109,7 +143,11 @@ export type EventItem = {
 }
 
 /** Ответ /api/events/<slug>/?locale= */
-export type EventDetail = EventItem & { long_desc: string }
+export type EventDetail = EventItem & {
+  long_desc: string
+  seo_title?: string
+  seo_description?: string
+}
 
 /** Элемент из /api/news/?locale= */
 export type NewsItem = {
@@ -125,6 +163,8 @@ export type NewsItem = {
 /** Ответ /api/news/<slug>/?locale= */
 export type NewsDetail = NewsItem & {
   long_desc: string
+  seo_title?: string
+  seo_description?: string
   related_news: { url: string; title: string } | null
 }
 
@@ -151,7 +191,11 @@ export type PromoItem = {
 }
 
 /** Ответ /api/promos/<slug>/?locale= */
-export type PromoDetail = PromoItem & { long_desc: string }
+export type PromoDetail = PromoItem & {
+  long_desc: string
+  seo_title?: string
+  seo_description?: string
+}
 
 /** URL картинки акции: приоритет у загруженного image, иначе image_url */
 export function getPromoImageSrc(item: { image: string | null; image_url: string }): string {
@@ -448,6 +492,8 @@ export type LegalPageContent = {
   page_key: string
   title: string
   content: string
+  seo_title?: string
+  seo_description?: string
 }
 
 export async function fetchLegalPage(pageKey: string, locale: Locale): Promise<LegalPageContent | null> {
@@ -567,4 +613,38 @@ export async function sendServiceQuestionnaire(
   if (!res.ok) return { error: (data as { error?: string }).error || `Ошибка ${res.status}` }
   if ((data as { ok?: boolean }).ok) return { ok: true }
   return { error: (data as { error?: string }).error || 'Неизвестная ошибка' }
+}
+
+export async function createServiceOrder(payload: {
+  name: string
+  email?: string
+  phone?: string
+  comment?: string
+  items: CartCheckoutItem[]
+}): Promise<{ ok: true; order: ServiceOrder } | { error: string; unauthorized?: boolean }> {
+  const res = await authFetch(`${getApiUrl()}/api/orders/create/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  const data = await res.json().catch(() => ({}))
+  if (res.status === 401) return { error: 'Требуется авторизация', unauthorized: true }
+  if (!res.ok) {
+    const d = data as { error?: string; details?: unknown }
+    const detailsText = d.details ? ` (${JSON.stringify(d.details)})` : ''
+    return { error: (d.error || `Ошибка ${res.status}`) + detailsText }
+  }
+  if ((data as { ok?: boolean }).ok && (data as { order?: ServiceOrder }).order) {
+    return { ok: true, order: (data as { order: ServiceOrder }).order }
+  }
+  return { error: 'Не удалось оформить заказ' }
+}
+
+export async function fetchServiceOrders(): Promise<ServiceOrder[]> {
+  const res = await authFetch(`${getApiUrl()}/api/orders/`)
+  if (res.status === 401) {
+    throw new Error('UNAUTHORIZED')
+  }
+  if (!res.ok) return []
+  return res.json().catch(() => [])
 }

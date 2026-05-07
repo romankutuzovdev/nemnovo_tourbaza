@@ -27,7 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isValidLocale(locale)) return { title: 'Немново' }
   const news = await fetchNewsBySlug(slug, locale as Locale)
   if (!news) return { title: 'Новость не найдена' }
-  return { title: `${news.title} — Немново`, description: news.short_desc }
+  return {
+    title: news.seo_title?.trim() || news.title,
+    description: news.seo_description?.trim() || news.short_desc,
+  }
 }
 
 export default async function NewsArticlePage({ params }: Props) {

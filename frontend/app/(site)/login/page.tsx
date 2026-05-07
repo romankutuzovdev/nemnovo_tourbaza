@@ -38,7 +38,8 @@ export default function LoginPage() {
 
   return (
     <div className="pt-6 md:pt-8 pb-24 min-h-screen bg-white">
-      <div className="max-w-md mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-md">
         <Link href="/" className="inline-flex items-center gap-2 font-sans text-sm text-black/80 hover:text-black mb-10">
           ← {tNav('home')}
         </Link>
@@ -84,6 +85,7 @@ export default function LoginPage() {
           <p className="font-sans text-sm text-black/70">
             {t('noAccount')} <Link href="/register" className="text-primary hover:underline">{tNav('register')}</Link>
           </p>
+        </div>
         </div>
       </div>
     </div>

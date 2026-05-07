@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useAuth } from '@/contexts/AuthContext'
 import { updateProfile, changePassword } from '@/lib/auth'
+import { fetchServiceOrders, type ServiceOrder } from '@/lib/api'
 
 export default function CabinetPage() {
   const router = useRouter()
@@ -21,6 +22,25 @@ export default function CabinetPage() {
   const [pwdMsg, setPwdMsg] = useState<string | null>(null)
   const [profileLoading, setProfileLoading] = useState(false)
   const [pwdLoading, setPwdLoading] = useState(false)
+  const [orders, setOrders] = useState<ServiceOrder[]>([])
+
+  useEffect(() => {
+    let mounted = true
+    const loadOrders = async () => {
+      try {
+        const list = await fetchServiceOrders()
+        if (mounted) setOrders(list)
+      } catch (e) {
+        if (e instanceof Error && e.message === 'UNAUTHORIZED') {
+          router.replace('/login')
+        }
+      }
+    }
+    if (user) loadOrders()
+    return () => {
+      mounted = false
+    }
+  }, [user])
 
   if (isLoading) return <div className="pt-6 md:pt-8 pb-24 min-h-screen bg-white flex items-center justify-center">Загрузка…</div>
   if (!user) {
@@ -53,7 +73,7 @@ export default function CabinetPage() {
 
   return (
     <div className="pt-6 md:pt-8 pb-24 min-h-screen bg-white">
-      <div className="max-w-2xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between mb-10">
           <Link href="/" className="font-sans text-sm text-black/80 hover:text-black">← {tNav('home')}</Link>
           <button type="button" onClick={logout} className="font-sans text-sm text-black/80 hover:text-black">
@@ -106,6 +126,38 @@ export default function CabinetPage() {
             {pwdMsg && <p className="font-sans text-sm text-green-600">{pwdMsg}</p>}
             <button type="submit" disabled={pwdLoading} className="px-6 py-3 border border-secondary/30 text-black font-sans text-sm tracking-wide hover:border-secondary/50 disabled:opacity-60">{t('submitChange')}</button>
           </form>
+        </section>
+
+        <section className="mt-16">
+          <h2 className="font-serif text-xl font-medium text-black">Мои заказы</h2>
+          <div className="mt-4 space-y-3">
+            {orders.length === 0 ? (
+              <p className="font-sans text-sm text-black/60">Заказов пока нет.</p>
+            ) : (
+              orders.map((order) => (
+                <div key={order.id} className="border border-secondary/20 rounded-lg p-4">
+                  <p className="font-medium">Заказ #{order.id}</p>
+                  <p className="font-sans text-sm text-black/80">Статус: {order.status}</p>
+                  <p className="font-sans text-sm text-black/80">
+                    Дата: {new Date(order.created_at).toLocaleString('ru-RU')}
+                  </p>
+                  <p className="font-sans text-sm text-black/80">Сумма: {order.total_amount} BYN</p>
+                  <div className="mt-3 text-sm text-black/80">
+                    <p>Имя: {order.customer_name || '-'}</p>
+                    <p>Email: {order.customer_email || '-'}</p>
+                    <p>Телефон: {order.customer_phone || '-'}</p>
+                    <p>Комментарий: {order.comment || '-'}</p>
+                  </div>
+                  <div className="mt-3">
+                    <p className="font-sans text-xs text-black/60 mb-1">Состав заказа:</p>
+                    <p className="font-sans text-xs text-black/60">
+                      {order.items.map((x) => `${x.service_title}${x.variant_name ? ` (${x.variant_name})` : ''} x${x.quantity}`).join(', ')}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </section>
       </div>
     </div>

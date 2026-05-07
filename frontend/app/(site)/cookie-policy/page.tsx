@@ -1,6 +1,15 @@
 import { PageLayout } from '@/components/PageLayout'
 import { LegalPageContent } from '@/components/LegalPageContent'
 import { fetchLegalPage } from '@/lib/api'
+import type { Metadata } from 'next'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await fetchLegalPage('cookie-policy', 'ru')
+  return {
+    title: content?.seo_title?.trim() || content?.title || 'Политика в отношении обработки cookie',
+    description: content?.seo_description?.trim() || content?.title || 'Политика в отношении обработки cookie',
+  }
+}
 
 export default async function CookiePolicyPage() {
   const content = await fetchLegalPage('cookie-policy', 'ru')

@@ -1,6 +1,15 @@
 import { PageLayout } from '@/components/PageLayout'
 import { LegalPageContent } from '@/components/LegalPageContent'
 import { fetchCertificateContent, fetchLegalPage } from '@/lib/api'
+import type { Metadata } from 'next'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await fetchLegalPage('gift-certificate', 'ru')
+  return {
+    title: content?.seo_title?.trim() || content?.title || 'Подарочный сертификат',
+    description: content?.seo_description?.trim() || content?.title || 'Подарочный сертификат',
+  }
+}
 
 export default async function GiftCertificatePage() {
   const [certContent, legalContent] = await Promise.all([

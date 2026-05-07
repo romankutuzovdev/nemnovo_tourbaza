@@ -5,3 +5,6 @@ class ContentConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'content'
     verbose_name = 'Контент (услуги)'
+
+    def ready(self):
+        from . import signals  # noqa: F401

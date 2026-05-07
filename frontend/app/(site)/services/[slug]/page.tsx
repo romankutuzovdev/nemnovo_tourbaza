@@ -4,9 +4,9 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { fetchServiceBySlug, fetchServices, getServiceImageSrc, toAbsoluteMediaUrl } from '@/lib/api'
 import { ServiceImageSlider } from '@/components/ServiceImageSlider'
-import { ServiceVariantsDropdown } from '@/components/ServiceVariantsDropdown'
 import { ServiceQuestionnaireForm } from '@/components/ServiceQuestionnaireForm'
 import { ServiceContent } from '@/components/ServiceContent'
+import { ServicePurchasePanel } from '@/components/ServicePurchasePanel'
 import type { Metadata } from 'next'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -15,7 +15,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const service = await fetchServiceBySlug(slug, 'ru')
   if (!service) return { title: 'Услуга не найдена' }
-  return { title: `${service.title} — Немново`, description: service.short_desc }
+  return {
+    title: service.seo_title?.trim() || service.title,
+    description: service.seo_description?.trim() || service.short_desc,
+  }
 }
 
 export default async function ServicePage({ params }: Props) {
@@ -34,6 +37,7 @@ export default async function ServicePage({ params }: Props) {
   const serviceShortDesc = service.short_desc
   const imageSrc = getServiceImageSrc(service)
   const images = service.images && service.images.length > 0 ? service.images : (imageSrc ? [imageSrc] : [])
+  const price = service.price ? Number(service.price) : null
 
   if (hasChildren) {
     return (
@@ -166,7 +170,12 @@ export default async function ServicePage({ params }: Props) {
             {serviceShortDesc}
           </p>
 
-          <ServiceVariantsDropdown variants={service.variants ?? []} />
+          <ServicePurchasePanel
+            slug={service.slug}
+            title={serviceTitle}
+            basePrice={price}
+            variants={service.variants ?? []}
+          />
 
           {service.documents && service.documents.length > 0 && (
             <div className="mt-12">

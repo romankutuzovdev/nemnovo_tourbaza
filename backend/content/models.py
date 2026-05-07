@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django_ckeditor_5.fields import CKEditor5Field
 
 LOCALE_CHOICES = [
@@ -43,6 +44,14 @@ class Service(models.Model):
         choices=SERVICE_CATEGORY_CHOICES,
         default='general',
         help_text='Беседки выводятся отдельной секцией на странице услуг и связываются с картой',
+    )
+    price = models.DecimalField(
+        'Цена',
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text='Цена услуги в BYN. Если пусто — цена не показывается и услуга недоступна для корзины.',
     )
 
     class Meta:
@@ -108,6 +117,57 @@ class ServiceQuestionnaireSubmission(models.Model):
         return f'{self.service.slug} — {self.name} ({self.created_at:%d.%m.%Y %H:%M})'
 
 
+class ServiceOrder(models.Model):
+    """Заказ услуг из корзины."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='service_orders',
+        verbose_name='Пользователь',
+    )
+    STATUS_CHOICES = [
+        ('new', 'Новый'),
+        ('in_progress', 'В работе'),
+        ('done', 'Завершён'),
+        ('cancelled', 'Отменён'),
+    ]
+
+    customer_name = models.CharField('Имя заказчика', max_length=200)
+    customer_email = models.EmailField('Email', blank=True)
+    customer_phone = models.CharField('Телефон', max_length=50, blank=True)
+    comment = models.TextField('Комментарий', blank=True)
+    total_amount = models.DecimalField('Сумма заказа', max_digits=12, decimal_places=2, default=0)
+    status = models.CharField('Статус', max_length=20, choices=STATUS_CHOICES, default='new')
+    created_at = models.DateTimeField('Создан', auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Заказ услуги'
+        verbose_name_plural = 'Заказы услуг'
+
+    def __str__(self):
+        return f'Заказ #{self.id} — {self.customer_name}'
+
+
+class ServiceOrderItem(models.Model):
+    """Позиция в заказе услуг."""
+    order = models.ForeignKey(ServiceOrder, on_delete=models.CASCADE, related_name='items')
+    service = models.ForeignKey(Service, on_delete=models.PROTECT, related_name='order_items')
+    variant_name = models.CharField('Вариант', max_length=200, blank=True)
+    quantity = models.PositiveIntegerField('Количество', default=1)
+    unit_price = models.DecimalField('Цена за единицу', max_digits=10, decimal_places=2)
+    line_total = models.DecimalField('Сумма позиции', max_digits=12, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'Позиция заказа'
+        verbose_name_plural = 'Позиции заказа'
+
+    def __str__(self):
+        return f'#{self.order_id}: {self.service.slug} x{self.quantity}'
+
+
 class ServiceImage(models.Model):
     """Дополнительное фото для услуги (галерея / слайдер)."""
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='images')
@@ -127,6 +187,7 @@ class ServiceVariant(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='variants')
     name = models.CharField('Название', max_length=200)
     description = models.TextField('Описание', blank=True)
+    price = models.DecimalField('Цена', max_digits=10, decimal_places=2, null=True, blank=True)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -148,6 +209,17 @@ class ServiceTranslation(models.Model):
         blank=True,
         config_name='default',
         help_text='Редактор с форматированием: заголовки, списки, жирный текст и т.д.',
+    )
+    seo_title = models.CharField(
+        'SEO заголовок (title)',
+        max_length=255,
+        blank=True,
+        help_text='Если пусто, используется обычный заголовок страницы.',
+    )
+    seo_description = models.TextField(
+        'SEO описание (description)',
+        blank=True,
+        help_text='Рекомендуется 140-160 символов.',
     )
 
     class Meta:
@@ -180,6 +252,17 @@ class EventTranslation(models.Model):
     title = models.CharField(max_length=200)
     short_desc = models.TextField(blank=True)
     long_desc = models.TextField(blank=True, help_text='Расширенное описание для страницы мероприятия')
+    seo_title = models.CharField(
+        'SEO заголовок (title)',
+        max_length=255,
+        blank=True,
+        help_text='Если пусто, используется обычный заголовок страницы.',
+    )
+    seo_description = models.TextField(
+        'SEO описание (description)',
+        blank=True,
+        help_text='Рекомендуется 140-160 символов.',
+    )
 
     class Meta:
         unique_together = [('event', 'locale')]
@@ -212,6 +295,17 @@ class PromoTranslation(models.Model):
     title = models.CharField(max_length=200)
     short_desc = models.TextField(blank=True)
     long_desc = models.TextField(blank=True)
+    seo_title = models.CharField(
+        'SEO заголовок (title)',
+        max_length=255,
+        blank=True,
+        help_text='Если пусто, используется обычный заголовок страницы.',
+    )
+    seo_description = models.TextField(
+        'SEO описание (description)',
+        blank=True,
+        help_text='Рекомендуется 140-160 символов.',
+    )
 
     class Meta:
         unique_together = [('promo', 'locale')]
@@ -386,6 +480,17 @@ class NewsTranslation(models.Model):
     title = models.CharField(max_length=200)
     short_desc = models.TextField(blank=True)
     long_desc = models.TextField(blank=True, help_text='Полный текст новости')
+    seo_title = models.CharField(
+        'SEO заголовок (title)',
+        max_length=255,
+        blank=True,
+        help_text='Если пусто, используется обычный заголовок страницы.',
+    )
+    seo_description = models.TextField(
+        'SEO описание (description)',
+        blank=True,
+        help_text='Рекомендуется 140-160 символов.',
+    )
 
     class Meta:
         unique_together = [('news', 'locale')]
@@ -523,6 +628,17 @@ class LegalPageTranslation(models.Model):
         blank=True,
         config_name='default',
         help_text='Редактор с форматированием: заголовки, списки, жирный текст и т.д.',
+    )
+    seo_title = models.CharField(
+        'SEO заголовок (title)',
+        max_length=255,
+        blank=True,
+        help_text='Если пусто, используется обычный заголовок страницы.',
+    )
+    seo_description = models.TextField(
+        'SEO описание (description)',
+        blank=True,
+        help_text='Рекомендуется 140-160 символов.',
     )
 
     class Meta:

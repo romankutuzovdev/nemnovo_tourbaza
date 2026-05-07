@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'django_ckeditor_5',
-    'content',
+    'content.apps.ContentConfig',
     'accounts',
 ]
 
@@ -98,12 +98,26 @@ ROOT_URLCONF = 'config.urls'
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DB_ENGINE = os.environ.get('DB_ENGINE', '').strip()
+if DB_ENGINE:
+    DATABASES = {
+        'default': {
+            'ENGINE': DB_ENGINE,
+            'NAME': os.environ.get('DB_NAME', ''),
+            'USER': os.environ.get('DB_USER', ''),
+            'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+            'HOST': os.environ.get('DB_HOST', ''),
+            'PORT': os.environ.get('DB_PORT', ''),
+        }
     }
-}
+else:
+    # Local default; on production prefer PostgreSQL/MySQL via DB_* env vars.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'Europe/Minsk'
@@ -118,6 +132,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Пусто — в JSON API пути вида /media/... (nginx отдаёт файлы с диска). Пример: https://nemnovo.by
 PUBLIC_MEDIA_BASE_URL = os.environ.get('PUBLIC_MEDIA_BASE_URL', '').strip().rstrip('/')
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'content.storage.OptimizingMediaStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

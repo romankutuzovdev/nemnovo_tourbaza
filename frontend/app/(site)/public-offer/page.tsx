@@ -1,6 +1,15 @@
 import { PageLayout } from '@/components/PageLayout'
 import { LegalPageContent } from '@/components/LegalPageContent'
 import { fetchLegalPage } from '@/lib/api'
+import type { Metadata } from 'next'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await fetchLegalPage('public-offer', 'ru')
+  return {
+    title: content?.seo_title?.trim() || content?.title || 'Публичная оферта',
+    description: content?.seo_description?.trim() || content?.title || 'Публичная оферта',
+  }
+}
 
 export default async function PublicOfferPage() {
   const content = await fetchLegalPage('public-offer', 'ru')

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { useAuth } from '@/contexts/AuthContext'
+import { useCart } from '@/contexts/CartContext'
 import { GoogleTranslateWidget } from './GoogleTranslateWidget'
 
 const SOCIAL_ICONS: Record<string, React.ReactNode> = {
@@ -51,6 +52,7 @@ export function Header() {
   const tFooter = useTranslations('footer')
   const tHowToGet = useTranslations('howToGet')
   const { isAuthenticated } = useAuth()
+  const { count } = useCart()
   const [open, setOpen] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -99,6 +101,7 @@ export function Header() {
   const authLink = isAuthenticated
     ? { href: '/cabinet', label: tNav('cabinet') }
     : { href: '/login', label: tNav('login') }
+  const cartLink = { href: '/cart', label: `Корзина (${count})` }
 
   const socialLinksNoMax = SOCIAL_LINKS.filter(({ icon }) => icon !== 'max')
 
@@ -250,6 +253,12 @@ export function Header() {
           >
             {authLink.label}
           </Link>
+          <Link
+            href={cartLink.href}
+            className="font-sans text-[10px] sm:text-xs lg:text-sm font-semibold px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-colors whitespace-nowrap shrink-0"
+          >
+            {cartLink.label}
+          </Link>
           <GoogleTranslateWidget variant="desktop" />
           <a
             href="https://nemnovotour.by/"
@@ -302,6 +311,13 @@ export function Header() {
               onClick={() => setOpen(false)}
             >
               {authLink.label}
+            </Link>
+            <Link
+              href={cartLink.href}
+              className="font-sans font-semibold px-4 py-2.5 rounded-lg border border-primary text-primary hover:bg-primary/10 text-center"
+              onClick={() => setOpen(false)}
+            >
+              {cartLink.label}
             </Link>
             <div className="pt-2 border-t border-secondary/10">
               <GoogleTranslateWidget variant="mobile" />

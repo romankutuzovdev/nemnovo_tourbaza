@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db.models import Max
 from .models import (
-    Service, ServiceDocument, ServiceQuestion, ServiceQuestionnaireSubmission, ServiceImage, ServiceVariant, ServiceTranslation,
+    Service, ServiceDocument, ServiceQuestion, ServiceQuestionnaireSubmission, ServiceOrder, ServiceOrderItem, ServiceImage, ServiceVariant, ServiceTranslation,
     Event, EventTranslation,
     News, NewsTranslation,
     Promo, PromoTranslation,
@@ -21,9 +21,10 @@ from .models import (
 )
 
 
-class ServiceTranslationInline(admin.TabularInline):
+class ServiceTranslationInline(admin.StackedInline):
     model = ServiceTranslation
     extra = 0
+    fields = ['locale', 'title', 'short_desc', 'long_desc', 'seo_title', 'seo_description']
 
 
 class ServiceImageInline(admin.TabularInline):
@@ -35,7 +36,7 @@ class ServiceImageInline(admin.TabularInline):
 class ServiceVariantInline(admin.TabularInline):
     model = ServiceVariant
     extra = 1
-    fields = ['name', 'description', 'order']
+    fields = ['name', 'description', 'price', 'order']
 
 
 class ServiceDocumentInline(admin.TabularInline):
@@ -50,9 +51,16 @@ class ServiceQuestionInline(admin.TabularInline):
     fields = ['text', 'order']
 
 
+class ServiceOrderItemInline(admin.TabularInline):
+    model = ServiceOrderItem
+    extra = 0
+    readonly_fields = ['service', 'variant_name', 'quantity', 'unit_price', 'line_total']
+    can_delete = False
+
+
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ['slug', 'parent', 'category', 'order', 'needs_questionnaire', 'is_active']
+    list_display = ['slug', 'parent', 'category', 'price', 'order', 'needs_questionnaire', 'is_active']
     list_filter = ['category', 'is_active', 'needs_questionnaire', 'parent']
     list_editable = ['category', 'order', 'needs_questionnaire', 'is_active']
     list_select_related = ['parent']
@@ -61,7 +69,7 @@ class ServiceAdmin(admin.ModelAdmin):
     actions = ['make_active', 'make_inactive']
     fieldsets = [
         (None, {
-            'fields': ['slug', 'parent', 'image', 'image_url', 'category', 'order'],
+            'fields': ['slug', 'parent', 'image', 'image_url', 'category', 'price', 'order'],
         }),
         ('Статус', {
             'fields': ['is_active'],
@@ -91,9 +99,19 @@ class ServiceQuestionnaireSubmissionAdmin(admin.ModelAdmin):
     readonly_fields = ['service', 'name', 'email', 'phone', 'message', 'answers', 'created_at']
 
 
-class EventTranslationInline(admin.TabularInline):
+@admin.register(ServiceOrder)
+class ServiceOrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'customer_name', 'customer_phone', 'customer_email', 'total_amount', 'status', 'created_at']
+    list_filter = ['status', 'created_at']
+    search_fields = ['customer_name', 'customer_phone', 'customer_email']
+    readonly_fields = ['customer_name', 'customer_email', 'customer_phone', 'comment', 'total_amount', 'created_at']
+    inlines = [ServiceOrderItemInline]
+
+
+class EventTranslationInline(admin.StackedInline):
     model = EventTranslation
     extra = 0
+    fields = ['locale', 'title', 'short_desc', 'long_desc', 'seo_title', 'seo_description']
 
 
 @admin.register(Event)
@@ -102,9 +120,10 @@ class EventAdmin(admin.ModelAdmin):
     inlines = [EventTranslationInline]
 
 
-class NewsTranslationInline(admin.TabularInline):
+class NewsTranslationInline(admin.StackedInline):
     model = NewsTranslation
     extra = 0
+    fields = ['locale', 'title', 'short_desc', 'long_desc', 'seo_title', 'seo_description']
 
 
 @admin.register(News)
@@ -124,9 +143,10 @@ class NewsAdmin(admin.ModelAdmin):
     inlines = [NewsTranslationInline]
 
 
-class PromoTranslationInline(admin.TabularInline):
+class PromoTranslationInline(admin.StackedInline):
     model = PromoTranslation
     extra = 0
+    fields = ['locale', 'title', 'short_desc', 'long_desc', 'seo_title', 'seo_description']
 
 
 @admin.register(Promo)
@@ -332,6 +352,7 @@ class MapAreaAdmin(admin.ModelAdmin):
 class LegalPageTranslationInline(admin.StackedInline):
     model = LegalPageTranslation
     extra = 0
+    fields = ['locale', 'title', 'content', 'seo_title', 'seo_description']
 
 
 @admin.register(LegalPage)

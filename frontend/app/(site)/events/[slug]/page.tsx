@@ -11,7 +11,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const event = await fetchEventBySlug(slug, 'ru')
   if (!event) return { title: 'Мероприятие не найдено' }
-  return { title: `${event.title} — Немново`, description: event.short_desc }
+  return {
+    title: event.seo_title?.trim() || event.title,
+    description: event.seo_description?.trim() || event.short_desc,
+  }
 }
 
 export default async function EventPage({ params }: Props) {

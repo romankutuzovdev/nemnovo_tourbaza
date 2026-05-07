@@ -1,5 +1,6 @@
 import io
 import zipfile
+from decimal import Decimal
 from urllib.request import urlopen
 
 import json
@@ -8,12 +9,13 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 from django.db.models import Prefetch
-from .models import Service, ServiceQuestionnaireSubmission, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo, MapArea, HeroContent, ReviewsStatsContent, LegalPage, CertificateContent, AgenciesPage, AboutContent
+from .models import Service, ServiceQuestionnaireSubmission, ServiceOrder, ServiceOrderItem, Event, News, Promo, HotOffer, PortfolioItem, Review, Partner, HowToGetRoute, CompanyInfo, MapArea, HeroContent, ReviewsStatsContent, LegalPage, CertificateContent, AgenciesPage, AboutContent
 from .serializers import (
     ServiceListSerializer,
     ServiceTreeSerializer,
@@ -39,6 +41,8 @@ from .serializers import (
     CertificateContentSerializer,
     AgenciesPageSerializer,
     AboutContentSerializer,
+    ServiceOrderCreateSerializer,
+    ServiceOrderSerializer,
 )
 
 VALID_LOCALES = {'ru', 'be', 'en', 'pl', 'zh'}
@@ -391,6 +395,150 @@ def contact_submit(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
     return JsonResponse({'ok': True})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def service_order_create(request):
+    """Создание заказа из корзины услуг."""
+    try:
+        data = json.loads(request.body) if request.body else {}
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    # Поддерживаем старый/альтернативный формат ключей из фронтенда.
+    raw_items = data.get('items') if isinstance(data, dict) else None
+    if isinstance(raw_items, list):
+        normalized_items = []
+        for it in raw_items:
+            if not isinstance(it, dict):
+                continue
+            normalized_items.append({
+                'service_slug': it.get('service_slug') or it.get('serviceSlug') or it.get('slug'),
+                'variant_name': it.get('variant_name') or it.get('variantName'),
+                'quantity': it.get('quantity', 1),
+            })
+        data['items'] = normalized_items
+
+    serializer = ServiceOrderCreateSerializer(data=data)
+    if not serializer.is_valid():
+        details = serializer.errors
+        first_error = 'Invalid payload'
+        try:
+            if isinstance(details, dict):
+                for field, val in details.items():
+                    if isinstance(val, list) and val:
+                        first_error = f'{field}: {val[0]}'
+                        break
+                    if isinstance(val, dict):
+                        first_error = f'{field}: {val}'
+                        break
+        except Exception:
+            pass
+        return JsonResponse({'error': first_error, 'details': details}, status=400)
+    payload = serializer.validated_data
+    items_payload = payload.get('items') or []
+    if not items_payload:
+        return JsonResponse({'error': 'items required'}, status=400)
+
+    slugs = [it['service_slug'] for it in items_payload]
+    services = Service.objects.filter(slug__in=slugs, is_active=True)
+    services_map = {s.slug: s for s in services}
+    if len(services_map) != len(set(slugs)):
+        return JsonResponse({'error': 'Some services not found'}, status=400)
+
+    total = Decimal('0')
+    normalized = []
+    for item in items_payload:
+        svc = services_map[item['service_slug']]
+        variant_name = (item.get('variant_name') or '').strip()
+        variant = None
+        if svc.variants.exists():
+            if not variant_name:
+                # Для старых записей корзины без variant_name выбираем первый доступный вариант с ценой.
+                variant = svc.variants.filter(price__isnull=False).order_by('order', 'id').first()
+                if not variant:
+                    return JsonResponse({'error': f'Service {svc.slug} requires variant selection'}, status=400)
+                variant_name = variant.name
+            else:
+                variant = svc.variants.filter(name=variant_name).first()
+                if not variant:
+                    return JsonResponse({'error': f'Variant "{variant_name}" not found for {svc.slug}'}, status=400)
+            if variant.price is None:
+                return JsonResponse({'error': f'Variant "{variant_name}" has no price'}, status=400)
+            unit_price = variant.price
+        else:
+            if svc.price is None:
+                return JsonResponse({'error': f'Service {svc.slug} has no price'}, status=400)
+            unit_price = svc.price
+        qty = int(item.get('quantity') or 1)
+        line_total = (unit_price or Decimal('0')) * qty
+        total += line_total
+        normalized.append((svc, variant_name, qty, unit_price, line_total))
+
+    customer_name = (payload.get('name') or '').strip()
+    if not customer_name:
+        customer_name = (request.user.get_full_name() or request.user.username or '').strip() or 'Пользователь'
+    customer_email = (payload.get('email') or '').strip() or (getattr(request.user, 'email', '') or '').strip()
+
+    order = ServiceOrder.objects.create(
+        user=request.user,
+        customer_name=customer_name,
+        customer_email=customer_email,
+        customer_phone=(payload.get('phone') or '').strip(),
+        comment=(payload.get('comment') or '').strip(),
+        total_amount=total,
+    )
+    for svc, variant_name, qty, unit_price, line_total in normalized:
+        ServiceOrderItem.objects.create(
+            order=order,
+            service=svc,
+            variant_name=variant_name,
+            quantity=qty,
+            unit_price=unit_price,
+            line_total=line_total,
+        )
+
+    lines = [
+        'Новый заказ с сайта Немново',
+        f'Заказ №{order.id}',
+        f'Имя: {order.customer_name}',
+        f'Email: {order.customer_email or "—"}',
+        f'Телефон: {order.customer_phone or "—"}',
+        f'Комментарий: {order.comment or "—"}',
+        '',
+        'Позиции:',
+    ]
+    for it in order.items.select_related('service').all():
+        variant_label = f' ({it.variant_name})' if it.variant_name else ''
+        lines.append(f'  • {it.service.slug}{variant_label} x{it.quantity} = {it.line_total} BYN')
+    lines.append('')
+    lines.append(f'Итого: {order.total_amount} BYN')
+    body = '\n'.join(lines)
+    to_email = getattr(settings, 'CONTACT_TEST_EMAIL', None) or 'office@nemnovotour.by'
+    recipients = [to_email]
+    try:
+        send_mail(
+            subject=f'[Заказ] #{order.id} — {order.customer_name}',
+            message=body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=recipients,
+            fail_silently=False,
+        )
+    except Exception:
+        pass
+
+    out = ServiceOrderSerializer(order, context={'locale': 'ru', 'request': request})
+    return JsonResponse({'ok': True, 'order': out.data})
+
+
+@api_view(['GET', 'HEAD'])
+@permission_classes([IsAuthenticated])
+def service_order_list(request):
+    """Список заказов текущего пользователя (для личного кабинета)."""
+    qs = ServiceOrder.objects.prefetch_related('items__service', 'items__service__translations').filter(user=request.user)
+    serializer = ServiceOrderSerializer(qs[:100], many=True, context={'locale': get_locale(request), 'request': request})
+    return Response(serializer.data)
 
 
 @api_view(['GET', 'HEAD'])

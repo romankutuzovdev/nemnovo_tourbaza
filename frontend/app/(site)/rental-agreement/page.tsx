@@ -1,6 +1,15 @@
 import { PageLayout } from '@/components/PageLayout'
 import { LegalPageContent } from '@/components/LegalPageContent'
 import { fetchLegalPage } from '@/lib/api'
+import type { Metadata } from 'next'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await fetchLegalPage('rental-agreement', 'ru')
+  return {
+    title: content?.seo_title?.trim() || content?.title || 'Договор аренды',
+    description: content?.seo_description?.trim() || content?.title || 'Договор аренды',
+  }
+}
 
 export default async function RentalAgreementPage() {
   const content = await fetchLegalPage('rental-agreement', 'ru')

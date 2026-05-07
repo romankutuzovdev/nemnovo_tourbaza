@@ -5,18 +5,31 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useServices, useEvents } from '@/contexts/LocaleContext'
+import { useCart } from '@/contexts/CartContext'
 import { getServiceImageSrc, getEventImageSrc } from '@/lib/api'
 import type { ServiceItem } from '@/lib/api'
 
 function ServiceCard({ item, moreLabel }: { item: ServiceItem; moreLabel: string }) {
   const images = item.images && item.images.length > 0 ? item.images : [getServiceImageSrc(item)].filter(Boolean) as string[]
   const [idx, setIdx] = useState(0)
+  const [quantityInput, setQuantityInput] = useState('1')
+  const [added, setAdded] = useState(false)
+  const { addItem } = useCart()
+  const price = item.price ? Number(item.price) : null
+  const showServicePrice = !item.has_variants && price !== null
 
   useEffect(() => {
     if (images.length <= 1) return
     const timer = setInterval(() => setIdx((i) => (i + 1) % images.length), 3000)
     return () => clearInterval(timer)
   }, [images.length])
+
+  function handleAdd() {
+    const quantity = Math.max(1, Number(quantityInput) || 1)
+    addItem({ slug: item.slug, title: item.title, price: price as number }, quantity)
+    setAdded(true)
+    setTimeout(() => setAdded(false), 900)
+  }
 
   return (
     <div className="min-w-0">
@@ -54,6 +67,42 @@ function ServiceCard({ item, moreLabel }: { item: ServiceItem; moreLabel: string
           </div>
         )}
       </Link>
+      {item.has_variants ? (
+        <div className="mt-3">
+          <p className="font-sans text-sm text-white/80">Цена по вариантам</p>
+        </div>
+      ) : showServicePrice ? (
+        <div className="mt-3 flex items-center justify-between gap-3">
+          <p className="font-serif text-lg text-white">{price.toFixed(2)} BYN</p>
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={quantityInput}
+              onChange={(e) => {
+                const next = e.target.value
+                if (next === '' || /^\d+$/.test(next)) setQuantityInput(next)
+              }}
+              onBlur={() => {
+                if (!quantityInput || Number(quantityInput) < 1) setQuantityInput('1')
+              }}
+              className="w-14 border border-secondary/30 bg-white/10 text-white px-2 py-1 text-sm"
+            />
+            <button
+              type="button"
+              onClick={handleAdd}
+              className={`px-3 py-1.5 text-xs transition-all duration-300 ${
+                added
+                  ? 'bg-green-500 text-white scale-105 shadow-md shadow-green-600/40'
+                  : 'bg-white text-primary hover:bg-white/90'
+              }`}
+            >
+              {added ? 'Добавлено' : 'В корзину'}
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
